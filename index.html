@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucent — Stress Resilience Action Plan</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F2F1EE; color: #1A1A1A; font-size: 14px; line-height: 1.6; }
+
+/* ─── Nav ─── */
+.topbar { background: #fff; border-bottom: 1px solid #E5E3DF; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 50px; }
+.topbar-logo { font-size: 16px; font-weight: 600; color: #0F6E56; letter-spacing: -0.01em; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-note { font-size: 11px; color: #bbb; }
+.print-btn { background: transparent; border: 1px solid #E5E3DF; border-radius: 6px; padding: 5px 12px; font-size: 12px; color: #555; cursor: pointer; }
+.print-btn:hover { background: #F6F5F2; }
+
+/* ─── Persona tabs ─── */
+.ptabs { background: #fff; border-bottom: 2px solid #E5E3DF; padding: 0 24px; display: flex; gap: 2px; }
+.ptab { padding: 10px 16px; font-size: 13px; color: #999; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.ptab:hover { color: #555; }
+.ptab.active { color: #0F6E56; font-weight: 600; border-bottom-color: #1D9E75; }
+.ptab-sub { font-size: 10px; font-weight: 400; color: #bbb; margin-left: 4px; }
+
+/* ─── Page ─── */
+.page { max-width: 820px; margin: 0 auto; padding: 28px 20px 64px; }
+
+/* ─── Section headers ─── */
+.section-hd { margin-bottom: 14px; }
+.section-kicker { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #1D9E75; margin-bottom: 4px; }
+.section-title { font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.02em; line-height: 1.2; }
+.section-sub { font-size: 12px; color: #999; margin-top: 4px; }
+.section-divider { height: 2px; background: #E5E3DF; border-radius: 1px; margin-bottom: 16px; }
+
+/* ─── Section spacing ─── */
+.section { margin-bottom: 32px; }
+
+/* ─── Patient summary card ─── */
+.summary-card { background: #fff; border: 1px solid #E5E3DF; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+.summary-inputs { display: grid; grid-template-columns: auto auto 1fr auto; gap: 0; padding: 16px 20px; border-bottom: 1px solid #F0EDE8; }
+.input-block { padding-right: 20px; border-right: 1px solid #F0EDE8; margin-right: 20px; }
+.input-block:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.input-block-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 5px; }
+.input-val { font-size: 26px; font-weight: 700; color: #0F6E56; line-height: 1; }
+.input-sub { font-size: 11px; color: #999; margin-top: 3px; }
+.cstress-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-top: 2px; }
+.cstress-green { background: #E1F5EE; color: #085041; border: 1px solid #9FE1CB; }
+.cstress-yellow { background: #FFFBF2; color: #633806; border: 1px solid #FAC775; }
+.cstress-red { background: #FFF5F5; color: #791F1F; border: 1px solid #F09595; }
+.conditions-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.cond-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #FAECE7; color: #7A2B12; border: 1px solid #EDB59B; }
+
+/* ─── ACE / PCE context grid ─── */
+.context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid #F0EDE8; }
+.context-col { padding: 14px 20px; }
+.context-col:first-child { border-right: 1px solid #F0EDE8; }
+.context-col-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin-bottom: 10px; }
+.ctx-items { display: flex; flex-direction: column; gap: 5px; }
+.ctx-item { display: flex; align-items: center; gap: 7px; font-size: 12px; }
+.ctx-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; }
+.ctx-yes { background: #E24B4A; color: #fff; }        /* ACE = red when present */
+.ctx-pce-yes { background: #1D9E75; color: #fff; }    /* PCE = green when present */
+.ctx-no { background: #F0EDE8; color: #bbb; }
+.ctx-item-text-on { color: #1A1A1A; font-weight: 500; }
+.ctx-item-text-off { color: #bbb; }
+
+/* ─── PCE score strip ─── */
+.pce-strip { padding: 12px 20px; border-bottom: 1px solid #F0EDE8; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.pce-score-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #aaa; margin-bottom: 2px; }
+.pce-score-val { font-size: 20px; font-weight: 700; }
+.pce-dots { display: flex; gap: 4px; margin-top: 4px; }
+.pce-dot { width: 10px; height: 10px; border-radius: 50%; }
+.pce-dot-on { background: #1D9E75; }
+.pce-dot-off { background: #E5E3DF; }
+.pce-insight-text { flex: 1; min-width: 200px; font-size: 12px; color: #555; line-height: 1.6; }
+
+/* ─── Zone / risk summary ─── */
+.risk-block { border-top: 1px solid #F0EDE8; border-radius: 0 0 12px 12px; overflow: hidden; }
+.risk-block-green { background: #F2FBF7; }
+.risk-block-yellow { background: #FFFCF0; }
+.risk-block-red { background: #FFF6F6; }
+.risk-label-row { padding: 12px 20px 0; }
+.risk-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; }
+.risk-plan-line { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.risk-plan-line-green { color: #085041; }
+.risk-plan-line-yellow { color: #633806; }
+.risk-plan-line-red { color: #791F1F; }
+.zone-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 20px 16px; }
+.zone-icon { font-size: 28px; flex-shrink: 0; margin-top: 3px; }
+.zone-body { flex: 1; }
+.zone-title { font-size: 17px; font-weight: 700; line-height: 1.25; }
+.zone-green { color: #085041; }
+.zone-yellow { color: #633806; }
+.zone-red { color: #791F1F; }
+.zone-rationale { font-size: 12px; color: #666; margin-top: 5px; line-height: 1.6; }
+.zone-meta { display: flex; gap: 7px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+.billing-badge { font-size: 11px; background: #F6F5F2; border: 1px solid #E5E3DF; border-radius: 4px; padding: 2px 7px; color: #666; font-family: monospace; }
+.ev-pill { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 7px; letter-spacing: 0.03em; }
+.ev-l1 { background: #E6EFFE; color: #1A4FA6; border: 1px solid #A3BCE8; }
+.ev-l2 { background: #EDE6FE; color: #6B3FAE; border: 1px solid #C4A8F0; }
+.ev-l3 { background: #F0EDE8; color: #777; border: 1px solid #DDD; }
+.zone-lucent-note { font-size: 11px; color: #aaa; font-style: italic; }
+.zone-stripe-green { border-left: 4px solid #1D9E75; }
+.zone-stripe-yellow { border-left: 4px solid #EF9F27; }
+.zone-stripe-red { border-left: 4px solid #E24B4A; }
+
+/* ─── At This Visit ─── */
+.visit-section { background: #F0FBF7; border: 1.5px solid #1D9E75; border-radius: 12px; padding: 22px 24px; }
+.visit-section.visit-yellow { background: #FFFCF0; border-color: #EF9F27; }
+.visit-section.visit-red { background: #FFF6F6; border-color: #E24B4A; }
+.visit-section .section-title { color: #04342C; }
+.visit-section.visit-yellow .section-title { color: #633806; }
+.visit-section.visit-red .section-title { color: #791F1F; }
+.visit-section .section-sub { color: #999; }
+.visit-section.visit-yellow .section-sub { color: #9A6E28; }
+.visit-section.visit-red .section-sub { color: #883030; }
+.visit-items { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+.visit-item { display: flex; gap: 12px; align-items: flex-start; }
+.visit-num { width: 22px; height: 22px; border-radius: 50%; background: #0F6E56; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.visit-section.visit-yellow .visit-num { background: #CF8A1E; }
+.visit-section.visit-red .visit-num { background: #C83E3E; }
+.visit-item-text { font-size: 13px; color: #1A1A1A; line-height: 1.55; }
+.visit-item-text strong { font-weight: 600; }
+.visit-section .visit-item-text strong { color: #04342C; }
+.visit-section.visit-yellow .visit-item-text strong { color: #633806; }
+.visit-section.visit-red .visit-item-text strong { color: #791F1F; }
+.visit-item-text .visit-ev { font-size: 11px; color: #888; display: inline-block; margin-top: 3px; font-style: italic; }
+.visit-billing { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.07); font-size: 11px; color: #888; }
+
+/* ─── Pathway section ─── */
+.pathway-section { }
+.stage-block { background: #fff; border: 1px solid #E5E3DF; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+.stage-head { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid #F0EDE8; }
+.stage-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; margin-top: 2px; }
+.s1, .s2, .s3 { background: #4A4A4A; }
+.stage-head-text { flex: 1; }
+.stage-name { font-size: 17px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.01em; }
+.stage-note { font-size: 12px; color: #999; margin-top: 2px; }
+.stage-gate { font-size: 11px; background: #F4F4F4; color: #555; border: 1px solid #DEDEDE; border-radius: 6px; padding: 5px 10px; margin-top: 8px; line-height: 1.5; }
+
+/* ─── Recommendation rows ─── */
+.rec { display: grid; grid-template-columns: 40px 1fr; padding: 14px 20px; border-bottom: 1px solid #F6F5F2; }
+.rec:last-child { border-bottom: none; }
+.rec-body { }
+.rec-name { font-size: 13px; font-weight: 600; color: #1A1A1A; margin-bottom: 5px; }
+.sci-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #bbb; margin-right: 4px; }
+.act-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #0F6E56; margin-right: 4px; }
+.rec-science { font-size: 12px; color: #777; line-height: 1.55; margin-bottom: 7px; }
+.rec-action-row { background: #F6FAF8; border-left: 2px solid #1D9E75; border-radius: 0 5px 5px 0; padding: 7px 10px; font-size: 12px; color: #1A1A1A; line-height: 1.6; }
+.rec-source { font-size: 11px; color: #ccc; margin-top: 6px; font-style: italic; }
+.rec-warn { margin: 4px 20px 12px 60px; font-size: 12px; background: #FFFBF2; border: 1px solid #FAC775; border-radius: 6px; padding: 9px 12px; color: #633806; line-height: 1.6; }
+.rec-contra { margin: 4px 20px 12px 60px; font-size: 12px; background: #FFF5F5; border: 1px solid #F09595; border-radius: 6px; padding: 9px 12px; color: #791F1F; line-height: 1.6; }
+
+/* ─── Evidence key ─── */
+.ev-key { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; padding: 11px 16px; background: #fff; border: 1px solid #E5E3DF; border-radius: 8px; margin-bottom: 14px; }
+.ev-key-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #bbb; }
+.ev-key-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
+.cds-note { font-size: 11px; color: #bbb; margin-left: auto; font-style: italic; }
+
+/* ─── Plan-level banner ─── */
+.plan-banner { display: flex; align-items: center; gap: 16px; border-radius: 10px; padding: 16px 20px; margin-bottom: 14px; }
+.plan-banner-green { background: #EBF7F2; border: 1.5px solid #1D9E75; }
+.plan-banner-yellow { background: #FFFCF0; border: 1.5px solid #EF9F27; }
+.plan-banner-red { background: #FFF6F6; border: 1.5px solid #E24B4A; }
+.plan-banner-icon { font-size: 36px; flex-shrink: 0; line-height: 1; }
+.plan-banner-text { flex: 1; }
+.plan-banner-name { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.plan-banner-green .plan-banner-name { color: #085041; }
+.plan-banner-yellow .plan-banner-name { color: #633806; }
+.plan-banner-red .plan-banner-name { color: #791F1F; }
+.plan-banner-desc { font-size: 12px; margin-top: 4px; line-height: 1.5; }
+.plan-banner-green .plan-banner-desc { color: #2A7A5E; }
+.plan-banner-yellow .plan-banner-desc { color: #8A5A1A; }
+.plan-banner-red .plan-banner-desc { color: #883030; }
+
+/* ─── Footer ─── */
+.footer { font-size: 11px; color: #bbb; text-align: center; padding: 16px 0; line-height: 1.9; }
+
+/* ─── Routing error box ─── */
+.routing-note { background: #FFF5F5; border: 1px solid #F09595; border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
+.routing-note-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #E24B4A; margin-bottom: 6px; }
+.routing-note-body { font-size: 12px; color: #791F1F; line-height: 1.7; }
+
+/* ─── Personas ─── */
+.persona { display: none; }
+.persona.active { display: block; }
+
+@media (max-width: 600px) {
+  .summary-inputs { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .input-block { border-right: none; margin-right: 0; padding-right: 0; }
+  .context-grid { grid-template-columns: 1fr; }
+  .context-col:first-child { border-right: none; border-bottom: 1px solid #F0EDE8; }
+  .cds-note { display: none; }
+}
+@media print {
+  .topbar, .ptabs { display: none; }
+  body { background: #fff; }
+  .page { padding: 0; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-logo">lucent</span>
+  <div class="topbar-right">
+    <span class="topbar-note">Clinical decision support — for use with provider oversight</span>
+    <button class="print-btn" onclick="window.print()">Print / PDF</button>
+  </div>
+</div>
+
+<div class="ptabs">
+  <div class="ptab active" onclick="show('maya',this)">Maya Chen <span class="ptab-sub">ACE 7 · Yellow Plan · SF</span></div>
+  <div class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan · Chicago</span></div>
+  <div class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3* · Red Plan · Atlanta</span></div>
+</div>
+
+
+<!-- ═══════════════════════════ MAYA ═══════════════════════════ -->
+<div id="maya" class="persona active">
+<div class="page">
+
+  <!-- ── SECTION 1: TOXIC STRESS ACTION PLAN ── -->
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Toxic Stress Action Plan</div>
+      <div class="section-sub">Maya Chen · 34 · San Francisco, CA · Dr. Sarah Okonkwo · June 2026</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="plan-banner plan-banner-yellow">
+      <div class="plan-banner-icon">🟡</div>
+      <div class="plan-banner-text">
+        <div class="plan-banner-name">Yellow Action Plan</div>
+        <div class="plan-banner-desc">Active stress management required — structured intervention, specialist referral, and regular follow-up within 2–4 weeks</div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <!-- Inputs row -->
+      <div class="summary-inputs">
+        <div class="input-block">
+          <div class="input-block-label">ACE Score</div>
+          <div class="input-val">7</div>
+          <div class="input-sub">High risk</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">PCE Score</div>
+          <div class="input-val" style="color:#BA7517;">3<span style="font-size:14px;font-weight:400;color:#bbb;">/7</span></div>
+          <div class="input-sub">Low–moderate buffer</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">ACE-associated conditions</div>
+          <div class="conditions-list">
+            <span class="cond-tag">Depression</span>
+            <span class="cond-tag">Anxiety / panic</span>
+            <span class="cond-tag">Sleep disturbance</span>
+            <span class="cond-tag">PTSD</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current stress</div>
+          <span class="cstress-badge cstress-yellow">🟡 Elevated</span>
+          <div class="input-sub">Stress spike; stable enough to engage</div>
+        </div>
+      </div>
+
+      <!-- ACE / PCE side by side -->
+      <div class="context-grid">
+        <div class="context-col">
+          <div class="context-col-label">ACEs present (10 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Sexual abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Physical neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Domestic violence (witnessed)</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Substance abuse in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Mental illness in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Parental separation / divorce</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Incarcerated household member</span></div>
+          </div>
+        </div>
+        <div class="context-col">
+          <div class="context-col-label">PCEs present (7 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt able to talk to family about feelings</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Family stood by during hard times</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">2+ supportive non-parent adults</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt safe and protected at home</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Sense of belonging at school</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Had 2+ close friends</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Engaged in community groups / traditions</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toxic stress risk summary -->
+      <div class="risk-block risk-block-yellow">
+        <div class="risk-label-row">
+          <div class="risk-section-label">Toxic stress risk summary</div>
+          <div class="risk-plan-line risk-plan-line-yellow">Yellow Action Plan</div>
+        </div>
+        <div class="zone-row zone-stripe-yellow">
+          <div class="zone-icon">🟡</div>
+          <div class="zone-body">
+            <div class="zone-title zone-yellow">High risk — active management required</div>
+            <div class="zone-rationale">ACE 7 with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions. Low PCE buffer. Elevated current stress means stabilization must precede processing. High ACE load with adolescent timing and high somatic burden indicates body-based therapeutic entry preferred over cognitive-first.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: AT THIS VISIT ── -->
+  <div class="section">
+    <div class="visit-section visit-yellow">
+      <div class="section-title">At this visit</div>
+      <div class="section-sub">Three actions for today's appointment — elevated current stress</div>
+      <div class="visit-items">
+        <div class="visit-item">
+          <div class="visit-num">1</div>
+          <div class="visit-item-text"><strong>Safety screen — Columbia C-SSRS or PHQ-9 item 9</strong><br>ACE 7 carries ~31× baseline suicide attempt odds (Felitti dose-response). Non-negotiable at first contact. Provide 988 Lifeline and written crisis plan.<span class="visit-ev">L3 clinical standard; risk grounded in Felitti L1 dose-response data</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">2</div>
+          <div class="visit-item-text"><strong>Sleep assessment — ISI screen</strong><br>Sleep disruption amplifies HPA dysregulation and is the fastest leverage point. If ISI ≥8: prescribe Sleepio or SleepStation (clinician-prescribable, RCT-validated). Prescribe fixed wake time today regardless of score.<span class="visit-ev">CBT-I — L1 RCT</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">3</div>
+          <div class="visit-item-text"><strong>Psychoeducation — "what happened to you" reframe</strong><br>Explain symptoms as adaptive survival responses, not character flaws. Connect current conditions to the stress-immune pathway. Frame as treatable biology. Reduces shame and improves treatment engagement before any other work begins.<span class="visit-ev">L3 expert consensus; reduces treatment dropout</span></div>
+        </div>
+      </div>
+      <div class="visit-billing">
+        <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: PATHWAY ── -->
+  <div class="section pathway-section">
+    <div class="section-hd">
+      <div class="section-title">Sequenced intervention pathway</div>
+      <div class="section-sub">Herman three-stage model · Perry neurosequential logic · Order matters — premature Stage 2 is a common clinical error</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="ev-key">
+      <span class="ev-key-label">Evidence</span>
+      <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus — flagged</div>
+      <span class="cds-note">Clinician applies independent judgment · CDS, not diagnosis</span>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s1">1</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Safety and stabilization</div>
+          <div class="stage-note">All patients begin here. Do not advance to Stage 2 until goals are met.</div>
+          <div class="stage-gate">Goals: safety established · sleep improving · therapeutic alliance formed · patient can name and tolerate mild distress</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">CBT-I — sleep</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Sleep disruption amplifies HPA cortisol dysregulation. Addressing sleep is the fastest point of leverage and a prerequisite for effective processing.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen. If ≥8: Sleepio or SleepStation (clinician-prescribable). All patients: fixed wake time, same every day including weekends. Start today.</div>
+          <div class="rec-source">CBT-I literature; California SG Roadmap</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">HRV biofeedback / paced breathing</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>5–6 breath cycles/min maximally activates HRV coherence, directly shifting autonomic balance toward parasympathetic. Counteracts chronic sympathetic dysregulation.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Teach in session: 5.5 sec in, 5.5 sec out. 10 min daily. App: HeartMath Inner Balance or Breathe+. Follow up on compliance at next visit.</div>
+          <div class="rec-source">HRV biofeedback literature</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Anti-inflammatory nutrition</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Chronic stress activates pro-inflammatory cytokines. The autoimmune burden (alopecia, GI) confirms the Nakazawa immune dysregulation pathway. Diet reduces cytokine burden.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to RD with autoimmune experience, or provide Mediterranean diet handout. Priorities: reduce ultra-processed foods, increase omega-3s, stabilize blood sugar.</div>
+          <div class="rec-source">Nakazawa 2015; stress-nutrition literature</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l3">L3</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Safety screen — suicidality <em style="font-size:11px;font-weight:400;color:#bbb;">(also covered in At This Visit)</em></div>
+          <div class="rec-science"><span class="sci-tag">Science</span>ACE 7 carries ~31× baseline suicide attempt odds. First-contact screening is non-negotiable. <em>Protocol standard — not RCT-tested.</em></div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Columbia C-SSRS or PHQ-9 item 9. Written crisis plan with 988 and local ER. Document with G9919 billing code in chart.</div>
+          <div class="rec-source">Columbia Protocol — L3; Felitti dose-response L1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s2">2</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Trauma processing</div>
+          <div class="stage-note">Begin when Stage 1 stable — typically 4–6 weeks. Do not rush. Premature processing is a common clinical error and can be retraumatizing.</div>
+          <div class="stage-gate">Confirm: emotional distress tolerated without dissociation · Physical safety established · Therapeutic alliance present</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(preferred over TF-CBT for this profile)</em></div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Bilateral stimulation disrupts traumatic memory reconsolidation. Bypasses cognitive defense — more accessible than verbal narrative processing given high somatic burden and early trauma load.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to EMDRIA-listed therapist (emdria.org). Brief on: high somatic burden, adolescent developmental timing, somatic-first approach needed. Expect 8–12 sessions. Do not refer until Stage 1 is stable.</div>
+          <div class="rec-source">Ehring et al. 2014 meta-analysis (g=0.72 vs waitlist); APA/WHO endorsed</div>
+        </div>
+      </div>
+
+      <div class="rec-contra">
+        <strong>⚠ TF-CBT / CBT — not first-line for this profile.</strong> EMDR's body-based entry is more appropriate given the high somatic burden and early trauma load. TF-CBT can be introduced as adjunct once EMDR is underway and Stage 1 stability is confirmed.
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s3">3</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Integration and reconnection</div>
+          <div class="stage-note">Parallel with late Stage 2. Focus: exercise, social connection, building adult-equivalent protective conditions.</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Exercise — 150 min/week</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Reduces cortisol, promotes BDNF (hippocampal neurogenesis), anti-inflammatory benefit directly relevant to the autoimmune pathway.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Yoga, walking, or swimming — all equivalent for stress outcomes. For autoimmune: mixed modality with recovery days. If sedentary: start with 20-min daily walks, that is sufficient to begin.</div>
+          <div class="rec-source">Multiple RCTs; California SG Roadmap</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Adult protective conditions — building the mechanisms behind why PCEs work</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Bethell 2019 (L1): higher PCE scores in childhood are associated with 72% lower odds of adult depression. PCEs are a fixed retrospective measure, but the protective mechanisms — safe relationships, belonging, trusted others — can be built in adulthood and have independent evidence support.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who feels safest?" Assign one deliberate deepening act per week (real conversation, shared meal). One new community connection per month. Review at every session alongside clinical outcomes.</div>
+          <div class="rec-source">Bethell 2019 JAMA Pediatrics (L1 for PCE childhood scores); adult social support — L2</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Group therapy</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>High ACE load with relational trauma has disrupted reciprocal connection. Group provides a corrective relational experience. Most valuable at Stage 3 — not Stage 1.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Trauma-informed process group, 8–16 members. Confirm facilitator trauma-trained. Brief on: high ACE load, somatic-first history, relational trauma. Begin in late Stage 2 — not before.</div>
+          <div class="rec-source">Cohort evidence — L2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9919 (ACE ≥4)
+  </div>
+</div>
+</div><!-- end maya -->
+
+
+<!-- ═══════════════════════════ DAVID ═══════════════════════════ -->
+<div id="david" class="persona">
+<div class="page">
+
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Toxic Stress Action Plan</div>
+      <div class="section-sub">David Rivera · 46 · Chicago, IL · Dr. James Park · June 2026</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="plan-banner plan-banner-green">
+      <div class="plan-banner-icon">🟢</div>
+      <div class="plan-banner-text">
+        <div class="plan-banner-name">Green Action Plan</div>
+        <div class="plan-banner-desc">Monitoring and preventive care — no active clinical intervention required at this time; wellness promotion and annual follow-up</div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-inputs">
+        <div class="input-block">
+          <div class="input-block-label">ACE Score</div>
+          <div class="input-val">2</div>
+          <div class="input-sub">Low–moderate risk</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">PCE Score</div>
+          <div class="input-val" style="color:#1D9E75;">6<span style="font-size:14px;font-weight:400;color:#bbb;">/7</span></div>
+          <div class="input-sub">Strong protective buffer</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">ACE-associated conditions</div>
+          <div class="conditions-list">
+            <span style="font-size:12px;color:#aaa;padding-top:4px;display:inline-block;">None currently presenting</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current stress</div>
+          <span class="cstress-badge cstress-green">🟢 Stable</span>
+          <div class="input-sub">Well-regulated; good social support</div>
+        </div>
+      </div>
+
+      <div class="context-grid">
+        <div class="context-col">
+          <div class="context-col-label">ACEs present (10 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Emotional abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Sexual abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Emotional neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Domestic violence (witnessed)</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Substance abuse in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Mental illness in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Parental separation / divorce</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Incarcerated household member</span></div>
+          </div>
+        </div>
+        <div class="context-col">
+          <div class="context-col-label">PCEs present (7 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Felt able to talk to family about feelings</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Family stood by during hard times</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">2+ supportive non-parent adults</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Felt safe and protected at home</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Sense of belonging at school</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Had 2+ close friends</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Engaged in community groups / traditions</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toxic stress risk summary -->
+      <div class="risk-block risk-block-green">
+        <div class="risk-label-row">
+          <div class="risk-section-label">Toxic stress risk summary</div>
+          <div class="risk-plan-line risk-plan-line-green">Green Action Plan</div>
+        </div>
+        <div class="zone-row zone-stripe-green">
+          <div class="zone-icon">🟢</div>
+          <div class="zone-body">
+            <div class="zone-title zone-green">Low–moderate risk — monitoring recommended</div>
+            <div class="zone-rationale">ACE 2 with strong PCE buffer (6/7) and stable current stress. No ACE-associated conditions currently presenting. High PCE score indicates strong protective relational foundation in childhood — the most significant risk-moderating factor. No active clinical intervention indicated; preventive wellness plan appropriate.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="visit-section">
+      <div class="section-title">At this visit</div>
+      <div class="section-sub">Three actions for today's appointment — stable, low-risk presentation</div>
+      <div class="visit-items">
+        <div class="visit-item">
+          <div class="visit-num">1</div>
+          <div class="visit-item-text"><strong>Brief psychoeducation — "what happened to you" context</strong><br>Briefly normalize that ACEs affect long-term health. "You had two challenging experiences growing up, but you also had a lot of strong protective factors — and that matters." No clinical urgency. Sets context for preventive framing without pathologizing.<span class="visit-ev">L3 expert consensus; improves preventive engagement</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">2</div>
+          <div class="visit-item-text"><strong>Exercise prescription — primary prevention</strong><br>Even at low ACE risk, exercise is the single best-evidenced preventive intervention for stress biology. 150 min/week aerobic activity reduces cortisol, supports HRV, and is protective against future ACE-associated conditions.<span class="visit-ev">Exercise — L1 RCT; California SG Roadmap</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">3</div>
+          <div class="visit-item-text"><strong>Annual check-in — ACE monitoring</strong><br>Schedule annual wellness check that includes stress and sleep review. ACE 2 with stable stress does not require immediate follow-up, but stress state can shift with life events. No specialist referral needed at this time.<span class="visit-ev">Preventive monitoring — standard of care</span></div>
+        </div>
+      </div>
+      <div class="visit-billing">
+        <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented
+      </div>
+    </div>
+  </div>
+
+  <div class="section pathway-section">
+    <div class="section-hd">
+      <div class="section-title">Preventive wellness plan</div>
+      <div class="section-sub">No active clinical intervention required — health promotion and protective factor reinforcement</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="ev-key">
+      <span class="ev-key-label">Evidence</span>
+      <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus — flagged</div>
+      <span class="cds-note">Clinician applies independent judgment · CDS, not diagnosis</span>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s1">1</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Physical health foundations</div>
+          <div class="stage-note">No urgency — these are preventive investments. Offer at this visit and revisit annually.</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Exercise — 150 min/week aerobic</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Reduces cortisol chronically, promotes BDNF (neuroprotective), supports HRV, and is independently protective against the ACE-associated conditions (cardiovascular, metabolic, mood) this patient has not yet developed. Primary prevention window is now.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>150 min/week moderate aerobic — walking, cycling, swimming. Any form. Suggest a wearable for accountability if patient is interested. No clinical urgency — frame as health investment, not treatment.</div>
+          <div class="rec-source">Multiple RCTs; California SG Roadmap — L1</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Sleep hygiene — brief check</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Sleep disruption is an early and modifiable ACE-associated risk factor. At green plan level, brief screening and sleep hygiene guidance is sufficient — no CBT-I intervention indicated unless ISI ≥8.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen. If score &lt;8: advise consistent wake time and limit alcohol (suppresses slow-wave sleep). If ≥8: prescribe Sleepio or SleepStation. Reassess annually.</div>
+          <div class="rec-source">CBT-I literature — L1; sleep hygiene — L3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s3">2</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Protective factor reinforcement</div>
+          <div class="stage-note">PCE 6/7 is a major strength. Goal is to maintain and deepen what already exists — not to repair.</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Social connection maintenance</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>High PCE score in childhood reflects strong relational history. The protective mechanism — co-regulation, belonging, felt safety — has adult evidence support independent of childhood experience. Maintaining these connections is the core protective prescription at green level.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who are the 2–3 people you feel most yourself around?" Encourage deliberate in-person contact with that network. One community activity per month if not already engaged. Frame as health maintenance, not therapy.</div>
+          <div class="rec-source">Coan co-regulation — L2; Bethell 2019 L1 for PCE childhood scores; adult social support — L2</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">MBSR — optional, if interested</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>MBSR produces measurable cortisol reduction and HRV improvement in healthy adults. At green plan level it is optional — an excellent investment if the patient is motivated, not a clinical requirement.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Offer as an option only: Palouse Mindfulness (free, self-paced, 8-week). Do not prescribe as treatment — frame as performance or wellness tool if that fits the patient's orientation.</div>
+          <div class="rec-source">Kabat-Zinn MBSR — multiple RCTs, L1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9919
+  </div>
+</div>
+</div><!-- end david -->
+
+
+<!-- ═══════════════════════════ AISHA ═══════════════════════════ -->
+<div id="aisha" class="persona">
+<div class="page">
+
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Toxic Stress Action Plan</div>
+      <div class="section-sub">Aisha Thompson · 22 · Atlanta, GA · Dr. Keisha Williams · June 2026</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="plan-banner plan-banner-red">
+      <div class="plan-banner-icon">🔴</div>
+      <div class="plan-banner-text">
+        <div class="plan-banner-name">Red Action Plan</div>
+        <div class="plan-banner-desc">Intensive management required — immediate stabilization, specialist referral this visit, and close follow-up within 1–2 weeks</div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-inputs">
+        <div class="input-block">
+          <div class="input-block-label">ACE Score</div>
+          <div class="input-val">3<span style="font-size:13px;color:#E24B4A;margin-left:2px;">*</span></div>
+          <div class="input-sub">*Adjusted high-risk — age 0–3</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">PCE Score</div>
+          <div class="input-val" style="color:#1D9E75;">5<span style="font-size:14px;font-weight:400;color:#bbb;">/7</span></div>
+          <div class="input-sub">High buffer — key protective factor</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">ACE-associated conditions</div>
+          <div class="conditions-list">
+            <span class="cond-tag">Depression</span>
+            <span class="cond-tag">Anxiety / panic</span>
+            <span class="cond-tag">Sleep disturbance</span>
+            <span class="cond-tag">PTSD</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current stress</div>
+          <span class="cstress-badge cstress-yellow">🟡 Elevated</span>
+          <div class="input-sub">Shutdown/dissociative presentation; limited cortical access</div>
+        </div>
+      </div>
+
+      <div class="context-grid">
+        <div class="context-col">
+          <div class="context-col-label">ACEs present (10 domains) — all age 0–3</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Sexual abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional abuse <span style="font-size:10px;color:#E24B4A;">age 0–3 · 1.5×</span></span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional neglect <span style="font-size:10px;color:#E24B4A;">age 0–3 · 1.5×</span></span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Domestic violence (witnessed) <span style="font-size:10px;color:#E24B4A;">age 0–3 · 1.5×</span></span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Substance abuse in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Mental illness in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Parental separation / divorce</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Incarcerated household member</span></div>
+          </div>
+        </div>
+        <div class="context-col">
+          <div class="context-col-label">PCEs present (7 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Felt able to talk to family about feelings</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Family stood by during hard times</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">2+ supportive non-parent adults</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt safe and protected at home</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Sense of belonging at school</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Had 2+ close friends</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Engaged in community groups / traditions</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toxic stress risk summary -->
+      <div class="risk-block risk-block-red">
+        <div class="risk-label-row">
+          <div class="risk-section-label">Toxic stress risk summary</div>
+          <div class="risk-plan-line risk-plan-line-red">Red Action Plan</div>
+        </div>
+        <div class="zone-row zone-stripe-red">
+          <div class="zone-icon">🔴</div>
+          <div class="zone-body">
+            <div class="zone-title zone-red">High risk — intensive management <em style="font-size:13px;font-weight:400;color:#aaa;">(ACEs Aware = intermediate; Lucent adjusts to high)</em></div>
+            <div class="zone-rationale">ACE 3 standard = intermediate risk. Presenting with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions. Lucent adjustment: all adversity at age 0–3 carries 1.5× developmental weight — trauma organized at brainstem/early limbic, below language. Standard scoring would underroute this patient.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="visit-section visit-red">
+      <div class="section-title">At this visit</div>
+      <div class="section-sub">Three actions for today's appointment — elevated current stress, shutdown/dissociative presentation</div>
+      <div class="visit-items">
+        <div class="visit-item">
+          <div class="visit-num">1</div>
+          <div class="visit-item-text"><strong>Grounding before anything else</strong><br>Do not begin cognitive or narrative work. Shutdown/dissociative state = prefrontal cortex offline. Start with 5-4-3-2-1 grounding in session (5 things you see, 4 you hear, 3 you feel in your body). Teach 5.5/5.5 breathing. This is the first clinical intervention.<span class="visit-ev">Somatic stabilization — L3; Brom 2017 SE (d=0.94–1.26) — L2</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">2</div>
+          <div class="visit-item-text"><strong>Safety screen — C-SSRS plus functional self-neglect screen</strong><br>Shutdown/dissociative state suppresses active self-harm impulses but enables passive self-neglect (not eating, missing appointments, withdrawing). Screen for both. Crisis plan must include a trusted-person check-in structure, not just emergency contacts.<span class="visit-ev">Columbia Protocol — L3</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">3</div>
+          <div class="visit-item-text"><strong>Do not refer for CBT yet</strong><br>Age 0–3 trauma has no accessible narrative — the brain was not encoding episodic memory. Cognitive processing cannot reach brainstem-level imprints. Refer for CBT only after somatic regulatory capacity is established. This is the most common routing error for this presentation.<span class="visit-ev">Developmental neuroscience — L3; Perry NMT</span></div>
+        </div>
+      </div>
+      <div class="visit-billing">
+        <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented &nbsp;·&nbsp; <span style="color:#C83E3E;font-weight:600;">Treat as high risk</span> given age 0–3 developmental timing
+      </div>
+    </div>
+  </div>
+
+  <div class="section pathway-section">
+    <div class="section-hd">
+      <div class="section-title">Sequenced intervention pathway</div>
+      <div class="section-sub">Bottom-up sequencing required — brainstem/early limbic presentation. Extended Stage 1 (6–8 weeks minimum).</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="routing-note">
+      <div class="routing-note-label">Why this case matters — ACEs Aware routing error</div>
+      <div class="routing-note-body">Standard algorithm: ACE 3 without health conditions = intermediate risk, G9920, general behavioral health referral. Standard routing would likely send Aisha to TF-CBT or general counseling. The developmental timing (all adversity age 0–3) means CBT cannot reach the trauma. David's ACE 4 routes to <em>less intensive</em> intervention — because his adversity occurred later, with cortical access intact. Lucent's Five-Dimension Profile catches this routing error.</div>
+    </div>
+
+    <div class="ev-key">
+      <span class="ev-key-label">Evidence</span>
+      <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus — flagged</div>
+      <span class="cds-note">Clinician applies independent judgment · CDS, not diagnosis</span>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s1">1</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Safety and stabilization — extended</div>
+          <div class="stage-note">Minimum 6–8 weeks. Shutdown/dissociative presentation requires longer Stage 1. Do not advance until somatic regulation is established.</div>
+          <div class="stage-gate">Goals: somatic regulation practiced daily · grounding tolerated in session · no significant dissociation · functional self-care (eating, attending appointments)</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Somatic regulation — first intervention, before any cognitive work</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Age 0–3 trauma organizes at brainstem and early limbic level, before language develops. The nervous system learned dysregulation before it learned words. Body-based regulation is the only accessible entry point at this developmental level.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Begin every session with 5-min 5-4-3-2-1 grounding. Teach 5.5/5.5 paced breathing. Assign 10-min daily body scan (Palouse Mindfulness, free). No traumatic content until somatic regulation is established.</div>
+          <div class="rec-source">Brom et al. 2017 SE RCT (d=0.94–1.26 vs waitlist) — L2. Single trial; moderate evidence.</div>
+        </div>
+      </div>
+
+      <div class="rec-contra">
+        <strong>⚠ CBT / talk therapy — not first-line for this profile.</strong> CBT requires cortical engagement with traumatic memory. For age 0–3 trauma, there is no accessible narrative. Cognitive-first approach cannot reach the brainstem level where trauma is organized. Hold until somatic regulatory capacity is established — attempting it prematurely risks dysregulating the patient without providing relief.
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Sleep assessment</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Hypersomnia (shutdown-as-sleep) may be present alongside insomnia. Both disrupt HPA regulation. CBT-I addresses both patterns.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen AND ask specifically about oversleeping. "Sleeping 10+ hours but still exhausted" is a shutdown/dissociative clinical signal, not normal tiredness. Sleepio or SleepStation. Fixed wake time regardless of pattern.</div>
+          <div class="rec-source">CBT-I — L1</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l3">L3</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Psychoeducation — adapted for shutdown/dissociation</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Normalizing shutdown as biological protection reduces confusion and shame. Brief delivery required — extended explanation activates cognitive mode prematurely in this state. <em>Expert consensus.</em></div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Ground first, then one sentence only: "Your body learned to protect you by shutting down when it was overwhelmed — the shutdown is your nervous system doing its job." Do not expand further in a shutdown/dissociative state.</div>
+          <div class="rec-source">Perry — L3 clinical adaptation for dissociative presentation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s2">2</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Trauma processing</div>
+          <div class="stage-note">Begin when Stage 1 stable — 8–10 weeks minimum. Dissociation must be managed. Requires therapist with pre-verbal trauma experience.</div>
+          <div class="stage-gate">Confirm: somatic regulation practiced daily · patient can tolerate mild distress without dissociation · EMDR therapist has pre-verbal trauma experience</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(requires pre-verbal trauma experience — ask explicitly)</em></div>
+          <div class="rec-science"><span class="sci-tag">Science</span>EMDR's bilateral stimulation can process pre-verbal traumatic material without requiring a narrative — its specific advantage for early developmental trauma. Activates adaptive information processing below language level.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to EMDRIA-listed therapist with explicit pre-verbal/developmental trauma experience (ask this directly — not all EMDR therapists work with this population). emdria.org. Expect extended preparation phase before processing begins — longer than standard EMDR protocol.</div>
+          <div class="rec-source">Ehring et al. 2014 meta-analysis (g=0.72); APA/WHO endorsed — L1</div>
+        </div>
+      </div>
+
+      <div class="rec-warn">
+        <strong>⚠ TF-CBT — secondary only, after EMDR is underway.</strong> Appropriate once somatic regulatory capacity is established and EMDR processing has begun. At that point the cognitive brain is accessible. Do not introduce as primary treatment for this profile.
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s3">3</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Integration and reconnection</div>
+          <div class="stage-note">PCE 5 means the relational foundation is already there. Activate it deliberately.</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Yoga or swimming — vagally-activating movement only</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>High-intensity exercise activates the stress response and can worsen shutdown/dissociative dysregulation. Yoga and swimming engage the vagal brake through rhythm, breath, and full-body movement — supports autonomic regulation.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Trauma-sensitive yoga (traumasensitiveyoga.com — Emerson method) or swimming 3×/week. Explicitly advise against HIIT or high-intensity gym as first-line. Available online if local options limited.</div>
+          <div class="rec-source">Exercise — L1 RCT; vagal activation modality preference — L3 clinical model</div>
+        </div>
+      </div>
+
+      <div class="rec">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Adult protective conditions — activate the existing relational network</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>PCE 5/7 tells us the relational network was present in childhood — this is the most important protective factor in the profile. Co-regulation requires physical presence; digital contact does not provide the same nervous system benefit as in-person contact (Coan, L2).</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who are the 2 people you feel most yourself around?" Schedule one in-person hangout per week — put in the calendar at this visit. Add community engagement as an adult social target. This is a prescription, not a social suggestion.</div>
+          <div class="rec-source">Coan co-regulation — L2; adult social support literature — L2; Bethell 2019 for PCE scoring L1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9920 standard — treat as high risk per Lucent developmental adjustment
+  </div>
+</div>
+</div><!-- end aisha -->
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.persona').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
