@@ -198,6 +198,51 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   body { background: #fff; }
   .page { padding: 0; max-width: 100%; }
 }
+
+/* ── Patient plan builder ─────────────────────────────────────── */
+.rec-select {
+  padding: 6px 20px 10px 60px;
+}
+.rec-check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: #aaa;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.rec-check-label:hover { color: #0F6E56; }
+.rec-check {
+  width: 15px;
+  height: 15px;
+  accent-color: #0F6E56;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.rec-check:checked ~ span {
+  color: #0F6E56;
+  font-weight: 600;
+}
+.generate-wrap {
+  padding: 8px 0 4px 0;
+}
+.generate-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  background: #1A1A2E;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: background 0.15s;
+}
+.generate-btn:hover { background: #0F6E56; }
 </style>
 </head>
 <body>
@@ -342,8 +387,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <!-- ── SECTION 3: PATHWAY ── -->
   <div class="section pathway-section">
     <div class="section-hd">
-      <div class="section-title">Sequenced intervention pathway</div>
-      <div class="section-sub">Herman three-stage model · Perry neurosequential logic · Order matters — premature Stage 2 is a common clinical error</div>
+      <div class="section-title">Build patient plan</div>
+      <div class="section-sub">Select recommendations below to build a personalised patient take-home plan</div>
     </div>
     <div class="section-divider"></div>
 
@@ -366,43 +411,47 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-sleep">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">CBT-I — sleep</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Sleep disruption amplifies HPA cortisol dysregulation. Addressing sleep is the fastest point of leverage and a prerequisite for effective processing.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen. If ≥8: Sleepio or SleepStation (clinician-prescribable). All patients: fixed wake time, same every day including weekends. Start today.</div>
           <div class="rec-source">CBT-I literature; California SG Roadmap</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-sleep"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-hrv">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">HRV biofeedback / paced breathing</div>
           <div class="rec-science"><span class="sci-tag">Science</span>5–6 breath cycles/min maximally activates HRV coherence, directly shifting autonomic balance toward parasympathetic. Counteracts chronic sympathetic dysregulation.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Teach in session: 5.5 sec in, 5.5 sec out. 10 min daily. App: HeartMath Inner Balance or Breathe+. Follow up on compliance at next visit.</div>
           <div class="rec-source">HRV biofeedback literature</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-hrv"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-nutrition">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Anti-inflammatory nutrition</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Chronic stress activates pro-inflammatory cytokines. The autoimmune burden (alopecia, GI) confirms the Nakazawa immune dysregulation pathway. Diet reduces cytokine burden.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Refer to RD with autoimmune experience, or provide Mediterranean diet handout. Priorities: reduce ultra-processed foods, increase omega-3s, stabilize blood sugar.</div>
           <div class="rec-source">Nakazawa 2015; stress-nutrition literature</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-nutrition"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-safety">
         <div><span class="ev-pill ev-l3">L3</span></div>
         <div class="rec-body">
           <div class="rec-name">Safety screen — suicidality <em style="font-size:11px;font-weight:400;color:#bbb;">(also covered in At This Visit)</em></div>
           <div class="rec-science"><span class="sci-tag">Science</span>ACE 7 carries ~31× baseline suicide attempt odds. First-contact screening is non-negotiable. <em>Protocol standard — not RCT-tested.</em></div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Columbia C-SSRS or PHQ-9 item 9. Written crisis plan with 988 and local ER. Document with G9919 billing code in chart.</div>
           <div class="rec-source">Columbia Protocol — L3; Felitti dose-response L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-safety"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
@@ -418,13 +467,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-emdr">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(preferred over TF-CBT for this profile)</em></div>
           <div class="rec-science"><span class="sci-tag">Science</span>Bilateral stimulation disrupts traumatic memory reconsolidation. Bypasses cognitive defense — more accessible than verbal narrative processing given high somatic burden and early trauma load.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Refer to EMDRIA-listed therapist (emdria.org). Brief on: high somatic burden, adolescent developmental timing, somatic-first approach needed. Expect 8–12 sessions. Do not refer until Stage 1 is stable.</div>
           <div class="rec-source">Ehring et al. 2014 meta-analysis (g=0.72 vs waitlist); APA/WHO endorsed</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-emdr"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
@@ -443,36 +493,44 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-exercise">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">Exercise — 150 min/week</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Reduces cortisol, promotes BDNF (hippocampal neurogenesis), anti-inflammatory benefit directly relevant to the autoimmune pathway.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Yoga, walking, or swimming — all equivalent for stress outcomes. For autoimmune: mixed modality with recovery days. If sedentary: start with 20-min daily walks, that is sufficient to begin.</div>
           <div class="rec-source">Multiple RCTs; California SG Roadmap</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-exercise"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-social">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Adult protective conditions — building the mechanisms behind why PCEs work</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Bethell 2019 (L1): higher PCE scores in childhood are associated with 72% lower odds of adult depression. PCEs are a fixed retrospective measure, but the protective mechanisms — safe relationships, belonging, trusted others — can be built in adulthood and have independent evidence support.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who feels safest?" Assign one deliberate deepening act per week (real conversation, shared meal). One new community connection per month. Review at every session alongside clinical outcomes.</div>
           <div class="rec-source">Bethell 2019 JAMA Pediatrics (L1 for PCE childhood scores); adult social support — L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-social"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="maya-group">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Group therapy</div>
           <div class="rec-science"><span class="sci-tag">Science</span>High ACE load with relational trauma has disrupted reciprocal connection. Group provides a corrective relational experience. Most valuable at Stage 3 — not Stage 1.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Trauma-informed process group, 8–16 members. Confirm facilitator trauma-trained. Brief on: high ACE load, somatic-first history, relational trauma. Begin in late Stage 2 — not before.</div>
           <div class="rec-source">Cohort evidence — L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="maya-group"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
+  </div>
+
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePatientPlan('maya')">📄 Generate patient take-home</button>
   </div>
 
   <div class="footer">
@@ -600,8 +658,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <div class="section pathway-section">
     <div class="section-hd">
-      <div class="section-title">Preventive wellness plan</div>
-      <div class="section-sub">No active clinical intervention required — health promotion and protective factor reinforcement</div>
+      <div class="section-title">Build patient plan</div>
+      <div class="section-sub">Select recommendations below to build a personalised patient take-home plan</div>
     </div>
     <div class="section-divider"></div>
 
@@ -622,23 +680,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="david-exercise">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">Exercise — 150 min/week aerobic</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Reduces cortisol chronically, promotes BDNF (neuroprotective), supports HRV, and is independently protective against the ACE-associated conditions (cardiovascular, metabolic, mood) this patient has not yet developed. Primary prevention window is now.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>150 min/week moderate aerobic — walking, cycling, swimming. Any form. Suggest a wearable for accountability if patient is interested. No clinical urgency — frame as health investment, not treatment.</div>
           <div class="rec-source">Multiple RCTs; California SG Roadmap — L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="david-exercise"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="david-sleep">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">Sleep hygiene — brief check</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Sleep disruption is an early and modifiable ACE-associated risk factor. At green plan level, brief screening and sleep hygiene guidance is sufficient — no CBT-I intervention indicated unless ISI ≥8.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen. If score &lt;8: advise consistent wake time and limit alcohol (suppresses slow-wave sleep). If ≥8: prescribe Sleepio or SleepStation. Reassess annually.</div>
           <div class="rec-source">CBT-I literature — L1; sleep hygiene — L3</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="david-sleep"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
@@ -652,26 +712,33 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="david-social">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Social connection maintenance</div>
           <div class="rec-science"><span class="sci-tag">Science</span>High PCE score in childhood reflects strong relational history. The protective mechanism — co-regulation, belonging, felt safety — has adult evidence support independent of childhood experience. Maintaining these connections is the core protective prescription at green level.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who are the 2–3 people you feel most yourself around?" Encourage deliberate in-person contact with that network. One community activity per month if not already engaged. Frame as health maintenance, not therapy.</div>
           <div class="rec-source">Coan co-regulation — L2; Bethell 2019 L1 for PCE childhood scores; adult social support — L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="david-social"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="david-mbsr">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">MBSR — optional, if interested</div>
           <div class="rec-science"><span class="sci-tag">Science</span>MBSR produces measurable cortisol reduction and HRV improvement in healthy adults. At green plan level it is optional — an excellent investment if the patient is motivated, not a clinical requirement.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Offer as an option only: Palouse Mindfulness (free, self-paced, 8-week). Do not prescribe as treatment — frame as performance or wellness tool if that fits the patient's orientation.</div>
           <div class="rec-source">Kabat-Zinn MBSR — multiple RCTs, L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="david-mbsr"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
+  </div>
+
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePatientPlan('david')">📄 Generate patient take-home</button>
   </div>
 
   <div class="footer">
@@ -802,8 +869,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 
   <div class="section pathway-section">
     <div class="section-hd">
-      <div class="section-title">Sequenced intervention pathway</div>
-      <div class="section-sub">Bottom-up sequencing required — brainstem/early limbic presentation. Extended Stage 1 (6–8 weeks minimum).</div>
+      <div class="section-title">Build patient plan</div>
+      <div class="section-sub">Select recommendations below to build a personalised patient take-home plan</div>
     </div>
     <div class="section-divider"></div>
 
@@ -830,13 +897,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-somatic">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Somatic regulation — first intervention, before any cognitive work</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Age 0–3 trauma organizes at brainstem and early limbic level, before language develops. The nervous system learned dysregulation before it learned words. Body-based regulation is the only accessible entry point at this developmental level.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Begin every session with 5-min 5-4-3-2-1 grounding. Teach 5.5/5.5 paced breathing. Assign 10-min daily body scan (Palouse Mindfulness, free). No traumatic content until somatic regulation is established.</div>
           <div class="rec-source">Brom et al. 2017 SE RCT (d=0.94–1.26 vs waitlist) — L2. Single trial; moderate evidence.</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-somatic"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
@@ -844,23 +912,25 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         <strong>⚠ CBT / talk therapy — not first-line for this profile.</strong> CBT requires cortical engagement with traumatic memory. For age 0–3 trauma, there is no accessible narrative. Cognitive-first approach cannot reach the brainstem level where trauma is organized. Hold until somatic regulatory capacity is established — attempting it prematurely risks dysregulating the patient without providing relief.
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-sleep">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">Sleep assessment</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Hypersomnia (shutdown-as-sleep) may be present alongside insomnia. Both disrupt HPA regulation. CBT-I addresses both patterns.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen AND ask specifically about oversleeping. "Sleeping 10+ hours but still exhausted" is a shutdown/dissociative clinical signal, not normal tiredness. Sleepio or SleepStation. Fixed wake time regardless of pattern.</div>
           <div class="rec-source">CBT-I — L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-sleep"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-psych">
         <div><span class="ev-pill ev-l3">L3</span></div>
         <div class="rec-body">
           <div class="rec-name">Psychoeducation — adapted for shutdown/dissociation</div>
           <div class="rec-science"><span class="sci-tag">Science</span>Normalizing shutdown as biological protection reduces confusion and shame. Brief delivery required — extended explanation activates cognitive mode prematurely in this state. <em>Expert consensus.</em></div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Ground first, then one sentence only: "Your body learned to protect you by shutting down when it was overwhelmed — the shutdown is your nervous system doing its job." Do not expand further in a shutdown/dissociative state.</div>
           <div class="rec-source">Perry — L3 clinical adaptation for dissociative presentation</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-psych"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
@@ -875,13 +945,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-emdr">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(requires pre-verbal trauma experience — ask explicitly)</em></div>
           <div class="rec-science"><span class="sci-tag">Science</span>EMDR's bilateral stimulation can process pre-verbal traumatic material without requiring a narrative — its specific advantage for early developmental trauma. Activates adaptive information processing below language level.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Refer to EMDRIA-listed therapist with explicit pre-verbal/developmental trauma experience (ask this directly — not all EMDR therapists work with this population). emdria.org. Expect extended preparation phase before processing begins — longer than standard EMDR protocol.</div>
           <div class="rec-source">Ehring et al. 2014 meta-analysis (g=0.72); APA/WHO endorsed — L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-emdr"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
@@ -899,26 +970,32 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-yoga">
         <div><span class="ev-pill ev-l1">L1</span></div>
         <div class="rec-body">
           <div class="rec-name">Yoga or swimming — vagally-activating movement only</div>
           <div class="rec-science"><span class="sci-tag">Science</span>High-intensity exercise activates the stress response and can worsen shutdown/dissociative dysregulation. Yoga and swimming engage the vagal brake through rhythm, breath, and full-body movement — supports autonomic regulation.</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Trauma-sensitive yoga (traumasensitiveyoga.com — Emerson method) or swimming 3×/week. Explicitly advise against HIIT or high-intensity gym as first-line. Available online if local options limited.</div>
           <div class="rec-source">Exercise — L1 RCT; vagal activation modality preference — L3 clinical model</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-yoga"><span>Add to patient plan</span></label></div>
         </div>
       </div>
 
-      <div class="rec">
+      <div class="rec" data-rec-id="aisha-social">
         <div><span class="ev-pill ev-l2">L2</span></div>
         <div class="rec-body">
           <div class="rec-name">Adult protective conditions — activate the existing relational network</div>
           <div class="rec-science"><span class="sci-tag">Science</span>PCE 5/7 tells us the relational network was present in childhood — this is the most important protective factor in the profile. Co-regulation requires physical presence; digital contact does not provide the same nervous system benefit as in-person contact (Coan, L2).</div>
           <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who are the 2 people you feel most yourself around?" Schedule one in-person hangout per week — put in the calendar at this visit. Add community engagement as an adult social target. This is a prescription, not a social suggestion.</div>
           <div class="rec-source">Coan co-regulation — L2; adult social support literature — L2; Bethell 2019 for PCE scoring L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="aisha-social"><span>Add to patient plan</span></label></div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePatientPlan('aisha')">📄 Generate patient take-home</button>
   </div>
 
   <div class="footer">
@@ -934,6 +1011,379 @@ function show(id, el) {
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   el.classList.add('active');
+}
+
+// ── Patient plan builder ──────────────────────────────────────────────
+
+const PERSONAS = {
+  maya: {
+    name: 'Maya Chen',
+    age: 34,
+    aceScore: 7,
+    pceScore: 3,
+    plan: 'yellow',
+    planLabel: 'Yellow Action Plan',
+    conditions: ['depression', 'anxiety/panic', 'sleep disturbance', 'PTSD'],
+  },
+  david: {
+    name: 'David Rivera',
+    age: 46,
+    aceScore: 2,
+    pceScore: 6,
+    plan: 'green',
+    planLabel: 'Green Action Plan',
+    conditions: [],
+  },
+  aisha: {
+    name: 'Aisha Thompson',
+    age: 22,
+    aceScore: 3,
+    pceScore: 5,
+    plan: 'red',
+    planLabel: 'Red Action Plan',
+    conditions: ['depression', 'anxiety', 'sleep disturbance', 'PTSD'],
+  },
+};
+
+const PLAN_COPY = {
+  green: {
+    headline: "You're in a good place — and the choices you make now will protect your future health.",
+    body: "Your ACE score is low, and your strong positive childhood experiences give you a real biological advantage. Research shows that people like you who stay active, maintain close relationships, and protect their sleep are at significantly lower risk of stress-related health challenges as they age. Your plan is about building on what's already working.",
+    color: '#085041', bg: '#EBF7F2', border: '#1D9E75',
+  },
+  yellow: {
+    headline: "Active care now can meaningfully reduce your long-term health risks.",
+    body: "What you experienced growing up had real effects on your body — this is biology, not a character flaw. Research shows that people with higher ACE scores have an elevated risk of certain health conditions. But that risk is not fixed. With the right support, the body can recover and adapt. The steps in your plan are designed to help your system shift out of a state of ongoing stress — which directly lowers that risk over time.",
+    color: '#633806', bg: '#FFFCF0', border: '#EF9F27',
+  },
+  red: {
+    headline: "Your body and mind have been working incredibly hard — and you deserve the right kind of support.",
+    body: "What you went through happened very early in life, before you had words for it. Your body learned to protect you in ways that made sense then, but may feel exhausting or confusing now. This is not a sign that something is broken — it's a sign of how hard your system has been working. With the right care, the nervous system can find a new, calmer baseline. Your plan is designed to work with your body, starting with the simplest and most foundational steps.",
+    color: '#791F1F', bg: '#FFF6F6', border: '#E24B4A',
+  },
+};
+
+const REC_DATA = {
+  'maya-sleep': {
+    stage: 'now',
+    title: 'Better sleep — starting now',
+    why: "Sleep and stress are deeply connected. When you've been through a lot, your body's alert system can stay switched on — and that makes restful sleep harder. Poor sleep in turn keeps your stress response activated. Improving your sleep is one of the fastest, most evidence-backed steps you can take right now.",
+    action: "Your doctor is recommending a structured sleep program that works better than sleep medication for most people and shows results within a few weeks.",
+    resource: 'Sleepio (sleepio.com) — ask your care team which program is right for you',
+  },
+  'maya-hrv': {
+    stage: 'now',
+    title: 'Daily breathing practice',
+    why: "Slow, paced breathing activates your body's recovery system — the part that calms and resets. Practicing this daily actually changes how your body responds to stress over time. It's one of the few things that directly shifts your nervous system toward recovery.",
+    action: "Practice paced breathing for 10 minutes every day: breathe in for 5.5 seconds, out for 5.5 seconds. A free app like Breathe+ can guide you.",
+    resource: 'Breathe+ (free, iOS/Android) or HeartMath Inner Balance',
+  },
+  'maya-nutrition': {
+    stage: 'now',
+    title: 'Eating to reduce inflammation',
+    why: "Ongoing stress can trigger low-level inflammation in the body, which is connected to many of the health conditions associated with difficult early experiences. What you eat has a real, measurable effect on inflammation.",
+    action: "Your doctor is referring you to a registered dietitian. In the meantime: more fish, nuts, olive oil, fruits, and vegetables; less ultra-processed food and added sugar.",
+    isReferral: true,
+    referralText: 'Registered Dietitian — referral from your doctor. Your care team will send details.',
+  },
+  'maya-safety': {
+    stage: 'now',
+    title: 'Support is always available',
+    why: "When life feels overwhelming, it helps to know where to turn.",
+    action: "If you ever feel unsafe or in crisis, please reach out. You don't have to go through this alone.",
+    resource: '988 Suicide & Crisis Lifeline — call or text 988, available 24/7',
+    sensitive: true,
+  },
+  'maya-emdr': {
+    stage: 'next',
+    title: 'Therapy referral — EMDR',
+    why: "EMDR (Eye Movement Desensitization and Reprocessing) is a well-researched therapy that helps the brain process and release difficult past experiences. Unlike traditional talk therapy, it doesn't require you to recount everything in detail. Many people find it gentler than they expected.",
+    action: "Your doctor is referring you to a certified EMDR therapist. Plan for 8–12 sessions. This will begin once you've had time to build some stability first — that's intentional and important.",
+    isReferral: true,
+    referralText: 'EMDR Therapist — your doctor is making this referral. You can also find certified therapists at emdria.org.',
+  },
+  'maya-exercise': {
+    stage: 'ongoing',
+    title: 'Regular movement',
+    why: "Exercise is one of the most powerful tools for reducing the chronic stress load in your body. It lowers stress hormones, supports brain health, and helps reduce inflammation. Even moderate amounts make a meaningful difference.",
+    action: "Aim for 150 minutes of moderate activity per week — about 30 minutes on most days. Yoga, walking, and swimming are all excellent choices. Start where you are and build gradually.",
+  },
+  'maya-social': {
+    stage: 'ongoing',
+    title: 'Strengthening your connections',
+    why: "Close, trusted relationships are one of the most protective factors for long-term health. Being around people who feel safe actually calms your nervous system — it's not just emotional support, it's biological.",
+    action: "Think of 1–2 people you feel most yourself around. Plan to spend in-person time with them regularly. One meaningful connection per week is a genuine health practice.",
+  },
+  'maya-group': {
+    stage: 'ongoing',
+    title: 'Group therapy referral',
+    why: "Being with others who have had similar experiences can be deeply healing. Group therapy offers connection, perspective, and the chance to practice new ways of relating in a safe setting.",
+    action: "Your doctor is referring you to a trauma-informed group program. This will typically start after individual therapy is underway.",
+    isReferral: true,
+    referralText: 'Group Therapy — your care team will share options and timing based on where you are in your plan.',
+  },
+
+  'david-exercise': {
+    stage: 'now',
+    title: 'Regular movement — your most important health investment',
+    why: "Regular exercise is one of the most powerful things you can do for your long-term health. It reduces stress hormones, supports brain health, and is directly protective against many conditions associated with early stress — even at lower ACE scores.",
+    action: "Aim for 150 minutes of moderate activity per week — about 30 minutes, 5 days a week. Walking, cycling, swimming all count. A fitness tracker can help you stay consistent.",
+  },
+  'david-sleep': {
+    stage: 'now',
+    title: 'Protecting your sleep',
+    why: "Good sleep keeps your body's stress system balanced. Even small improvements in sleep quality have measurable effects on mood, energy, and long-term health.",
+    action: "Keep a consistent wake-up time every day — including weekends. Avoid alcohol close to bedtime (it disrupts deep sleep). Let your doctor know if sleep is a challenge.",
+  },
+  'david-social': {
+    stage: 'ongoing',
+    title: 'Nurture your connections',
+    why: "Strong relationships are one of the most important factors in long-term health and resilience. Being around people you feel safe and comfortable with literally helps your nervous system stay regulated.",
+    action: "Think of 2–3 people you feel most yourself around. Make a point of spending in-person time with them regularly. This is a health investment, not just socializing.",
+  },
+  'david-mbsr': {
+    stage: 'ongoing',
+    title: 'Mindfulness practice — optional',
+    why: "MBSR (Mindfulness-Based Stress Reduction) is a well-researched 8-week program that measurably reduces stress hormones and supports overall wellbeing.",
+    action: "If you're curious, palousemindfulness.com offers the full program free and self-paced — about 45 minutes a day for 8 weeks. No pressure; this is an option if it appeals to you.",
+    resource: 'Palouse Mindfulness — palousemindfulness.com (free, self-paced)',
+  },
+
+  'aisha-somatic': {
+    stage: 'now',
+    title: 'Grounding your nervous system',
+    why: "When we go through difficult things early in life, our body learns to stay on guard — or sometimes to shut down as a form of protection. Both are normal responses. Grounding practices and slow breathing are the most effective first step for helping your body find a calmer baseline.",
+    action: "Practice 5-4-3-2-1 grounding when you feel overwhelmed: notice 5 things you can see, 4 you can hear, 3 you can physically feel, 2 you can smell, 1 you can taste. Also practice slow breathing: in for 5.5 seconds, out for 5.5 seconds, 10 minutes daily.",
+  },
+  'aisha-sleep': {
+    stage: 'now',
+    title: 'Better sleep',
+    why: "Sleep is closely tied to how your nervous system recovers. After early stress, some people struggle to fall asleep; others sleep a lot but wake exhausted. Both are real patterns and both affect healing.",
+    action: "Start with a consistent wake-up time every day. Your doctor is recommending a sleep program tailored to your pattern. Let your doctor know if you find yourself sleeping 10+ hours and still feeling drained — that's important information.",
+    resource: 'Sleepio (sleepio.com) — your doctor will prescribe the right program',
+  },
+  'aisha-psych': {
+    stage: 'now',
+    title: 'Understanding what your body has been doing',
+    why: "Feeling shut down, numb, or disconnected is a protective response your nervous system learned very early on — before you had words for it. It's not a character flaw or a sign that something is broken. Your body was doing the best it could to protect you.",
+    action: "You don't need to understand or process everything right now. The one thing to hold: what you're experiencing makes complete sense given what you went through, and it can improve with the right support.",
+  },
+  'aisha-emdr': {
+    stage: 'next',
+    title: 'Therapy referral — EMDR',
+    why: "EMDR is a therapy that helps the brain gently process and release difficult experiences. It's especially effective for experiences that happened before you had words for them — it works at a level below language, which is where very early experiences live.",
+    action: "Your doctor is referring you to an EMDR therapist with specific experience in early developmental trauma. This will start after you've had time to build your grounding practice — getting that foundation in place first is the right approach.",
+    isReferral: true,
+    referralText: 'EMDR Therapist — your doctor is making this referral based on your specific history. You can also explore therapists at emdria.org.',
+  },
+  'aisha-yoga': {
+    stage: 'ongoing',
+    title: 'Gentle rhythmic movement — yoga or swimming',
+    why: "Gentle, rhythmic movement like yoga or swimming helps your body complete its stress response in a way that high-intensity exercise doesn't. It activates your body's calming system through rhythm, breath, and predictable movement.",
+    action: "Try trauma-sensitive yoga or swimming 2–3 times a week. Start gently — your nervous system benefits most from rhythm and predictability right now.",
+    resource: 'Trauma-Sensitive Yoga — traumasensitiveyoga.com for online and in-person options',
+  },
+  'aisha-social': {
+    stage: 'ongoing',
+    title: 'Your support network',
+    why: "Being physically with people you feel safe around is genuinely healing for the nervous system. It's not just emotional support — it's biological. The connections you have are part of your care.",
+    action: "Think of 1–2 people you feel most comfortable and like yourself around. Ask them to spend in-person time with you regularly. It doesn't have to be a deep conversation — just being together counts.",
+  },
+};
+
+function generatePatientPlan(persona) {
+  const p = PERSONAS[persona];
+  const planCopy = PLAN_COPY[p.plan];
+
+  const checks = document.querySelectorAll('#' + persona + ' .rec-check:checked');
+  if (checks.length === 0) {
+    alert('Please tick at least one recommendation to include in the patient plan.');
+    return;
+  }
+
+  const selected = [];
+  checks.forEach(cb => {
+    const id = cb.dataset.recId;
+    if (REC_DATA[id]) selected.push({ id, ...REC_DATA[id] });
+  });
+
+  const now      = selected.filter(r => r.stage === 'now');
+  const next     = selected.filter(r => r.stage === 'next');
+  const ongoing  = selected.filter(r => r.stage === 'ongoing');
+
+  const stageHtml = (label, icon, recs, color) => {
+    if (!recs.length) return '';
+    const items = recs.map(r => {
+      if (r.sensitive) {
+        return `<div class="pt-rec">
+          <div class="pt-rec-title">${r.title}</div>
+          <div class="pt-rec-body">${r.action}</div>
+          ${r.resource ? `<div class="pt-resource">📞 ${r.resource}</div>` : ''}
+        </div>`;
+      }
+      return `<div class="pt-rec">
+        <div class="pt-rec-title">${r.title}</div>
+        <div class="pt-rec-why">${r.why}</div>
+        <div class="pt-rec-body"><strong>What to do:</strong> ${r.action}</div>
+        ${r.isReferral ? `<div class="pt-resource">📋 <strong>Referral included:</strong> ${r.referralText}</div>` : ''}
+        ${r.resource && !r.isReferral ? `<div class="pt-resource">🔗 ${r.resource}</div>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="pt-stage">
+      <div class="pt-stage-label" style="color:${color};border-color:${color}20;background:${color}10;">
+        ${icon}&nbsp; ${label}
+      </div>
+      ${items}
+    </div>`;
+  };
+
+  const aceBlurb = p.aceScore >= 4
+    ? `A score of ${p.aceScore} means you experienced a significant number of stressful events during childhood. Research shows that the more ACEs someone has, the higher their risk of certain health conditions as an adult — not because the past determines the future, but because early stress has real effects on the body's systems. Understanding this gives you and your doctor a clearer picture of what to focus on.`
+    : `A score of ${p.aceScore} means you experienced a small number of stressful events during childhood. Even lower scores can have an effect on health — which is why your doctor screens everyone. The good news is that the body is resilient, and even modest protective steps make a meaningful difference.`;
+
+  const pceBlurb = p.pceScore >= 5
+    ? `Your PCE score of ${p.pceScore} out of 7 reflects the positive relationships and experiences you had growing up. This is genuinely protective. Research shows that people with more positive childhood experiences have significantly lower rates of depression and other health challenges as adults. The ingredients behind that protection — safe relationships, belonging, trusted people — can be actively nurtured in your adult life.`
+    : `Your PCE score of ${p.pceScore} out of 7 reflects the positive relationships and experiences from your childhood. A lower score doesn't determine your future — it just means your plan includes some extra attention to building the kinds of connection and safety that PCEs represent. These things can be cultivated at any age.`;
+
+  const conditionNote = p.conditions.length
+    ? `<p style="margin-top:8px;">Your doctor has also noted the following current health concerns: <strong>${p.conditions.join(', ')}</strong>. Managing your stress biology directly supports these as well.</p>`
+    : '';
+
+  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Care Plan — ${p.name}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; background: #fff; font-size: 14px; line-height: 1.6; }
+  .pt-wrap { max-width: 680px; margin: 0 auto; padding: 48px 40px; }
+
+  .pt-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 2px solid #F0EDE8; margin-bottom: 32px; }
+  .pt-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; color: #0F6E56; }
+  .pt-logo span { color: #1a1a1a; }
+  .pt-meta { text-align: right; font-size: 11px; color: #999; line-height: 1.8; }
+  .pt-meta strong { color: #555; }
+
+  .pt-greeting { margin-bottom: 32px; }
+  .pt-greeting h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 6px; }
+  .pt-greeting p { color: #555; font-size: 13px; }
+
+  .pt-section { margin-bottom: 36px; }
+  .pt-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #F0EDE8; }
+
+  .pt-score-row { display: flex; gap: 16px; margin-bottom: 16px; }
+  .pt-score-box { flex: 1; border-radius: 10px; padding: 16px 18px; }
+  .pt-score-box-ace { background: #FFF6F6; border: 1.5px solid #E24B4A22; }
+  .pt-score-box-pce { background: #EBF7F2; border: 1.5px solid #1D9E7522; }
+  .pt-score-num { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 2px; }
+  .pt-score-box-ace .pt-score-num { color: #C0392B; }
+  .pt-score-box-pce .pt-score-num { color: #0F6E56; }
+  .pt-score-label { font-size: 11px; font-weight: 700; color: #999; letter-spacing: 0.05em; text-transform: uppercase; }
+  .pt-score-blurb { font-size: 13px; color: #444; margin-top: 10px; line-height: 1.65; }
+
+  .pt-plan-banner { border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; border: 1.5px solid; }
+  .pt-plan-name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .pt-plan-headline { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .pt-plan-body { font-size: 13px; line-height: 1.7; }
+  ${conditionNote ? '.pt-condition-note { font-size: 13px; line-height: 1.65; color: #444; margin-top: 12px; }' : ''}
+
+  .pt-stage { margin-bottom: 28px; }
+  .pt-stage-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 6px; padding: 5px 12px; margin-bottom: 14px; border: 1.5px solid; }
+
+  .pt-rec { background: #FAFAF9; border: 1px solid #EDEDEA; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
+  .pt-rec-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: #111; margin-bottom: 8px; }
+  .pt-rec-why { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #EDEDE9; }
+  .pt-rec-body { font-size: 13px; color: #333; line-height: 1.65; margin-top: 8px; }
+  .pt-resource { margin-top: 10px; padding: 10px 12px; background: #F0FBF7; border-radius: 7px; font-size: 12px; color: #0F6E56; border: 1px solid #1D9E7530; line-height: 1.55; }
+
+  .pt-footer { border-top: 1px solid #F0EDE8; padding-top: 18px; margin-top: 40px; font-size: 11px; color: #bbb; line-height: 1.8; }
+  .pt-print-btn { display: block; width: 100%; padding: 13px; background: #1A1A2E; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .pt-print-btn:hover { background: #0F6E56; }
+
+  @media print {
+    .pt-print-btn { display: none; }
+    body { font-size: 13px; }
+    .pt-wrap { padding: 24px 32px; }
+    .pt-rec { break-inside: avoid; }
+    .pt-stage { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="pt-wrap">
+
+  <div class="pt-header">
+    <div class="pt-logo">lucent<span>health</span></div>
+    <div class="pt-meta">
+      <strong>${p.name}</strong><br>
+      Date prepared: ${today}<br>
+      Prepared by your care team
+    </div>
+  </div>
+
+  <button class="pt-print-btn" onclick="window.print()">🖨 Save or print this plan</button>
+
+  <div class="pt-greeting">
+    <h1>Your personal care plan</h1>
+    <p>This plan was prepared by your doctor based on your health history and screening results. It's meant to help you understand your results and take clear, practical steps.</p>
+  </div>
+
+  <!-- ── ACE + PCE ── -->
+  <div class="pt-section">
+    <div class="pt-section-title">Your screening results</div>
+    <div class="pt-score-row">
+      <div class="pt-score-box pt-score-box-ace">
+        <div class="pt-score-num">${p.aceScore}</div>
+        <div class="pt-score-label">ACE Score &nbsp;/ 10</div>
+      </div>
+      <div class="pt-score-box pt-score-box-pce">
+        <div class="pt-score-num">${p.pceScore}</div>
+        <div class="pt-score-label">PCE Score &nbsp;/ 7</div>
+      </div>
+    </div>
+    <div class="pt-score-blurb">
+      <strong>What are ACEs?</strong> ACEs stands for Adverse Childhood Experiences — things like abuse, neglect, or household difficulties that can happen during childhood. They matter because early stress has real biological effects that can show up in health decades later. Your ACE score is a screening tool, not a diagnosis. ${aceBlurb}
+    </div>
+    <div class="pt-score-blurb" style="margin-top:12px;">
+      <strong>What are PCEs?</strong> PCEs stands for Positive Childhood Experiences — things like feeling safe, loved, and connected as a child. They act as a protective buffer against the effects of early stress. ${pceBlurb}
+    </div>
+    ${conditionNote ? `<div class="pt-condition-note">${conditionNote}</div>` : ''}
+  </div>
+
+  <!-- ── Action Plan ── -->
+  <div class="pt-section">
+    <div class="pt-section-title">Your action plan level</div>
+    <div class="pt-plan-banner" style="background:${planCopy.bg};border-color:${planCopy.border};">
+      <div class="pt-plan-name" style="color:${planCopy.color};">${p.planLabel}</div>
+      <div class="pt-plan-headline" style="color:${planCopy.color};">${planCopy.headline}</div>
+      <div class="pt-plan-body" style="color:${planCopy.color}cc;">${planCopy.body}</div>
+    </div>
+  </div>
+
+  <!-- ── Selected recommendations ── -->
+  <div class="pt-section">
+    <div class="pt-section-title">Your plan — steps selected by your doctor</div>
+    ${stageHtml('Now — start this week', '🟢', now, '#0F6E56')}
+    ${stageHtml('Next — when ready', '🔵', next, '#1A4FA6')}
+    ${stageHtml('Ongoing — build into your life', '⬛', ongoing, '#444')}
+  </div>
+
+  <div class="pt-footer">
+    This plan was prepared using the Lucent Stress Resilience Framework. It is for informational purposes and does not replace the advice of your doctor. Please contact your care team if you have questions or your situation changes.<br>
+    Lucent Health · Framework v0.3 · ${today}
+  </div>
+
+</div>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
 }
 </script>
 </body>
