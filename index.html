@@ -173,6 +173,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .plan-banner-green .plan-banner-desc { color: #2A7A5E; }
 .plan-banner-yellow .plan-banner-desc { color: #8A5A1A; }
 .plan-banner-red .plan-banner-desc { color: #883030; }
+.plan-care-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.plan-care-tag { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.plan-banner-green .plan-care-tag { background: #C8EFE0; color: #085041; }
+.plan-banner-yellow .plan-care-tag { background: #FDECC8; color: #633806; }
+.plan-banner-red .plan-care-tag { background: #FAD4D4; color: #791F1F; }
 
 /* ─── Footer ─── */
 .footer { font-size: 11px; color: #bbb; text-align: center; padding: 16px 0; line-height: 1.9; }
@@ -259,6 +264,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <div class="ptab active" onclick="show('maya',this)">Maya Chen <span class="ptab-sub">ACE 7 · Yellow Plan · SF</span></div>
   <div class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan · Chicago</span></div>
   <div class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3* · Red Plan · Atlanta</span></div>
+  <div class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 4 · Red Plan · Houston</span></div>
+  <div class="ptab" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan · Denver</span></div>
 </div>
 
 
@@ -278,7 +285,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <div class="plan-banner-icon">🟡</div>
       <div class="plan-banner-text">
         <div class="plan-banner-name">Yellow Action Plan</div>
-        <div class="plan-banner-desc">Active stress management required — structured intervention, specialist referral, and regular follow-up within 2–4 weeks</div>
+        <div class="plan-banner-desc">Active stress management required — structured intervention, specialist referral, and monthly check-ins until stable</div>
+        <div class="plan-care-row">
+          <span class="plan-care-tag">📅 Follow-up within 2–4 weeks</span>
+          <span class="plan-care-tag">👤 Monthly check-ins until stable</span>
+          <span class="plan-care-tag">🔗 Specialist referral this visit</span>
+          <span class="plan-care-tag">🎯 Goal: downgrade to Green within 6–12 months</span>
+        </div>
       </div>
     </div>
 
@@ -556,7 +569,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <div class="plan-banner-icon">🟢</div>
       <div class="plan-banner-text">
         <div class="plan-banner-name">Green Action Plan</div>
-        <div class="plan-banner-desc">Monitoring and preventive care — no active clinical intervention required at this time; wellness promotion and annual follow-up</div>
+        <div class="plan-banner-desc">Preventive care — wellness promotion, light clinician oversight, and patient-directed tools between visits</div>
+        <div class="plan-care-row">
+          <span class="plan-care-tag">📅 Annual check-in</span>
+          <span class="plan-care-tag">👤 3-month follow-up after this visit</span>
+          <span class="plan-care-tag">📱 Patient-directed between visits</span>
+          <span class="plan-care-tag">🔗 No specialist referral required at this time</span>
+        </div>
       </div>
     </div>
 
@@ -764,7 +783,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
       <div class="plan-banner-icon">🔴</div>
       <div class="plan-banner-text">
         <div class="plan-banner-name">Red Action Plan</div>
-        <div class="plan-banner-desc">Intensive management required — immediate stabilization, specialist referral this visit, and close follow-up within 1–2 weeks</div>
+        <div class="plan-banner-desc">Comprehensive care — PCP actively coordinates across all providers; patient should never feel alone between appointments</div>
+        <div class="plan-care-row">
+          <span class="plan-care-tag">📅 Follow-up within 1–2 weeks</span>
+          <span class="plan-care-tag">👤 Bi-weekly check-ins</span>
+          <span class="plan-care-tag">🤝 PCP coordinates all providers</span>
+          <span class="plan-care-tag">🔗 Multi-specialist referral this visit</span>
+        </div>
       </div>
     </div>
 
@@ -1005,6 +1030,541 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 </div>
 </div><!-- end aisha -->
 
+
+<!-- ═══════════════════════════ MARCUS ═══════════════════════════ -->
+<div id="marcus" class="persona">
+<div class="page">
+
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Toxic Stress Action Plan</div>
+      <div class="section-sub">Marcus Webb · 52 · Houston, TX · Dr. Patricia Nguyen · June 2026</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="plan-banner plan-banner-red">
+      <div class="plan-banner-icon">🔴</div>
+      <div class="plan-banner-text">
+        <div class="plan-banner-name">Red Action Plan</div>
+        <div class="plan-banner-desc">Comprehensive care — ACE biology actively driving physical disease across multiple systems; PCP holds the thread between all providers</div>
+        <div class="plan-care-row">
+          <span class="plan-care-tag">📅 Follow-up within 1–2 weeks</span>
+          <span class="plan-care-tag">👤 Bi-weekly check-ins</span>
+          <span class="plan-care-tag">🤝 PCP coordinates all providers</span>
+          <span class="plan-care-tag">🔗 Multi-specialist referral this visit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-inputs">
+        <div class="input-block">
+          <div class="input-block-label">ACE Score</div>
+          <div class="input-val">4</div>
+          <div class="input-sub">Elevated risk</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">PCE Score</div>
+          <div class="input-val" style="color:#BA7517;">3<span style="font-size:14px;font-weight:400;color:#bbb;">/7</span></div>
+          <div class="input-sub">Low buffer</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">ACE-associated conditions</div>
+          <div class="conditions-list">
+            <span class="cond-tag">IBS</span>
+            <span class="cond-tag">Type 2 diabetes</span>
+            <span class="cond-tag">Overweight (BMI 31)</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current medications</div>
+          <div class="conditions-list">
+            <span class="cond-tag" style="background:#F0F4FF;color:#1A4FA6;border-color:#A3BCE8;">Metformin 1000mg BID</span>
+            <span class="cond-tag" style="background:#F0F4FF;color:#1A4FA6;border-color:#A3BCE8;">Omeprazole PRN</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current stress</div>
+          <span class="cstress-badge cstress-red">🔴 High</span>
+          <div class="input-sub">Chronic baseline stress; somatic manifestation active</div>
+        </div>
+      </div>
+
+      <div class="context-grid">
+        <div class="context-col">
+          <div class="context-col-label">ACEs present (10 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Physical abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Parental separation / divorce</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Substance abuse in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Emotional abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Sexual abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Domestic violence (witnessed)</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Mental illness in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Incarcerated household member</span></div>
+          </div>
+        </div>
+        <div class="context-col">
+          <div class="context-col-label">PCEs present (7 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt able to talk to family about feelings</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Family stood by during hard times</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">2+ supportive non-parent adults</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt safe and protected at home</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Had 2+ close friends</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Sense of belonging at school</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Engaged in community groups / traditions</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="risk-block risk-block-red">
+        <div class="risk-label-row">
+          <div class="risk-section-label">Toxic stress risk summary</div>
+          <div class="risk-plan-line risk-plan-line-red">Red Action Plan</div>
+        </div>
+        <div class="zone-row zone-stripe-red">
+          <div class="zone-icon">🔴</div>
+          <div class="zone-body">
+            <div class="zone-title zone-red">Intensive management required — ACE biology active in physical systems</div>
+            <div class="zone-rationale">ACE 4 is at the clinical threshold, but three concurrent ACE-associated physical conditions (IBS = gut-brain axis disruption; T2D + overweight = metabolic dysregulation from chronic cortisol) escalate to Red. This is the critical Lucent insight: raw ACE score undersells risk when physical disease burden is high. IBS is a direct gut-brain axis manifestation; insulin resistance and abdominal obesity are hallmark markers of allostatic load. Stress biology is not latent — it is actively driving disease.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="visit-section visit-red">
+      <div class="section-title">At this visit</div>
+      <div class="section-sub">Priority actions — stress biology actively manifesting as physical disease</div>
+      <div class="visit-items">
+        <div class="visit-item">
+          <div class="visit-num">1</div>
+          <div class="visit-item-text"><strong>Connect the dots — stress-disease psychoeducation</strong><br>Explicitly connect IBS, T2D, and weight to the chronic stress pathway. Most patients with physical presentations have never been told this link exists. "What happened to you" reframe reduces shame and dramatically improves motivation for stress-management interventions.<span class="visit-ev">L3 consensus; reduces treatment dropout and improves adherence</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">2</div>
+          <div class="visit-item-text"><strong>Refer to RD with anti-inflammatory / metabolic experience</strong><br>Anti-inflammatory nutrition is both a metabolic intervention (directly supports T2D management and weight) and a stress-biology intervention (reduces cytokine burden driving IBS). Start here before any pharmacologic escalation for metabolic targets.<span class="visit-ev">L2 nutrition-inflammation literature; L1 for diet + T2D</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">3</div>
+          <div class="visit-item-text"><strong>Sleep assessment — ISI screen</strong><br>Sleep disruption worsens insulin resistance and IBS symptoms. Address sleep to improve metabolic outcomes, not just stress. If ISI ≥8: prescribe Sleepio or SleepStation. CBT-I is first-line over pharmacologic sleep aids in T2D patients.<span class="visit-ev">CBT-I — L1 RCT; sleep-metabolic link — L2</span></div>
+        </div>
+      </div>
+      <div class="visit-billing">
+        <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented · ACE ≥4 threshold met
+      </div>
+    </div>
+  </div>
+
+  <div class="section pathway-section">
+    <div class="section-hd">
+      <div class="section-title">Build patient plan</div>
+      <div class="section-sub">Select recommendations below to build a personalised patient take-home plan</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="ev-key">
+      <span class="ev-key-label">Evidence</span>
+      <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus — flagged</div>
+      <span class="cds-note">Clinician applies independent judgment · CDS, not diagnosis</span>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s1">1</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Safety, stabilization and physical foundation</div>
+          <div class="stage-note">Begin here. Address physical manifestations of stress biology first — these are both clinical targets and entry points for engagement.</div>
+          <div class="stage-gate">Goals: sleep improving · gut symptoms reducing · patient understands stress-disease link · ready to engage with deeper work</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-nutrition">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Anti-inflammatory nutrition — metabolic and gut focus</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Chronic cortisol drives pro-inflammatory cytokines that directly worsen IBS symptoms and insulin resistance. Mediterranean-pattern diet reduces CRP, improves glycaemic control, and reduces gut inflammation — hitting all three of Marcus's active conditions simultaneously.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to RD with metabolic/autoimmune experience. Priority targets: reduce ultra-processed foods and added sugar (direct glycaemia impact), increase omega-3s and fibre (IBS and inflammation), stabilise meal timing (cortisol and blood glucose).</div>
+          <div class="rec-source">Mediterranean diet + T2D: L1 meta-analysis; diet + IBS: L2; Nakazawa 2015 inflammation pathway</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-nutrition"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-sleep">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">CBT-I — sleep (metabolic rationale)</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Poor sleep increases cortisol, worsens insulin resistance by 20–25%, and amplifies IBS gut sensitivity via the gut-brain axis. Improving sleep is both a stress intervention and a direct metabolic intervention for T2D management — undersold in standard T2D care.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>ISI screen. If ≥8: prescribe Sleepio or SleepStation (preferred over sleep medication in T2D patients — no glucose impact). All patients: fixed wake time every day. Avoid pharmacologic sleep aids unless CBT-I fails.</div>
+          <div class="rec-source">CBT-I: L1 RCT; sleep-insulin resistance: L2 cohort; gut-brain sleep link: L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-sleep"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-psychoed">
+        <div><span class="ev-pill ev-l3">L3</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Psychoeducation — stress-disease link (gut-brain axis + metabolic)</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Patients with physical ACE manifestations are rarely told that their conditions share a common biological driver. Naming this link (allostatic load → insulin resistance + gut inflammation) reduces shame, increases adherence to stress-management interventions, and reframes T2D and IBS as stress-biology targets — not just chronic disease management failures.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Spend 5 minutes explaining: "Your body has been under chronic stress that has affected your gut, your metabolism, and your weight. These aren't separate problems — they share a root cause. Managing stress directly is part of treating your diabetes and your gut."</div>
+          <div class="rec-source">L3 expert consensus; "What happened to you" reframe — NBH/Oprah; allostatic load — McEwen 1998</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-psychoed"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s2">2</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Trauma processing</div>
+          <div class="stage-note">Begin when Stage 1 stable — typically 6–8 weeks. Physical symptoms should be reducing before trauma processing begins.</div>
+          <div class="stage-gate">Confirm: sleep improving · gut symptoms stabilising · patient understands stress-disease link · can tolerate mild distress</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-emdr">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(physical presentation + mixed developmental timing)</em></div>
+          <div class="rec-science"><span class="sci-tag">Science</span>ACEs at ages 5–12 (cortical window partially available) combined with high somatic burden (IBS, metabolic) indicates a body-based processing approach. EMDR's bilateral stimulation works below the cortical-narrative level, reducing somatic activation tied to traumatic memory. More appropriate than TF-CBT given physical presentation.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to EMDRIA-certified therapist. Brief on: physical ACE manifestations, metabolic context, mixed developmental timing. Expect 8–12 sessions. Begin after Stage 1 goals confirmed.</div>
+          <div class="rec-source">Ehring et al. 2014 meta-analysis; APA/WHO endorsed; Perry NMT L3 rationale for somatic-first sequencing</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-emdr"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec-contra">
+        <strong>⚠ TF-CBT / talk therapy — not first-line for this profile.</strong> High somatic burden and physical ACE manifestations indicate a body-based processing entry point. Cognitive-narrative approaches can be introduced as adjunct once EMDR is underway and physical symptoms are stabilising.
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s3">3</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Integration — metabolic and social</div>
+          <div class="stage-note">Parallel with late Stage 2. Exercise and MBSR are both stress interventions and direct T2D/IBS clinical interventions.</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-exercise">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Exercise — 150 min/week (dual metabolic + cortisol rationale)</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Exercise is the highest-leverage intervention for T2D (reduces HbA1c by ~0.5–1%), reduces cortisol, promotes BDNF, and reduces abdominal obesity — the primary marker of allostatic load. Frame for Marcus as diabetes management, not just "stress reduction." Improves adherence when metabolic benefit is foregrounded.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Start with 30 min walking 5×/week. Progress to resistance training 2×/week (particularly effective for insulin sensitivity). Track steps or HbA1c improvement to reinforce. Walking after meals has outsized glycaemic benefit.</div>
+          <div class="rec-source">Exercise + T2D: L1 meta-analysis (HbA1c reduction); exercise + cortisol: L1; BDNF: L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-exercise"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-mbsr">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">MBSR — Mindfulness-Based Stress Reduction (IBS + T2D evidence)</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>MBSR has L1 RCT evidence specifically for IBS (reduces symptom severity and pain catastrophising) and L2 evidence for T2D self-management and HbA1c reduction via cortisol normalisation. A rare intervention with dual clinical trial evidence for both of Marcus's primary conditions.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Recommend 8-week MBSR program. palousemindfulness.com is free and self-paced. Frame as a tool for gut and metabolic health — not just "mindfulness." Set expectation: benefits emerge at 4–6 weeks, full benefit at 8.</div>
+          <div class="rec-source">Zernicke 2013 RCT (MBSR + IBS): L1; MBSR + T2D: L2 systematic review</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-mbsr"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="marcus-social">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Social connection — adult protective conditions</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>PCE 3/7 indicates limited relational buffer in childhood. Building trusted adult relationships directly activates the biological mechanisms behind why PCEs are protective — co-regulation, safety signalling, reduced allostatic load. These can be cultivated at any age.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Ask: "Who are the 2 people you feel most yourself around?" Encourage regular in-person time with them. For patients with thin social networks, consider T2D peer support groups (which also have L2 evidence for glycaemic outcomes).</div>
+          <div class="rec-source">Bethell 2019 PCE literature; social connection + allostatic load: L2 cohort</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="marcus-social"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePatientPlan('marcus')">📄 Generate patient take-home</button>
+  </div>
+
+  <div class="footer">
+    Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9919 (ACE ≥4)
+  </div>
+</div>
+</div><!-- end marcus -->
+
+
+<!-- ═══════════════════════════ ELENA ═══════════════════════════ -->
+<div id="elena" class="persona">
+<div class="page">
+
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Toxic Stress Action Plan</div>
+      <div class="section-sub">Elena Vasquez · 44 · Denver, CO · Dr. Samuel Osei · June 2026</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="plan-banner plan-banner-yellow">
+      <div class="plan-banner-icon">🟡</div>
+      <div class="plan-banner-text">
+        <div class="plan-banner-name">Yellow Action Plan</div>
+        <div class="plan-banner-desc">Active stress management required — autoimmune and alcohol patterns indicate structured intervention, specialist referral, and monthly check-ins</div>
+        <div class="plan-care-row">
+          <span class="plan-care-tag">📅 Follow-up within 2–4 weeks</span>
+          <span class="plan-care-tag">👤 Monthly check-ins until stable</span>
+          <span class="plan-care-tag">🔗 Specialist referral this visit</span>
+          <span class="plan-care-tag">🎯 Goal: downgrade to Green within 6–12 months</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-inputs">
+        <div class="input-block">
+          <div class="input-block-label">ACE Score</div>
+          <div class="input-val">2</div>
+          <div class="input-sub">Moderate risk</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">PCE Score</div>
+          <div class="input-val" style="color:#BA7517;">4<span style="font-size:14px;font-weight:400;color:#bbb;">/7</span></div>
+          <div class="input-sub">Moderate buffer</div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">ACE-associated conditions</div>
+          <div class="conditions-list">
+            <span class="cond-tag">Hashimoto's thyroiditis</span>
+            <span class="cond-tag">Alcohol use 14 drinks/wk</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current medications</div>
+          <div class="conditions-list">
+            <span class="cond-tag" style="background:#F0F4FF;color:#1A4FA6;border-color:#A3BCE8;">Levothyroxine 75mcg daily</span>
+          </div>
+        </div>
+        <div class="input-block">
+          <div class="input-block-label">Current stress</div>
+          <span class="cstress-badge cstress-yellow">🟡 Elevated</span>
+          <div class="input-sub">Alcohol use pattern suggests active self-medication of stress</div>
+        </div>
+      </div>
+
+      <div class="context-grid">
+        <div class="context-col">
+          <div class="context-col-label">ACEs present (10 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Emotional abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-yes">✓</div><span class="ctx-item-text-on">Parental separation / divorce</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Sexual abuse</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Emotional neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Physical neglect</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Domestic violence (witnessed)</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Substance abuse in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Mental illness in household</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Incarcerated household member</span></div>
+          </div>
+        </div>
+        <div class="context-col">
+          <div class="context-col-label">PCEs present (7 domains)</div>
+          <div class="ctx-items">
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Felt able to talk to family about feelings</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Family stood by during hard times</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">2+ supportive non-parent adults</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Felt safe and protected at home</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Had 2+ close friends</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-pce-yes">✓</div><span class="ctx-item-text-on">Sense of belonging at school</span></div>
+            <div class="ctx-item"><div class="ctx-dot ctx-no">○</div><span class="ctx-item-text-off">Engaged in community groups / traditions</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="risk-block risk-block-yellow">
+        <div class="risk-label-row">
+          <div class="risk-section-label">Toxic stress risk summary</div>
+          <div class="risk-plan-line risk-plan-line-yellow">Yellow Action Plan</div>
+        </div>
+        <div class="zone-row zone-stripe-yellow">
+          <div class="zone-icon">🟡</div>
+          <div class="zone-body">
+            <div class="zone-title zone-yellow">Active management required — autoimmune pathway + alcohol self-medication</div>
+            <div class="zone-rationale">ACE 2 is modest, but Hashimoto's thyroiditis is a documented ACE-associated autoimmune condition (stress-immune dysregulation pathway). The key clinical signal here is the alcohol use: 14 drinks/week exceeds NIAAA guidelines and, in the ACE framework, is a textbook stress self-medication pattern (Felitti 1998: 7.4× odds of alcoholism at ACE ≥4; lower ACE still carries elevated risk). Addressing the alcohol without addressing the underlying stress biology is likely to fail. Yellow plan appropriate: active management needed, but not the multi-system crisis of a Red presentation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="visit-section visit-yellow">
+      <div class="section-title">At this visit</div>
+      <div class="section-sub">Priority actions — address alcohol as stress coping, not substance problem in isolation</div>
+      <div class="visit-items">
+        <div class="visit-item">
+          <div class="visit-num">1</div>
+          <div class="visit-item-text"><strong>AUDIT-C alcohol screen + reframe as stress coping</strong><br>Do not lead with "alcohol problem" framing. Lead with: "Many people with your history find that alcohol helps manage stress — can you tell me more about when you drink?" This framing dramatically improves disclosure and engagement. AUDIT-C score guides intervention intensity: brief advice (score 3–7) vs. structured counselling (8+).<span class="visit-ev">AUDIT-C: L1 validated screener; motivational interviewing: L1 RCT</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">2</div>
+          <div class="visit-item-text"><strong>Stress-autoimmune psychoeducation</strong><br>Explain the link between chronic stress, immune dysregulation, and Hashimoto's. Chronic cortisol disrupts Th1/Th2 immune balance and can trigger autoimmune flares. Managing stress is managing her thyroid disease. This reframe motivates engagement with stress-management interventions.<span class="visit-ev">L2 cohort data; stress-autoimmune pathway — Nakazawa 2015</span></div>
+        </div>
+        <div class="visit-item">
+          <div class="visit-num">3</div>
+          <div class="visit-item-text"><strong>Review levothyroxine dosing in context of stress</strong><br>Chronic stress affects thyroid hormone conversion (T4→T3) and can render current levothyroxine dosing suboptimal. Check free T3 (not just TSH) if not recently done. Optimising thyroid function will also support mood and energy, reducing reliance on alcohol for energy management.<span class="visit-ev">L2 — stress + thyroid conversion literature</span></div>
+        </div>
+      </div>
+      <div class="visit-billing">
+        <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented · ACE 1–3 tier
+      </div>
+    </div>
+  </div>
+
+  <div class="section pathway-section">
+    <div class="section-hd">
+      <div class="section-title">Build patient plan</div>
+      <div class="section-sub">Select recommendations below to build a personalised patient take-home plan</div>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="ev-key">
+      <span class="ev-key-label">Evidence</span>
+      <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+      <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus — flagged</div>
+      <span class="cds-note">Clinician applies independent judgment · CDS, not diagnosis</span>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s1">1</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Safety and stabilization — address alcohol and autoimmune foundations</div>
+          <div class="stage-note">Alcohol reduction is the first clinical priority. Stress management is the mechanism — not willpower. Autoimmune inflammation responds directly to stress reduction.</div>
+          <div class="stage-gate">Goals: alcohol within NIAAA guidelines · Hashimoto's flare frequency reducing · patient understands stress-autoimmune link · alternative stress coping in place</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-alcohol">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Brief motivational intervention — alcohol as stress coping</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Felitti 1998 identified alcohol use as a primary ACE coping mechanism — not a standalone substance disorder. Motivational interviewing (MI) framed around stress management (not abstinence) has stronger outcomes for this profile than traditional addiction framing. Goal: reduce to ≤7 drinks/week (NIAAA guidelines for women) while building alternative stress regulation tools.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Use FRAMES model in session (Feedback, Responsibility, Advice, Menu, Empathy, Self-efficacy). Referral to therapist trained in MI if score ≥8. Do not recommend abstinence-only programs — harm reduction framing with stress reframe is more effective for this profile.</div>
+          <div class="rec-source">Motivational interviewing: L1 RCT; FRAMES model: L2; Felitti 1998 alcohol-ACE link: L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-alcohol"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-nutrition">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Anti-inflammatory nutrition — autoimmune support</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Hashimoto's is driven by Th1/Th2 immune imbalance exacerbated by chronic cortisol and inflammatory diet. Mediterranean and AIP (autoimmune protocol) dietary patterns reduce autoimmune antibody levels and symptom burden. Also reduces the metabolic impact of alcohol use.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to RD with autoimmune experience. Key priorities: eliminate gluten if not already done (associated with Hashimoto's flares in some patients), increase omega-3s, reduce refined carbohydrates. Selenium supplementation has L2 evidence for reducing TPO antibodies.</div>
+          <div class="rec-source">Diet + Hashimoto's: L2 systematic review; selenium + TPO: L2 RCT; Nakazawa 2015 autoimmune pathway</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-nutrition"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-sleep">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Sleep hygiene — alcohol disrupts deep sleep architecture</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Alcohol suppresses REM sleep and reduces slow-wave sleep, causing rebound insomnia that drives further drinking. Addressing sleep disruption directly reduces alcohol use in ~30% of patients without any other intervention. It also reduces cortisol — directly beneficial for autoimmune management.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Consistent wake time every day. No alcohol within 3 hours of sleep. If insomnia persists after alcohol reduction: prescribe CBT-I (Sleepio/SleepStation). Do not prescribe sleep medication — contraindicated with alcohol use.</div>
+          <div class="rec-source">CBT-I: L1 RCT; alcohol + sleep architecture: L1; sleep + cortisol: L2</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-sleep"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s2">2</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Trauma processing</div>
+          <div class="stage-note">Begin when alcohol is within NIAAA guidelines and alternative stress coping is in place. Flight-primary presentation with cortical window available — cognitive approaches well-matched.</div>
+          <div class="stage-gate">Confirm: alcohol ≤7 drinks/week · sleep improving · able to tolerate mild distress · alternative stress coping demonstrated</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-therapy">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">TF-CBT or EMDR — flight-primary, cortical window available</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Developmental timing ages 7–11 (cortical baseline, 1.0× weight) means the prefrontal cortex was online during the primary ACE period — making cognitive-narrative approaches more accessible than in earlier developmental trauma. Flight-primary presentation (anxiety, over-functioning, hypervigilance) is well-matched to TF-CBT's cognitive restructuring. EMDR remains a valid option if somatic presentation is prominent.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Refer to therapist with TF-CBT training and alcohol/substance experience. Brief on: flight presentation, emotional abuse history, autoimmune context. Expect 12–16 sessions. Ensure therapist is aware of levothyroxine — thyroid fluctuation can affect mood and is sometimes mistaken for therapy regression.</div>
+          <div class="rec-source">TF-CBT: L1 meta-analysis; EMDR: L1 APA/WHO endorsed; Perry NMT developmental timing rationale: L3</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-therapy"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-num s3">3</div>
+        <div class="stage-head-text">
+          <div class="stage-name">Integration — build adult protective conditions</div>
+          <div class="stage-note">Parallel with late Stage 2. Exercise and MBSR both support autoimmune management and reduce alcohol cravings.</div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-exercise">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Exercise — autoimmune and alcohol reduction benefit</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>Moderate exercise reduces autoimmune inflammation, normalises cortisol, and reduces alcohol cravings by 50% in some studies via dopamine pathway regulation. Consistent exercise is one of the most effective alcohol craving reduction tools available without pharmacotherapy.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>150 min/week moderate aerobic. Start with walking or swimming (gentle on thyroid-fatigued patients). Progress to yoga which has specific L2 evidence for autoimmune conditions. Avoid high-intensity training during autoimmune flares — can worsen inflammation.</div>
+          <div class="rec-source">Exercise + alcohol cravings: L1 RCT; exercise + autoimmune: L2; exercise + cortisol: L1</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-exercise"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-mbsr">
+        <div><span class="ev-pill ev-l1">L1</span></div>
+        <div class="rec-body">
+          <div class="rec-name">MBSR — Mindfulness-Based Stress Reduction (autoimmune + alcohol evidence)</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>MBSR has L2 evidence for autoimmune condition management (reduces inflammatory markers and cortisol) and L1 evidence as an alcohol use disorder adjunct — it reduces craving reactivity and emotional dysregulation that drives drinking. An efficient dual-target intervention for Elena's two primary issues.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>8-week MBSR program. palousemindfulness.com (free, self-paced). Frame as "a tool for your immune system and for managing stress without alcohol." Set expectation: 4–6 weeks to notice craving reduction; 8 weeks for autoimmune benefit.</div>
+          <div class="rec-source">MBSR + autoimmune: L2; MBSR + alcohol use: L1 meta-analysis (Bowen et al.)</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-mbsr"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+
+      <div class="rec" data-rec-id="elena-social">
+        <div><span class="ev-pill ev-l2">L2</span></div>
+        <div class="rec-body">
+          <div class="rec-name">Social connection — build adult protective conditions</div>
+          <div class="rec-science"><span class="sci-tag">Science</span>PCE 4/7 indicates moderate relational buffer. Social isolation is a known driver of alcohol escalation — addressing loneliness directly reduces alcohol use in some patients. Building trusted adult relationships also activates the biological mechanisms behind PCE protection: co-regulation, safety signalling, reduced allostatic load.</div>
+          <div class="rec-action-row"><span class="act-tag">Action</span>Identify 2 people in her life she feels most herself around. Encourage regular in-person time. For patients with thin networks, community connection groups (not AA unless patient chooses) provide both social support and a non-alcohol social context.</div>
+          <div class="rec-source">Bethell 2019; social isolation + alcohol: L2 cohort</div>
+          <div class="rec-select"><label class="rec-check-label"><input type="checkbox" class="rec-check" data-rec-id="elena-social"><span>Add to patient plan</span></label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generatePatientPlan('elena')">📄 Generate patient take-home</button>
+  </div>
+
+  <div class="footer">
+    Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9920
+  </div>
+</div>
+</div><!-- end elena -->
+
+
 <script>
 function show(id, el) {
   document.querySelectorAll('.persona').forEach(p => p.classList.remove('active'));
@@ -1023,6 +1583,7 @@ const PERSONAS = {
     pceScore: 3,
     plan: 'yellow',
     planLabel: 'Yellow Action Plan',
+    patientPlanLabel: 'Active Support Plan',
     conditions: ['depression', 'anxiety/panic', 'sleep disturbance', 'PTSD'],
   },
   david: {
@@ -1032,6 +1593,7 @@ const PERSONAS = {
     pceScore: 6,
     plan: 'green',
     planLabel: 'Green Action Plan',
+    patientPlanLabel: 'Preventive Care Plan',
     conditions: [],
   },
   aisha: {
@@ -1041,24 +1603,45 @@ const PERSONAS = {
     pceScore: 5,
     plan: 'red',
     planLabel: 'Red Action Plan',
+    patientPlanLabel: 'Comprehensive Care Plan',
     conditions: ['depression', 'anxiety', 'sleep disturbance', 'PTSD'],
+  },
+  marcus: {
+    name: 'Marcus Webb',
+    age: 52,
+    aceScore: 4,
+    pceScore: 3,
+    plan: 'red',
+    planLabel: 'Red Action Plan',
+    patientPlanLabel: 'Comprehensive Care Plan',
+    conditions: ['IBS', 'Type 2 diabetes', 'overweight (BMI 31)'],
+  },
+  elena: {
+    name: 'Elena Vasquez',
+    age: 44,
+    aceScore: 2,
+    pceScore: 4,
+    plan: 'yellow',
+    planLabel: 'Yellow Action Plan',
+    patientPlanLabel: 'Active Support Plan',
+    conditions: ['Hashimoto\'s thyroiditis', 'alcohol use (14 drinks/week)'],
   },
 };
 
 const PLAN_COPY = {
   green: {
     headline: "You're in a good place — and the choices you make now will protect your future health.",
-    body: "Your ACE score is low, and your strong positive childhood experiences give you a real biological advantage. Research shows that people like you who stay active, maintain close relationships, and protect their sleep are at significantly lower risk of stress-related health challenges as they age. Your plan is about building on what's already working.",
+    body: "Your ACE score is low, and your strong positive childhood experiences give you a real biological advantage. Research shows that people like you who stay active, maintain close relationships, and protect their sleep are at significantly lower risk of stress-related health challenges as they age. Your plan is about building on what's already working.\n\nWhat to expect from your care team: your doctor will check in with you in 3 months and then annually. Between visits, the steps in this plan are designed to be self-directed — you have the tools you need.",
     color: '#085041', bg: '#EBF7F2', border: '#1D9E75',
   },
   yellow: {
     headline: "Active care now can meaningfully reduce your long-term health risks.",
-    body: "What you experienced growing up had real effects on your body — this is biology, not a character flaw. Research shows that people with higher ACE scores have an elevated risk of certain health conditions. But that risk is not fixed. With the right support, the body can recover and adapt. The steps in your plan are designed to help your system shift out of a state of ongoing stress — which directly lowers that risk over time.",
+    body: "What you experienced growing up had real effects on your body — this is biology, not a character flaw. Research shows that people with higher ACE scores have an elevated risk of certain health conditions. But that risk is not fixed. With the right support, the body can recover and adapt. The steps in your plan are designed to help your system shift out of a state of ongoing stress — which directly lowers that risk over time.\n\nWhat to expect from your care team: your doctor will follow up with you within 2–4 weeks of this visit, and check in monthly until things are stable. You'll have at least one specialist referral as part of this plan. You are not managing this alone.",
     color: '#633806', bg: '#FFFCF0', border: '#EF9F27',
   },
   red: {
-    headline: "Your body and mind have been working incredibly hard — and you deserve the right kind of support.",
-    body: "What you went through happened very early in life, before you had words for it. Your body learned to protect you in ways that made sense then, but may feel exhausting or confusing now. This is not a sign that something is broken — it's a sign of how hard your system has been working. With the right care, the nervous system can find a new, calmer baseline. Your plan is designed to work with your body, starting with the simplest and most foundational steps.",
+    headline: "You're getting the most comprehensive care we offer.",
+    body: "We want to be direct with you: what you've been experiencing is real, it has a biological explanation, and you are not being dismissed. Many people with your history spend years feeling like their symptoms are treated one at a time — without anyone connecting the dots or taking the full picture seriously. This plan does that. It is designed specifically for you, it addresses the root of what's been happening in your body, and it will be supported by your care team every step of the way.\n\nWhat to expect from your care team: your doctor will follow up with you within 1–2 weeks and check in regularly — not just when something is wrong. If you're seeing multiple providers, your primary care doctor is actively coordinating between them. You should never feel like you're managing this alone between appointments — that's not how this plan works.",
     color: '#791F1F', bg: '#FFF6F6', border: '#E24B4A',
   },
 };
@@ -1188,6 +1771,106 @@ const REC_DATA = {
     title: 'Your support network',
     why: "Being physically with people you feel safe around is genuinely healing for the nervous system. It's not just emotional support — it's biological. The connections you have are part of your care.",
     action: "Think of 1–2 people you feel most comfortable and like yourself around. Ask them to spend in-person time with you regularly. It doesn't have to be a deep conversation — just being together counts.",
+  },
+
+  // ── Marcus ──
+  'marcus-nutrition': {
+    stage: 'now',
+    title: 'Eating to support your gut and blood sugar',
+    why: "Chronic stress drives inflammation in the body — and that inflammation directly affects your gut and your blood sugar. IBS, weight gain, and Type 2 diabetes are all connected to the same biological process: a stress system that has been running at high alert for a long time. What you eat can directly reduce that inflammation and give your body some relief.",
+    action: "Your doctor is referring you to a registered dietitian who specialises in metabolism and inflammation. Key priorities: reduce ultra-processed foods and added sugar (has a direct effect on blood sugar), eat more fish, olive oil, nuts, and vegetables, and try to eat at consistent times each day.",
+    isReferral: true,
+    referralText: 'Registered Dietitian (RD) — referral from your doctor. Ask your care team for details.',
+  },
+  'marcus-sleep': {
+    stage: 'now',
+    title: 'Better sleep — a treatment for your diabetes, not just stress',
+    why: "Poor sleep makes insulin resistance significantly worse — it's one of the hidden drivers of blood sugar problems that rarely gets addressed in diabetes care. Sleep disruption also worsens gut sensitivity and IBS symptoms. Improving your sleep is one of the most powerful steps you can take for both conditions at once.",
+    action: "Your doctor is recommending a structured sleep program that works better than sleep medication and won't affect your blood sugar. Start today with one consistent wake-up time every day, including weekends.",
+    resource: 'Sleepio (sleepio.com) — your doctor will prescribe this program',
+  },
+  'marcus-psychoed': {
+    stage: 'now',
+    title: 'Understanding what connects your conditions',
+    why: "Your IBS, your weight, and your diabetes all share a common root: the long-term effects of chronic stress on the body. This is biology, not a failure of willpower or discipline. When the body is under sustained stress for years, it affects the gut, the metabolism, and the immune system — all at once. Understanding this connection changes what treatment looks like.",
+    action: "You don't need to do anything with this information right now. Just hold it: your conditions are connected, they have a common biological driver, and addressing that driver — stress — is part of treating all three of them at once.",
+  },
+  'marcus-emdr': {
+    stage: 'next',
+    title: 'Therapy referral — EMDR',
+    why: "EMDR is a well-researched therapy that helps the brain process and release difficult past experiences — without requiring you to talk through everything in detail. It works particularly well when stress has been stored in the body, which is often the case when it shows up as physical symptoms like gut problems or metabolic issues.",
+    action: "Your doctor is referring you to a certified EMDR therapist. This will start after some of your physical symptoms have begun to stabilise — that's the right order.",
+    isReferral: true,
+    referralText: 'EMDR Therapist — your doctor is making this referral. You can also search at emdria.org for certified therapists in your area.',
+  },
+  'marcus-exercise': {
+    stage: 'ongoing',
+    title: 'Regular movement — your best tool for blood sugar and stress',
+    why: "Exercise is one of the most powerful things you can do for Type 2 diabetes — it reduces blood sugar, improves insulin sensitivity, and reduces the stress hormones that drive both your diabetes and your gut symptoms. It does things that no medication does.",
+    action: "Start with 30 minutes of walking 5 days a week. A 10-minute walk after each meal has an outsized effect on blood sugar — try that first. As you build stamina, adding some resistance training twice a week has additional benefits for insulin sensitivity.",
+  },
+  'marcus-mbsr': {
+    stage: 'ongoing',
+    title: 'Mindfulness program — proven for IBS and blood sugar',
+    why: "MBSR (Mindfulness-Based Stress Reduction) is one of the few interventions with clinical trial evidence for both IBS and diabetes. It reduces the stress hormones that worsen both conditions. It's not about meditation in the traditional sense — it's a structured 8-week skills program.",
+    action: "The full program is available free at palousemindfulness.com and takes about 45 minutes a day for 8 weeks. Frame it as a tool for your gut and your blood sugar — because the evidence supports exactly that.",
+    resource: 'Palouse Mindfulness — palousemindfulness.com (free, self-paced)',
+  },
+  'marcus-social': {
+    stage: 'ongoing',
+    title: 'Strengthening your connections',
+    why: "Being around people you feel safe and comfortable with directly lowers the stress hormones that drive inflammation, gut problems, and blood sugar dysregulation. It's not just emotional — it's physical. Trusted relationships are part of your treatment plan.",
+    action: "Think of 2 people you feel most yourself around. Make a point of spending in-person time with them regularly. For people with thin social networks, a diabetes peer support group can provide both connection and practical glycaemic benefits.",
+  },
+
+  // ── Elena ──
+  'elena-alcohol': {
+    stage: 'now',
+    title: 'Understanding your relationship with alcohol',
+    why: "Many people who grew up with stress or difficult experiences find that alcohol helps them unwind or manage anxiety — this is one of the most common coping patterns there is, and it makes complete sense. The problem is that alcohol also worsens sleep, increases inflammation, and can make anxiety worse over time. Your plan includes building alternative ways to regulate stress so that alcohol becomes less necessary.",
+    action: "Your doctor wants to understand more about when and why you drink — not to judge, but to help build better tools. The goal isn't necessarily abstinence; it's bringing your drinking to a level where it's not affecting your health, and finding what helps you manage stress instead.",
+  },
+  'elena-nutrition': {
+    stage: 'now',
+    title: 'Eating to support your immune system',
+    why: "Hashimoto's is driven in part by inflammation — and chronic stress makes that inflammation worse. The good news is that an anti-inflammatory diet can directly reduce autoimmune activity. Some people with Hashimoto's also find that removing gluten reduces their antibody levels and symptoms.",
+    action: "Your doctor is referring you to a registered dietitian with autoimmune experience. Key priorities: increase omega-3s (salmon, sardines, walnuts), reduce refined carbohydrates and ultra-processed foods, and discuss whether a gluten-free trial makes sense for your profile.",
+    isReferral: true,
+    referralText: 'Registered Dietitian — your doctor will connect you with someone who specialises in autoimmune and thyroid conditions.',
+  },
+  'elena-sleep': {
+    stage: 'now',
+    title: 'Protecting your sleep',
+    why: "Alcohol disrupts the deep stages of sleep even when it helps you fall asleep faster — this is a well-documented effect. Disrupted sleep raises cortisol, which worsens autoimmune inflammation and drives more stress. Improving your sleep will reduce how much you rely on alcohol to wind down.",
+    action: "Keep a consistent wake-up time every day. Avoid alcohol within 3 hours of sleep. If you're still struggling with sleep after cutting back on drinking, let your doctor know — there's an effective sleep program that doesn't involve medication.",
+    resource: 'Sleepio (sleepio.com) — your doctor can prescribe this if needed',
+  },
+  'elena-therapy': {
+    stage: 'next',
+    title: 'Therapy referral',
+    why: "Therapy is one of the most effective tools for both processing difficult past experiences and building new ways to manage stress. For your profile, a therapist trained in both trauma and alcohol use will be most helpful — they'll understand that the drinking and the past experiences are connected, not separate problems.",
+    action: "Your doctor is referring you to a therapist with experience in both trauma and stress-related alcohol use. This will begin once you have some of the Stage 1 foundations in place.",
+    isReferral: true,
+    referralText: 'Therapist (TF-CBT or EMDR trained) — your doctor is making this referral. You can also search at emdria.org for EMDR therapists in Denver.',
+  },
+  'elena-exercise': {
+    stage: 'ongoing',
+    title: 'Regular movement — supports your immune system and reduces alcohol cravings',
+    why: "Exercise reduces autoimmune inflammation, normalises cortisol, and — importantly for your situation — reduces alcohol cravings by helping regulate the dopamine pathways that drive craving. It's one of the most effective non-medication tools for reducing alcohol use.",
+    action: "Start with 150 minutes per week of moderate activity. Walking, swimming, and yoga are all well-suited for autoimmune conditions. Avoid very high-intensity training during autoimmune flares — moderate, consistent movement is more effective than intense bursts.",
+  },
+  'elena-mbsr': {
+    stage: 'ongoing',
+    title: 'Mindfulness program',
+    why: "MBSR has evidence for reducing autoimmune inflammation and for reducing alcohol cravings by building the ability to notice a craving without immediately acting on it. It's a practical skill program — 8 weeks, about 45 minutes a day.",
+    action: "The full program is available free at palousemindfulness.com. It works best as a daily practice rather than occasional use. Most people notice a difference in craving reactivity by week 4–5.",
+    resource: 'Palouse Mindfulness — palousemindfulness.com (free, self-paced)',
+  },
+  'elena-social': {
+    stage: 'ongoing',
+    title: 'Strengthening your connections',
+    why: "Social connection directly lowers the cortisol that drives autoimmune flares. It also provides an alternative to alcohol-centred social situations. Being around people you feel safe with is both emotionally and biologically restorative.",
+    action: "Identify 2 people in your life you feel most yourself around and prioritise in-person time with them. If your social life currently revolves around drinking, think about whether there are non-alcohol contexts to spend time with people you enjoy.",
   },
 };
 
@@ -1358,7 +2041,7 @@ function generatePatientPlan(persona) {
   <div class="pt-section">
     <div class="pt-section-title">Your action plan level</div>
     <div class="pt-plan-banner" style="background:${planCopy.bg};border-color:${planCopy.border};">
-      <div class="pt-plan-name" style="color:${planCopy.color};">${p.planLabel}</div>
+      <div class="pt-plan-name" style="color:${planCopy.color};">${p.patientPlanLabel || p.planLabel}</div>
       <div class="pt-plan-headline" style="color:${planCopy.color};">${planCopy.headline}</div>
       <div class="pt-plan-body" style="color:${planCopy.color}cc;">${planCopy.body}</div>
     </div>
