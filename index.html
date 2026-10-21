@@ -2160,7 +2160,7 @@ const PERSONAS = {
     planLabel: 'Red Action Plan',
     patientPlanLabel: 'Comprehensive Care Plan',
     conditions: ['depression', 'anxiety/panic', 'sleep disturbance', 'PTSD'],
-    stress: { label: 'Elevated', level: 'yellow', text: "Your body is carrying more stress than usual right now. You're steady enough to start making changes, which makes this a good time to begin." },
+    stress: { label: 'Elevated', level: 'yellow' },
   },
   david: {
     name: 'David Rivera',
@@ -2172,7 +2172,7 @@ const PERSONAS = {
     planLabel: 'Green Action Plan',
     patientPlanLabel: 'Preventive Care Plan',
     conditions: [],
-    stress: { label: 'Stable', level: 'green', text: 'Your stress feels manageable right now, and you have good support around you. This plan helps keep it that way.' },
+    stress: { label: 'Stable', level: 'green' },
   },
   aisha: {
     name: 'Aisha Thompson',
@@ -2184,7 +2184,7 @@ const PERSONAS = {
     planLabel: 'Yellow Action Plan',
     patientPlanLabel: 'Active Support Plan',
     conditions: ['depression', 'anxiety', 'sleep disturbance', 'PTSD'],
-    stress: { label: 'Elevated', level: 'yellow', text: "Your body is carrying more stress than usual right now. For you it can show up as feeling shut down, numb or very tired — your nervous system's way of protecting you." },
+    stress: { label: 'Elevated', level: 'yellow' },
   },
   marcus: {
     name: 'Marcus Webb',
@@ -2196,7 +2196,7 @@ const PERSONAS = {
     planLabel: 'Red Action Plan',
     patientPlanLabel: 'Comprehensive Care Plan',
     conditions: ['IBS', 'Type 2 diabetes', 'overweight (BMI 31)'],
-    stress: { label: 'High', level: 'red', text: "Your body has been under stress for a long time, and it's showing up physically — in your gut, your blood sugar and your weight." },
+    stress: { label: 'High', level: 'red' },
   },
   elena: {
     name: 'Elena Vasquez',
@@ -2208,7 +2208,7 @@ const PERSONAS = {
     planLabel: 'Yellow Action Plan',
     patientPlanLabel: 'Active Support Plan',
     conditions: ['Hashimoto\'s thyroiditis', 'alcohol use (14 drinks/week)'],
-    stress: { label: 'Elevated', level: 'yellow', text: 'Your body is carrying more stress than usual. Many people use alcohol to take the edge off — that is common, and this plan helps your body find calmer ways to cope.' },
+    stress: { label: 'Elevated', level: 'yellow' },
   },
 };
 
@@ -2226,6 +2226,13 @@ const PLAN_COPY = {
     name: 'Red',
     body: "You're getting the most comprehensive care we offer. What you've been experiencing is real and has a biological explanation. This plan connects the dots and addresses the root of what's been happening in your body, and your care team is with you every step of the way.",
   },
+};
+
+// Patient-facing meaning of each current-stress label. Kept fixed so it never mixes in other findings.
+const STRESS_COPY = {
+  Stable: 'Your stress feels manageable right now.',
+  Elevated: 'Your body is carrying more stress than usual.',
+  High: 'Your current stress may be unsustainable — active intervention is needed.',
 };
 
 // "May connect" lines for ACE-associated conditions, matched on the start of the condition name.
@@ -2712,7 +2719,7 @@ function generatePatientPlan(persona) {
     <div class="tile">
       <span class="tile-label">Current stress</span>
       <div class="tile-row" style="align-items:center"><span style="font-size:28px;font-weight:400;letter-spacing:-0.02em">${p.stress.label}</span>${chip(stressLevelLabel, p.stress.level)}</div>
-      <p>${p.stress.text}</p>
+      <p>${STRESS_COPY[p.stress.label]}</p>
     </div>
     <div class="tile">
       <span class="tile-label">ACE-associated conditions</span>
