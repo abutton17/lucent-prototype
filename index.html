@@ -2155,6 +2155,7 @@ function show(id, el) {
 const PERSONAS = {
   maya: {
     name: 'Maya Chen',
+    doctor: 'Dr. Sarah Okonkwo',
     age: 34,
     aceScore: 7,
     pceScore: 3,
@@ -2162,9 +2163,11 @@ const PERSONAS = {
     planLabel: 'Red Action Plan',
     patientPlanLabel: 'Comprehensive Care Plan',
     conditions: ['depression', 'anxiety/panic', 'sleep disturbance', 'PTSD'],
+    stress: { label: 'Elevated', level: 'yellow', text: "Your body is carrying more stress than usual right now. You're steady enough to start making changes, which makes this a good time to begin." },
   },
   david: {
     name: 'David Rivera',
+    doctor: 'Dr. James Park',
     age: 46,
     aceScore: 2,
     pceScore: 6,
@@ -2172,9 +2175,11 @@ const PERSONAS = {
     planLabel: 'Green Action Plan',
     patientPlanLabel: 'Preventive Care Plan',
     conditions: [],
+    stress: { label: 'Stable', level: 'green', text: 'Your stress feels manageable right now, and you have good support around you. This plan helps keep it that way.' },
   },
   aisha: {
     name: 'Aisha Thompson',
+    doctor: 'Dr. Keisha Williams',
     age: 22,
     aceScore: 3,
     pceScore: 5,
@@ -2182,9 +2187,11 @@ const PERSONAS = {
     planLabel: 'Yellow Action Plan',
     patientPlanLabel: 'Active Support Plan',
     conditions: ['depression', 'anxiety', 'sleep disturbance', 'PTSD'],
+    stress: { label: 'Elevated', level: 'yellow', text: "Your body is carrying more stress than usual right now. For you it can show up as feeling shut down, numb or very tired — your nervous system's way of protecting you." },
   },
   marcus: {
     name: 'Marcus Webb',
+    doctor: 'Dr. Patricia Nguyen',
     age: 52,
     aceScore: 4,
     pceScore: 3,
@@ -2192,9 +2199,11 @@ const PERSONAS = {
     planLabel: 'Red Action Plan',
     patientPlanLabel: 'Comprehensive Care Plan',
     conditions: ['IBS', 'Type 2 diabetes', 'overweight (BMI 31)'],
+    stress: { label: 'High', level: 'red', text: "Your body has been under stress for a long time, and it's showing up physically — in your gut, your blood sugar and your weight." },
   },
   elena: {
     name: 'Elena Vasquez',
+    doctor: 'Dr. Samuel Osei',
     age: 44,
     aceScore: 2,
     pceScore: 4,
@@ -2202,26 +2211,38 @@ const PERSONAS = {
     planLabel: 'Yellow Action Plan',
     patientPlanLabel: 'Active Support Plan',
     conditions: ['Hashimoto\'s thyroiditis', 'alcohol use (14 drinks/week)'],
+    stress: { label: 'Elevated', level: 'yellow', text: 'Your body is carrying more stress than usual. Many people use alcohol to take the edge off — that is common, and this plan helps your body find calmer ways to cope.' },
   },
 };
 
+// Patient-facing plan level copy. No visit timing: follow-up is the clinician's call.
 const PLAN_COPY = {
   green: {
-    headline: "You're in a good place — and the choices you make now will protect your future health.",
-    body: "Your ACE score is low, and you also had strong positive childhood experiences — a real strength to build on. Research shows that people like you who stay active, maintain close relationships, and protect their sleep are at significantly lower risk of stress-related health challenges as they age. Your plan is about building on what's already working.\n\nWhat to expect from your care team: your doctor will check in with you in 3 months and then annually. Between visits, the steps in this plan are designed to be self-directed — you have the tools you need.",
-    color: '#085041', bg: '#EBF7F2', border: '#1D9E75',
+    name: 'Green',
+    body: "You're in a good place — and the choices you make now will protect your future health. Your plan is about building on what's already working.",
   },
   yellow: {
-    headline: "Active care now can meaningfully reduce your long-term health risks.",
-    body: "What you experienced growing up had real effects on your body — this is biology, not a character flaw. Research shows that people with higher ACE scores have an elevated risk of certain health conditions. But that risk is not fixed. With the right support, the body can recover and adapt. The steps in your plan are designed to help your system shift out of a state of ongoing stress — which directly lowers that risk over time.\n\nWhat to expect from your care team: your doctor will follow up with you within 2–4 weeks of this visit, and check in monthly until things are stable. You'll have at least one specialist referral as part of this plan. You are not managing this alone.",
-    color: '#633806', bg: '#FFFCF0', border: '#EF9F27',
+    name: 'Yellow',
+    body: "Active care now can meaningfully reduce your long-term health risks. What you went through had real effects on your body — that's biology, not a flaw — and that risk is not fixed. You are not managing this alone.",
   },
   red: {
-    headline: "You're getting the most comprehensive care we offer.",
-    body: "We want to be direct with you: what you've been experiencing is real, it has a biological explanation, and you are not being dismissed. Many people with your history spend years feeling like their symptoms are treated one at a time — without anyone connecting the dots or taking the full picture seriously. This plan does that. It is designed specifically for you, it addresses the root of what's been happening in your body, and it will be supported by your care team every step of the way.\n\nWhat to expect from your care team: your doctor will follow up with you within 1–2 weeks and check in regularly — not just when something is wrong. If you're seeing multiple providers, your primary care doctor is actively coordinating between them. You should never feel like you're managing this alone between appointments — that's not how this plan works.",
-    color: '#791F1F', bg: '#FFF6F6', border: '#E24B4A',
+    name: 'Red',
+    body: "You're getting the most comprehensive care we offer. What you've been experiencing is real and has a biological explanation. This plan connects the dots and addresses the root of what's been happening in your body, and your care team is with you every step of the way.",
   },
 };
+
+// "May connect" lines for ACE-associated conditions, matched on the start of the condition name.
+const CONDITION_COPY = [
+  ['depression', 'Long-term stress can change brain chemistry and lower mood.'],
+  ['anxiety', 'An alarm system that stays on can feel like constant worry.'],
+  ['sleep', 'A body on guard can find it harder to rest and recover.'],
+  ['ptsd', "The body can keep reacting to the past as if it's happening now."],
+  ['ibs', 'Stress and the gut are closely linked, so ongoing stress can upset digestion.'],
+  ['type 2 diabetes', 'Stress hormones like cortisol can raise blood sugar over time.'],
+  ['overweight', 'Long-term stress can change how the body stores fat, especially around the middle.'],
+  ['hashimoto', 'Ongoing stress affects the immune system, which plays a role in thyroid conditions like this one.'],
+  ['alcohol', 'Alcohol can feel like it takes the edge off, but over time it can make stress, sleep and mood harder.'],
+];
 
 const REC_DATA = {
   'maya-sleep': {
@@ -2340,8 +2361,7 @@ const REC_DATA = {
     stage: 'ongoing',
     title: 'Gentle rhythmic movement — yoga or swimming',
     why: "Gentle, rhythmic movement like yoga or swimming helps your body complete its stress response in a way that high-intensity exercise doesn't. It activates your body's calming system through rhythm, breath, and predictable movement.",
-    action: "Try trauma-sensitive yoga or swimming 2–3 times a week. Start gently — your nervous system benefits most from rhythm and predictability right now.",
-    resource: 'Trauma-Sensitive Yoga — traumasensitiveyoga.com for online and in-person options',
+    action: "Try gentle, rhythmic movement like yoga or swimming 2–3 times a week. Start gently — your nervous system benefits most from rhythm and predictability right now.",
   },
   'aisha-social': {
     stage: 'ongoing',
@@ -2454,6 +2474,7 @@ const REC_DATA = {
 function generatePatientPlan(persona) {
   const p = PERSONAS[persona];
   const planCopy = PLAN_COPY[p.plan];
+  const firstName = p.name.split(' ')[0];
 
   const checks = document.querySelectorAll('#' + persona + ' .rec-check:checked');
   if (checks.length === 0) {
@@ -2470,174 +2491,271 @@ function generatePatientPlan(persona) {
   const now      = selected.filter(r => r.stage === 'now');
   const next     = selected.filter(r => r.stage === 'next');
   const ongoing  = selected.filter(r => r.stage === 'ongoing');
+  const referrals = selected.filter(r => r.isReferral).length;
 
-  const stageHtml = (label, icon, recs, color) => {
-    if (!recs.length) return '';
-    const items = recs.map(r => {
-      if (r.sensitive) {
-        return `<div class="pt-rec">
-          <div class="pt-rec-title">${r.title}</div>
-          <div class="pt-rec-body">${r.action}</div>
-          ${r.resource ? `<div class="pt-resource">📞 ${r.resource}</div>` : ''}
-        </div>`;
-      }
-      return `<div class="pt-rec">
-        <div class="pt-rec-title">${r.title}</div>
-        <div class="pt-rec-why">${r.why}</div>
-        <div class="pt-rec-body"><strong>What to do:</strong> ${r.action}</div>
-        ${r.isReferral ? `<div class="pt-resource">📋 <strong>Referral included:</strong> ${r.referralText}</div>` : ''}
-        ${r.resource && !r.isReferral ? `<div class="pt-resource">🔗 ${r.resource}</div>` : ''}
-      </div>`;
-    }).join('');
-    return `<div class="pt-stage">
-      <div class="pt-stage-label" style="color:${color};border-color:${color}20;background:${color}10;">
-        ${icon}&nbsp; ${label}
+  // ── Levels: ACE (more = higher risk), PCE (more = lower risk), colour by risk
+  const ACE_LEVEL = n => n >= 4 ? ['High', 'red'] : n >= 1 ? ['Medium', 'yellow'] : ['Low', 'green'];
+  const PCE_LEVEL = n => n >= 6 ? ['High', 'green'] : n >= 3 ? ['Medium', 'yellow'] : ['Low', 'red'];
+  const RISK = {
+    green:  { dot: '#2F8F6A', bg: '#E3F4EC', ink: '#0B3D2E' },
+    yellow: { dot: '#E0A526', bg: '#FFF4D6', ink: '#6B4300' },
+    red:    { dot: '#C6473B', bg: '#FDE8E6', ink: '#7A1F17' },
+  };
+  const chip = (label, level) => `<span class="chip" style="background:${RISK[level].bg};color:${RISK[level].ink}"><span class="dot" style="background:${RISK[level].dot}"></span>${label}</span>`;
+  const [aceLabel, aceColor] = ACE_LEVEL(p.aceScore);
+  const [pceLabel, pceColor] = PCE_LEVEL(p.pceScore);
+  const stressLevelLabel = { green: 'Low', yellow: 'Medium', red: 'High' }[p.stress.level];
+
+  // ── Icons (stroke SVG paths) by recommendation type
+  const ICON = {
+    breath: '<path d="M4 8h11a3 3 0 10-3-3M4 12h15a3 3 0 11-3 3M4 16h8"/>',
+    sleep: '<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>',
+    food: '<path d="M4 11h16a8 8 0 01-16 0zM8 7c0-2 2-2 2-4M13 7c0-2 2-2 2-4"/>',
+    talk: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>',
+    move: '<path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+    people: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M15 15c3 0 6 1.5 6 4"/>',
+    mind: '<path d="M12 21c-4-3-7-6-7-10a7 7 0 0114 0c0 4-3 7-7 10z"/><path d="M12 8v6"/>',
+    heart: '<path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/>',
+    phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/>',
+    glass: '<path d="M7 3h10l-1 9a4 4 0 01-8 0zM12 16v5M8 21h8"/>',
+  };
+  const iconFor = r => {
+    const k = r.id.split('-').slice(1).join('-');
+    if (r.sensitive) return ICON.phone;
+    if (/sleep/.test(k)) return ICON.sleep;
+    if (/hrv|somatic/.test(k)) return ICON.breath;
+    if (/nutrition/.test(k)) return ICON.food;
+    if (/emdr|therapy|group/.test(k)) return ICON.talk;
+    if (/exercise|yoga/.test(k)) return ICON.move;
+    if (/social/.test(k)) return ICON.people;
+    if (/mbsr/.test(k)) return ICON.mind;
+    if (/alcohol/.test(k)) return ICON.glass;
+    return ICON.heart;
+  };
+  const svg = (paths, size = 20) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+  const recRow = r => {
+    const tag = r.sensitive ? 'CALL' : /\b(app|iOS|Android)\b/i.test(r.resource || '') ? 'APP' : 'FIND';
+    const tool = r.resource ? `<p class="tool"><span class="tag">${tag}</span>${r.resource}</p>` : '';
+    const referral = r.isReferral ? `<p class="tool"><span class="tag">REFERRAL</span>${r.referralText}</p>` : '';
+    return `<div class="rec">
+      <div class="rec-icon">${svg(iconFor(r))}</div>
+      <div class="rec-body">
+        <div class="rec-title"><h3>${r.title}</h3>${r.isReferral ? '<span class="ref-badge">Referral from your doctor</span>' : ''}</div>
+        <p><strong>What to do:</strong> ${r.action}</p>
+        ${r.why ? `<p class="muted"><strong>Why it helps:</strong> ${r.why}</p>` : ''}
+        ${referral}${tool}
       </div>
-      ${items}
     </div>`;
   };
+  const stage = (cls, label, sub, recs) => recs.length ? `<div class="stage">
+      <div class="stage-head"><span class="stage-pill ${cls}">${label}</span><span class="stage-sub">${sub}</span></div>
+      <div class="recs">${recs.map(recRow).join('')}</div>
+    </div>` : '';
 
-  const aceBlurb = p.aceScore >= 4
-    ? `A score of ${p.aceScore} means you experienced a significant number of stressful events during childhood. Research shows that the more ACEs someone has, the higher their risk of certain health conditions as an adult — not because the past determines the future, but because early stress has real effects on the body's systems. Understanding this gives you and your doctor a clearer picture of what to focus on.`
-    : `A score of ${p.aceScore} means you experienced a small number of stressful events during childhood. Even lower scores can have an effect on health — which is why your doctor screens everyone. The good news is that the body is resilient, and even modest protective steps make a meaningful difference.`;
-
-  const pceBlurb = p.pceScore >= 5
-    ? `Your PCE score of ${p.pceScore} out of 7 reflects the positive relationships and experiences you had growing up. This is genuinely protective. Research shows that people with more positive childhood experiences have significantly lower rates of depression and other health challenges as adults. The ingredients behind that protection — safe relationships, belonging, trusted people — can be actively nurtured in your adult life.`
-    : `Your PCE score of ${p.pceScore} out of 7 reflects the positive relationships and experiences from your childhood. A lower score doesn't determine your future — it just means your plan includes some extra attention to building the kinds of connection and safety that PCEs represent. These things can be cultivated at any age.`;
-
-  const conditionNote = p.conditions.length
-    ? `<p style="margin-top:8px;">Your doctor has also noted the following current health concerns: <strong>${p.conditions.join(', ')}</strong>. Managing your stress biology directly supports these as well.</p>`
-    : '';
+  const conditionLine = c => {
+    const hit = CONDITION_COPY.find(([k]) => c.toLowerCase().startsWith(k));
+    const label = c.charAt(0).toUpperCase() + c.slice(1);
+    return `<div class="cond"><strong>${label}</strong><span>${hit ? hit[1] : 'Research has linked this to long-term stress.'}</span></div>`;
+  };
+  const conditionChips = p.conditions.length
+    ? p.conditions.map(c => `<span class="cond-chip">${c.charAt(0).toUpperCase() + c.slice(1)}</span>`).join('')
+    : '<span class="muted">None noted today</span>';
 
   const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  const runningHead = `<div class="running"><span class="brand">Lucent</span><span>${firstName}'s Stress Resilience Plan</span></div>`;
+  const markerLeft = { green: '16.67%', yellow: '50%', red: '83.33%' }[p.plan];
+  const check = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>';
 
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Care Plan — ${p.name}</title>
+<title>${firstName}'s Stress Resilience Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  @page { size: letter; margin: 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; background: #fff; font-size: 14px; line-height: 1.6; }
-  .pt-wrap { max-width: 680px; margin: 0 auto; padding: 48px 40px; }
-
-  .pt-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 2px solid #F0EDE8; margin-bottom: 32px; }
-  .pt-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; color: #0F6E56; }
-  .pt-logo span { color: #1a1a1a; }
-  .pt-meta { text-align: right; font-size: 11px; color: #999; line-height: 1.8; }
-  .pt-meta strong { color: #555; }
-
-  .pt-greeting { margin-bottom: 32px; }
-  .pt-greeting h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 6px; }
-  .pt-greeting p { color: #555; font-size: 13px; }
-
-  .pt-section { margin-bottom: 36px; }
-  .pt-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #F0EDE8; }
-
-  .pt-score-row { display: flex; gap: 16px; margin-bottom: 16px; }
-  .pt-score-box { flex: 1; border-radius: 10px; padding: 16px 18px; }
-  .pt-score-box-ace { background: #FFF6F6; border: 1.5px solid #E24B4A22; }
-  .pt-score-box-pce { background: #EBF7F2; border: 1.5px solid #1D9E7522; }
-  .pt-score-num { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 2px; }
-  .pt-score-box-ace .pt-score-num { color: #C0392B; }
-  .pt-score-box-pce .pt-score-num { color: #0F6E56; }
-  .pt-score-label { font-size: 11px; font-weight: 700; color: #999; letter-spacing: 0.05em; text-transform: uppercase; }
-  .pt-score-blurb { font-size: 13px; color: #444; margin-top: 10px; line-height: 1.65; }
-
-  .pt-plan-banner { border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; border: 1.5px solid; }
-  .pt-plan-name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
-  .pt-plan-headline { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-  .pt-plan-body { font-size: 13px; line-height: 1.7; }
-  ${conditionNote ? '.pt-condition-note { font-size: 13px; line-height: 1.65; color: #444; margin-top: 12px; }' : ''}
-
-  .pt-stage { margin-bottom: 28px; }
-  .pt-stage-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 6px; padding: 5px 12px; margin-bottom: 14px; border: 1.5px solid; }
-
-  .pt-rec { background: #FAFAF9; border: 1px solid #EDEDEA; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
-  .pt-rec-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: #111; margin-bottom: 8px; }
-  .pt-rec-why { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #EDEDE9; }
-  .pt-rec-body { font-size: 13px; color: #333; line-height: 1.65; margin-top: 8px; }
-  .pt-resource { margin-top: 10px; padding: 10px 12px; background: #F0FBF7; border-radius: 7px; font-size: 12px; color: #0F6E56; border: 1px solid #1D9E7530; line-height: 1.55; }
-
-  .pt-footer { border-top: 1px solid #F0EDE8; padding-top: 18px; margin-top: 40px; font-size: 11px; color: #bbb; line-height: 1.8; }
-  .pt-print-btn { display: block; width: 100%; padding: 13px; background: #1A1A2E; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; letter-spacing: -0.01em; }
-  .pt-print-btn:hover { background: #0F6E56; }
-
+  html, body { background: #E9E4DA; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #121A18; font-size: 15px; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sheet { width: 816px; min-height: 1056px; margin: 24px auto; padding: 56px 72px 56px; background: #FAF8F4; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 28px; }
+  .muted { color: #3F4D49; }
+  .running { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #E0D8CA; font-size: 12px; color: #55645F; }
+  .brand { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: #0F6E56; }
+  .cover-head { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #55645F; }
+  .hello { display: flex; flex-direction: column; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid #E0D8CA; }
+  .hello .hi { font-size: 15px; font-weight: 600; color: #0F6E56; }
+  h1 { font-size: 52px; font-weight: 300; letter-spacing: -0.04em; line-height: 1.04; }
+  .lede { font-size: 17px; line-height: 1.6; color: #3F4D49; max-width: 600px; }
+  .sec { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 0 8px; }
+  .num { font-size: 30px; font-weight: 300; color: #0F6E56; line-height: 1.1; }
+  .sec-body { display: flex; flex-direction: column; gap: 14px; }
+  h2 { font-size: 28px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; }
+  h3 { font-size: 18px; font-weight: 600; }
+  .benefit { display: flex; gap: 14px; padding: 12px 0; border-top: 1px solid #E0D8CA; }
+  .benefit:last-child { border-bottom: 1px solid #E0D8CA; }
+  .benefit svg { flex-shrink: 0; margin-top: 1px; }
+  .scale { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .scale span { height: 12px; }
+  .scale-labels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; font-size: 13px; color: #3F4D49; }
+  .scale-labels .on { font-weight: 700; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 5px 10px; white-space: nowrap; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .tiles { background: #F2EDE4; border-radius: 24px; padding: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tile { background: #FFFFFF; border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 10px; break-inside: avoid; }
+  .tile-label { font-size: 13px; font-weight: 600; color: #3F4D49; }
+  .tile-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .big { font-size: 40px; font-weight: 300; letter-spacing: -0.03em; line-height: 1; }
+  .big small { font-size: 15px; color: #55645F; letter-spacing: 0; }
+  .tile p { font-size: 14px; line-height: 1.55; color: #3F4D49; }
+  .cond-chip { font-size: 13px; font-weight: 600; border: 1px solid #E0D8CA; border-radius: 8px; padding: 5px 9px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .key { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; font-size: 13px; color: #3F4D49; }
+  .conds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+  .cond { padding: 12px 0; border-top: 1px solid #E0D8CA; font-size: 14px; line-height: 1.5; display: flex; flex-direction: column; gap: 2px; break-inside: avoid; }
+  .cond strong { font-size: 15px; }
+  .cond span { color: #3F4D49; }
+  .stage { display: flex; flex-direction: column; gap: 12px; }
+  .stage-head { display: flex; align-items: center; gap: 12px; margin-top: 6px; break-after: avoid; }
+  .stage-pill { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; border-radius: 999px; padding: 6px 14px; }
+  .stage-pill.now { color: #FFFFFF; background: #0F6E56; }
+  .stage-pill.next { color: #0F6E56; border: 1.5px solid #0F6E56; padding: 5px 13px; }
+  .stage-pill.ongoing { color: #3F4D49; background: #EDE6DA; }
+  .stage-sub { font-size: 15px; color: #3F4D49; }
+  .recs { border-bottom: 1px solid #E0D8CA; }
+  .rec { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; padding: 18px 0; border-top: 1px solid #E0D8CA; break-inside: avoid; }
+  .rec-icon { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #0F6E56; display: flex; align-items: center; justify-content: center; }
+  .rec-body { display: flex; flex-direction: column; gap: 8px; }
+  .rec-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .ref-badge { font-size: 12px; font-weight: 700; color: #0B5A45; background: #DDF1E8; border-radius: 999px; padding: 3px 10px; }
+  .tool { font-size: 14px; line-height: 1.5; color: #0B5A45; }
+  .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; border: 1px solid #0F6E56; border-radius: 4px; padding: 1px 5px; margin-right: 6px; }
+  .crisis { display: flex; gap: 14px; align-items: center; border: 1.5px solid #0F6E56; border-radius: 16px; padding: 16px 20px; break-inside: avoid; }
+  .fine { font-size: 12px; line-height: 1.6; color: #55645F; }
+  .print-bar { position: fixed; top: 16px; right: 16px; }
+  .print-bar button { font: inherit; font-size: 14px; font-weight: 600; color: #FFFFFF; background: #0F6E56; border: 0; border-radius: 10px; padding: 10px 16px; cursor: pointer; }
   @media print {
-    .pt-print-btn { display: none; }
-    body { font-size: 13px; }
-    .pt-wrap { padding: 24px 32px; }
-    .pt-rec { break-inside: avoid; }
-    .pt-stage { break-inside: avoid; }
+    html, body { background: #FAF8F4; }
+    .sheet { margin: 0; box-shadow: none; min-height: 0; break-after: page; }
+    .sheet:last-child { break-after: auto; }
+    .print-bar { display: none; }
   }
 </style>
 </head>
 <body>
-<div class="pt-wrap">
+<div class="print-bar"><button onclick="window.print()">Print / Save as PDF</button></div>
 
-  <div class="pt-header">
-    <div class="pt-logo">lucent<span>health</span></div>
-    <div class="pt-meta">
-      <strong>${p.name}</strong><br>
-      Date prepared: ${today}<br>
-      Prepared by your care team
-    </div>
+<section class="sheet">
+  <div class="cover-head"><span class="brand">Lucent</span><span>${today} · ${p.doctor}</span></div>
+  <div class="hello">
+    <span class="hi">Hi ${firstName},</span>
+    <h1>Your Stress Resilience Plan</h1>
+    <p class="lede">Today you and ${p.doctor} talked about how stress from earlier in life may still be affecting your body. Here's what that means, and the steps you chose together.</p>
   </div>
 
-  <button class="pt-print-btn" onclick="window.print()">🖨 Save or print this plan</button>
-
-  <div class="pt-greeting">
-    <h1>Your personal care plan</h1>
-    <p>This plan was prepared by your doctor based on your health history and screening results. It's meant to help you understand your results and take clear, practical steps.</p>
-  </div>
-
-  <!-- ── ACE + PCE ── -->
-  <div class="pt-section">
-    <div class="pt-section-title">Your screening results</div>
-    <div class="pt-score-row">
-      <div class="pt-score-box pt-score-box-ace">
-        <div class="pt-score-num">${p.aceScore}</div>
-        <div class="pt-score-label">ACE Score &nbsp;/ 10</div>
+  <div class="sec">
+    <span class="num">01</span>
+    <div class="sec-body">
+      <h2>Why treating stress in your body matters</h2>
+      <p class="muted">When stress is severe or lasts a long time, especially in childhood, the body's stress response can stay switched on. Doctors call this <strong style="color:#121A18">toxic stress</strong>. Over time it affects hormones, the immune system, sleep, mood and the heart. Calming it helps you:</p>
+      <div>
+        <div class="benefit">${check}<span><strong>Feel better now</strong> <span class="muted">— steadier sleep, mood and energy</span></span></div>
+        <div class="benefit">${check}<span><strong>Protect your body</strong> <span class="muted">— less inflammation and strain on your heart, metabolism and immune system</span></span></div>
+        <div class="benefit">${check}<span><strong>Prevent future problems</strong> <span class="muted">— a lower risk of stress-related conditions later in life</span></span></div>
       </div>
-      <div class="pt-score-box pt-score-box-pce">
-        <div class="pt-score-num">${p.pceScore}</div>
-        <div class="pt-score-label">PCE Score &nbsp;/ 7</div>
+      <p><strong>The good news: your body can heal.</strong> <span class="muted">The steps in this plan help your stress response settle.</span></p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">02</span>
+    <div class="sec-body">
+      <h2>Your plan level</h2>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="position:relative">
+          <div class="scale">
+            <span style="border-radius:6px 0 0 6px;background:${p.plan === 'green' ? '#2F8F6A' : '#A9D6C2'}"></span>
+            <span style="background:${p.plan === 'yellow' ? '#E0A526' : '#F2DDA5'}"></span>
+            <span style="border-radius:0 6px 6px 0;background:${p.plan === 'red' ? '#C6473B' : '#EDB3AB'}"></span>
+          </div>
+        </div>
+        <div class="scale-labels">
+          <span class="${p.plan === 'green' ? 'on' : ''}">${p.plan === 'green' ? '▲ ' : ''}Green · Preventive</span>
+          <span class="${p.plan === 'yellow' ? 'on' : ''}" style="text-align:center">${p.plan === 'yellow' ? '▲ ' : ''}Yellow · Active support</span>
+          <span class="${p.plan === 'red' ? 'on' : ''}" style="text-align:right">${p.plan === 'red' ? '▲ ' : ''}Red · Comprehensive</span>
+        </div>
       </div>
-    </div>
-    <div class="pt-score-blurb">
-      <strong>What are ACEs?</strong> ACEs stands for Adverse Childhood Experiences — things like abuse, neglect, or household difficulties that can happen during childhood. They matter because early stress has real biological effects that can show up in health decades later. Your ACE score is a screening tool, not a diagnosis. ${aceBlurb}
-    </div>
-    <div class="pt-score-blurb" style="margin-top:12px;">
-      <strong>What are PCEs?</strong> PCEs stands for Positive Childhood Experiences — things like feeling safe, loved, and connected as a child. They act as a protective buffer against the effects of early stress. ${pceBlurb}
-    </div>
-    ${conditionNote ? `<div class="pt-condition-note">${conditionNote}</div>` : ''}
-  </div>
-
-  <!-- ── Action Plan ── -->
-  <div class="pt-section">
-    <div class="pt-section-title">Your action plan level</div>
-    <div class="pt-plan-banner" style="background:${planCopy.bg};border-color:${planCopy.border};">
-      <div class="pt-plan-name" style="color:${planCopy.color};">${p.patientPlanLabel || p.planLabel}</div>
-      <div class="pt-plan-headline" style="color:${planCopy.color};">${planCopy.headline}</div>
-      <div class="pt-plan-body" style="color:${planCopy.color}cc;">${planCopy.body}</div>
+      <p class="muted"><strong style="color:#121A18">You're on the ${planCopy.name} · ${p.patientPlanLabel}.</strong> ${planCopy.body}${referrals ? ` Your plan includes ${referrals === 1 ? 'a specialist referral' : referrals + ' specialist referrals'}.` : ''}</p>
     </div>
   </div>
+</section>
 
-  <!-- ── Selected recommendations ── -->
-  <div class="pt-section">
-    <div class="pt-section-title">Your plan — steps selected by your doctor</div>
-    ${stageHtml('Now — start this week', '🟢', now, '#0F6E56')}
-    ${stageHtml('Next — when ready', '🔵', next, '#1A4FA6')}
-    ${stageHtml('Ongoing — build into your life', '⬛', ongoing, '#444')}
+<section class="sheet">
+  ${runningHead}
+  <div class="sec">
+    <span class="num">03</span>
+    <div class="sec-body" style="gap:8px">
+      <h2>Your results at a glance</h2>
+      <p class="muted">The four things ${p.doctor} looked at to build your plan.</p>
+    </div>
   </div>
-
-  <div class="pt-footer">
-    This plan was prepared using the Lucent Stress Resilience Framework. It is for informational purposes and does not replace the advice of your doctor. Please contact your care team if you have questions or your situation changes.<br>
-    Lucent Health · Framework v0.3 · ${today}
+  <div class="tiles">
+    <div class="tile">
+      <span class="tile-label">Adverse Childhood Experiences</span>
+      <div class="tile-row"><span class="big">${p.aceScore}<small> / 10</small></span>${chip(aceLabel, aceColor)}</div>
+      <p>Difficult experiences in childhood, like neglect or hard things at home. Early stress can affect the body years later — and the body can recover.</p>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Positive Childhood Experiences</span>
+      <div class="tile-row"><span class="big">${p.pceScore}<small> / 7</small></span>${chip(pceLabel, pceColor)}</div>
+      <p>Feeling safe, loved and connected as a child. More is better: they're protective, and the people behind them can keep supporting you now.</p>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Current stress</span>
+      <div class="tile-row" style="align-items:center"><span style="font-size:28px;font-weight:400;letter-spacing:-0.02em">${p.stress.label}</span>${chip(stressLevelLabel, p.stress.level)}</div>
+      <p>${p.stress.text}</p>
+    </div>
+    <div class="tile">
+      <span class="tile-label">ACE-associated conditions</span>
+      <div class="chips">${conditionChips}</div>
+      <p>${p.conditions.length ? "Health concerns research has linked to early stress. The link doesn't mean ACEs caused them, but calming stress can help each one." : 'None were noted today. This plan focuses on keeping it that way.'}</p>
+    </div>
   </div>
+  <div class="key">
+    <strong style="color:#121A18">Key</strong>
+    <span><span class="dot" style="background:#2F8F6A"></span> Low risk</span>
+    <span><span class="dot" style="background:#E0A526"></span> Medium risk</span>
+    <span><span class="dot" style="background:#C6473B"></span> Higher risk</span>
+    <span style="color:#55645F">For PCEs, a higher score means lower risk.</span>
+  </div>
+  ${p.conditions.length ? `<div style="display:flex;flex-direction:column;gap:12px">
+    <h3>How this may connect to your health today</h3>
+    <div class="conds">${p.conditions.map(conditionLine).join('')}</div>
+  </div>` : ''}
+</section>
 
-</div>
+<section class="sheet">
+  ${runningHead}
+  <div class="sec">
+    <span class="num">04</span>
+    <div class="sec-body" style="gap:18px">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2>Your plan</h2>
+        <p class="muted">Steps chosen with ${p.doctor}, in three stages: Now, Next and Ongoing.</p>
+      </div>
+      ${stage('now', 'NOW', 'Start here — build a calmer base', now)}
+      ${stage('next', 'NEXT', 'When your foundation feels steady', next)}
+      ${stage('ongoing', 'ONGOING', 'Build these into your life', ongoing)}
+    </div>
+  </div>
+  <div class="crisis">
+    ${svg(ICON.phone, 22)}
+    <span>If you ever feel unsafe or in crisis, call or text <strong>988</strong> — the Suicide &amp; Crisis Lifeline, available 24/7.</span>
+  </div>
+  <p class="fine">This plan was prepared using the Lucent Stress Resilience Framework. It is for informational purposes and does not replace the advice of your doctor. Please contact your care team if you have questions or your situation changes. Prepared ${today}.</p>
+</section>
 </body>
 </html>`;
 
