@@ -308,7 +308,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 .sc-score-label { font-size: 12px; font-weight: 600; color: #A9BDB6; }
 .sc-score-val { font-size: 32px; font-weight: 700; line-height: 1.1; }
 .sc-score-val small { font-size: 15px; font-weight: 500; color: #A9BDB6; }
-.sc-score-val.sc-pce { color: #5FD3A8; }
 .sc-score-sub { font-size: 12px; line-height: 1.45; color: #A9BDB6; }
 .sc-rail-block { display: flex; flex-direction: column; gap: 8px; }
 .sc-rail-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A9BDB6; }
@@ -490,365 +489,15 @@ button, input { font-family: inherit; }
 </div>
 
 <div class="ptabs">
-  <button type="button" class="ptab active" onclick="show('maya',this)">Maya Chen <span class="ptab-sub">ACE 7 · Red Plan</span></button>
-  <button type="button" class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan</span></button>
+  <button type="button" class="ptab active" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan</span></button>
   <button type="button" class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3 ⚑ · Yellow Plan</span></button>
-  <button type="button" class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 4 · Red Plan</span></button>
+  <button type="button" class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 6 · Red Plan</span></button>
   <button type="button" class="ptab" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan</span></button>
 </div>
 
 
-<!-- ═══════════════════════════ MAYA ═══════════════════════════ -->
-<div id="maya" class="persona active">
-<div class="sc-page">
-
-  <section class="sc-overview" id="maya-overview" aria-label="Overview">
-    <div class="sc-ov-head">
-      <div class="sc-id">
-      <h1 class="sc-name">Maya Chen</h1>
-      <div class="sc-meta">34 · San Francisco, CA · Dr. Sarah Okonkwo · June 2026</div>
-    </div>
-      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented</div>
-    </div>
-    <div class="sc-ov-grid">
-      <div class="sc-ov-col">
-        <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
-      <div class="sc-risk-label">Toxic stress risk</div>
-      <div class="sc-risk-head">
-        <span class="sc-risk-plan">Red Action Plan</span>
-      </div>
-      <div class="sc-risk-title">High risk — intensive management required</div>
-      <div class="sc-scale" aria-hidden="true">
-        <div class="sc-scale-bar"><span class="g"></span><span class="y"></span><span class="r"></span></div>
-        <span class="sc-scale-mark" style="left:83.33%"></span>
-        <div class="sc-scale-labels"><span>Green · low</span><span>Yellow · intermediate</span><span>Red · high</span></div>
-      </div>
-      
-    </section>
-      </div>
-      <div class="sc-ov-col sc-ov-inputs">
-        <div class="sc-scores">
-      <div class="sc-score">
-        <span class="sc-score-label">ACE score</span>
-        <span class="sc-score-val">7<small> / 10</small></span>
-        <span class="sc-score-sub">High</span>
-      </div>
-      <div class="sc-score">
-        <span class="sc-score-label">PCE score</span>
-        <span class="sc-score-val sc-pce">3<small> / 7</small></span>
-        <span class="sc-score-sub">Medium</span>
-      </div>
-    </div>
-        <div class="sc-ov-pair">
-          <div class="sc-rail-block">
-      <div class="sc-rail-label">ACE-associated conditions</div>
-      <div class="sc-conds"><span class="sc-cond">Depression</span><span class="sc-cond">Anxiety / panic</span><span class="sc-cond">Sleep disturbance</span><span class="sc-cond">PTSD</span></div>
-    </div>
-
-    <div class="sc-rail-block">
-      <div class="sc-rail-label">Current stress</div>
-      <div class="sc-stress"><span class="sc-dot sc-dot-yellow" aria-hidden="true"></span>Elevated</div>
-      <div class="sc-muted">Stress spike; stable enough to engage</div>
-    </div>
-        </div>
-        <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-      </div>
-      <div class="sc-ov-col">
-        <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
-      <div class="sc-risk-block">
-        <div class="sc-risk-sub">What this means</div>
-        <div class="sc-summary">
-          <p class="sc-summary-text">ACE 7 (≥4 is high risk under ACEs Aware) with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions. Low PCE count (3/7). Elevated current stress means stabilization must precede processing. High ACE load with adolescent timing and high somatic burden indicates body-based therapeutic entry preferred over cognitive-first.</p>
-          <div class="sc-summary-more" hidden>
-            <div class="sc-risk-sub">Score context</div>
-            <ul>
-              <li>ACE 7/10 (high) — de-identified count; timing: Primarily adolescence.</li>
-              <li>PCE 3/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
-            </ul>
-          </div>
-          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-      </div>
-      <div class="sc-risk-block">
-        <div class="sc-risk-sub">Recommended management</div>
-        <p>Comprehensive care — PCP actively coordinates across all providers; patient should never feel alone between appointments</p>
-      </div>
-    </section>
-      </div>
-    </div>
-  </section>
-
-  <nav class="sc-jump" aria-label="Jump to section">
-    <div class="sc-jump-track">
-      <span class="sc-jump-thumb" aria-hidden="true"></span>
-      <a href="#maya-overview" class="sc-jump-link" aria-current="true">Overview</a>
-      <a href="#maya-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
-      <a href="#maya-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
-    </div>
-  </nav>
-
-  <main class="sc-main">
-    <section class="sc-card" id="maya-focus" aria-labelledby="maya-visit">
-      <div class="sc-card-head">
-        <h2 id="maya-visit">Today's Focus</h2>
-        <span class="sc-card-sub">Three actions for today's appointment — elevated current stress</span>
-      </div>
-      <div class="sc-visit">
-        <div class="sc-visit-row">
-          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">1</span><span class="sc-sr">Mark step 1 done</span></button>
-          <h3 class="sc-visit-title">Safety screen — Columbia C-SSRS or PHQ-9 item 9</h3>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div>ACE 7 carries ~31× baseline suicide attempt odds (Felitti dose-response). Non-negotiable at first contact. Provide 988 Lifeline and written crisis plan.</div>
-          <div class="sc-why-src">Evidence: L3 clinical standard; risk grounded in Felitti L1 dose-response data</div>
-        </div>
-      </div>
-      <div class="sc-visit">
-        <div class="sc-visit-row">
-          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">2</span><span class="sc-sr">Mark step 2 done</span></button>
-          <h3 class="sc-visit-title">Sleep assessment — ISI screen</h3>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div>Sleep disruption amplifies HPA dysregulation and is the fastest leverage point. If ISI ≥8: prescribe Sleepio or SleepStation (clinician-prescribable, RCT-validated). Prescribe fixed wake time today regardless of score.</div>
-          <div class="sc-why-src">Evidence: CBT-I — L1 RCT</div>
-        </div>
-      </div>
-      <div class="sc-visit">
-        <div class="sc-visit-row">
-          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">3</span><span class="sc-sr">Mark step 3 done</span></button>
-          <h3 class="sc-visit-title">Psychoeducation — "what happened to you" reframe</h3>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div>Explain symptoms as adaptive survival responses, not character flaws. Connect current conditions to the stress-immune pathway. Frame as treatable biology. Reduces shame and improves treatment engagement before any other work begins.</div>
-          <div class="sc-why-src">Evidence: L3 expert consensus; reduces treatment dropout</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sc-card" id="maya-actions" aria-labelledby="maya-plan">
-      <div class="sc-card-head">
-        <h2 id="maya-plan">Patient Action Plan</h2>
-        <span class="sc-card-sub sc-count" data-persona="maya"></span>
-      </div>
-      <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
-      
-      <div class="ev-key">
-        <span class="ev-key-label">Evidence</span>
-        <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
-        <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
-        <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus</div>
-      </div>
-    <div class="stage-block">
-      <div class="stage-head">
-        <div class="stage-head-text">
-          <div class="stage-name">Safety and stabilization</div>
-          <div class="stage-note">All patients begin here. Do not advance to Stage 2 until goals are met.</div>
-          <div class="stage-gate">Goals: safety established · sleep improving · therapeutic alliance formed · patient can name and tolerate mild distress</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-sleep">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l1">L1</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">CBT-I — sleep</div>
-            <div class="sc-rec-action">ISI screen. If ≥8: Sleepio or SleepStation (clinician-prescribable). All patients: fixed wake time, same every day including weekends. Start today.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-sleep" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> Sleep disruption amplifies HPA cortisol dysregulation. Addressing sleep is the fastest point of leverage and a prerequisite for effective processing.</div>
-          <div class="sc-why-src">Source: CBT-I literature; California SG Roadmap</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-hrv">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l2">L2</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">HRV biofeedback / paced breathing</div>
-            <div class="sc-rec-action">Teach in session: 5.5 sec in, 5.5 sec out. 10 min daily. App: HeartMath Inner Balance or Breathe+. Follow up on compliance at next visit.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-hrv" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> 5–6 breath cycles/min maximally activates HRV coherence, directly shifting autonomic balance toward parasympathetic. Counteracts chronic sympathetic dysregulation.</div>
-          <div class="sc-why-src">Source: HRV biofeedback literature</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-nutrition">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l2">L2</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">Anti-inflammatory nutrition</div>
-            <div class="sc-rec-action">Refer to RD with autoimmune experience, or provide Mediterranean diet handout. Priorities: reduce ultra-processed foods, increase omega-3s, stabilize blood sugar.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-nutrition" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> Chronic stress activates pro-inflammatory cytokines. The autoimmune burden (alopecia, GI) confirms the Nakazawa immune dysregulation pathway. Diet reduces cytokine burden.</div>
-          <div class="sc-why-src">Source: Nakazawa 2015; stress-nutrition literature</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-safety">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l3">L3</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">Safety screen — suicidality <em style="font-size:11px;font-weight:400;color:#bbb;">(also covered in At This Visit)</em></div>
-            <div class="sc-rec-action">Columbia C-SSRS or PHQ-9 item 9. Written crisis plan with 988 and local ER. Document with G9919 billing code in chart.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-safety" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> ACE 7 carries ~31× baseline suicide attempt odds. First-contact screening is non-negotiable. <em>Protocol standard — not RCT-tested.</em></div>
-          <div class="sc-why-src">Source: Columbia Protocol — L3; Felitti dose-response L1</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stage 2 -->
-    <div class="stage-block">
-      <div class="stage-head">
-        <div class="stage-head-text">
-          <div class="stage-name">Trauma processing</div>
-          <div class="stage-note">Begin when Stage 1 stable — typically 4–6 weeks. Do not rush. Premature processing is a common clinical error and can be retraumatizing.</div>
-          <div class="stage-gate">Confirm: emotional distress tolerated without dissociation · Physical safety established · Therapeutic alliance present</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-emdr">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l1">L1</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">EMDR — first-line <em style="font-size:11px;font-weight:400;color:#999;">(preferred over TF-CBT for this profile)</em></div>
-            <div class="sc-rec-action">Refer to EMDRIA-listed therapist (emdria.org). Brief on: high somatic burden, adolescent developmental timing, somatic-first approach needed. Expect 8–12 sessions. Do not refer until Stage 1 is stable.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-emdr" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> Bilateral stimulation disrupts traumatic memory reconsolidation. Bypasses cognitive defense — more accessible than verbal narrative processing given high somatic burden and early trauma load.</div>
-          <div class="sc-why-src">Source: Ehring et al. 2014 meta-analysis (g=0.72 vs waitlist); APA/WHO endorsed</div>
-          <div class="sc-why-alt"><strong>TF-CBT / CBT — not first-line for this profile.</strong> EMDR's body-based entry is more appropriate given the high somatic burden and early trauma load. TF-CBT can be introduced as adjunct once EMDR is underway and Stage 1 stability is confirmed.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stage 3 -->
-    <div class="stage-block">
-      <div class="stage-head">
-        <div class="stage-head-text">
-          <div class="stage-name">Integration and reconnection</div>
-          <div class="stage-note">Parallel with late Stage 2. Focus: exercise, social connection, building adult-equivalent protective conditions.</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-exercise">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l1">L1</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">Exercise — 150 min/week</div>
-            <div class="sc-rec-action">Yoga, walking, or swimming — all equivalent for stress outcomes. For autoimmune: mixed modality with recovery days. If sedentary: start with 20-min daily walks, that is sufficient to begin.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-exercise" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> Reduces cortisol, promotes BDNF (hippocampal neurogenesis), anti-inflammatory benefit directly relevant to the autoimmune pathway.</div>
-          <div class="sc-why-src">Source: Multiple RCTs; California SG Roadmap</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-social">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l2">L2</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">Adult protective conditions — building the mechanisms behind why PCEs work</div>
-            <div class="sc-rec-action">Ask: "Who feels safest?" Assign one deliberate deepening act per week (real conversation, shared meal). One new community connection per month. Review at every session alongside clinical outcomes.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-social" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> Bethell 2019 (L1): higher PCE scores in childhood are associated with 72% lower odds of adult depression. PCEs are a fixed retrospective measure, but the protective mechanisms — safe relationships, belonging, trusted others — can be built in adulthood and have independent evidence support.</div>
-          <div class="sc-why-src">Source: Bethell 2019 JAMA Pediatrics (L1 for PCE childhood scores); adult social support — L2</div>
-        </div>
-      </div>
-
-      <div class="sc-rec" data-rec-id="maya-group">
-        <div class="sc-rec-row">
-          <span class="ev-pill ev-l2">L2</span>
-          <div class="sc-rec-main">
-            <div class="rec-name">Group therapy</div>
-            <div class="sc-rec-action">Trauma-informed process group, 8–16 members. Confirm facilitator trauma-trained. Brief on: high ACE load, somatic-first history. Begin in late Stage 2 — not before.</div>
-          </div>
-          <label class="sc-switch" title="Include in patient plan">
-            <input type="checkbox" class="rec-check" data-rec-id="maya-group" checked>
-            <span class="sc-switch-track" aria-hidden="true"></span>
-            <span class="sc-sr">Include in patient plan</span>
-          </label>
-          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
-        </div>
-        <div class="sc-why" hidden>
-          <div><strong>Why:</strong> High ACE load can disrupt reciprocal connection. Group provides a corrective relational experience. Most valuable at Stage 3 — not Stage 1.</div>
-          <div class="sc-why-src">Source: Cohort evidence — L2</div>
-        </div>
-      </div>
-    </div>
-      <div class="generate-wrap">
-        <button class="generate-btn" onclick="generatePatientPlan('maya')">Approve plan &amp; generate patient take-home</button>
-      </div>
-    </section>
-
-    <div class="footer">Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
-    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9919 (ACE ≥4)</div>
-  </main>
-</div>
-</div><!-- end maya -->
-
-
 <!-- ═══════════════════════════ DAVID ═══════════════════════════ -->
-<div id="david" class="persona">
+<div id="david" class="persona active">
 <div class="sc-page">
 
   <section class="sc-overview" id="david-overview" aria-label="Overview">
@@ -1446,7 +1095,7 @@ button, input { font-family: inherit; }
         <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
-        <span class="sc-score-val">4<small> / 10</small></span>
+        <span class="sc-score-val">6<small> / 10</small></span>
         <span class="sc-score-sub">High</span>
       </div>
       <div class="sc-score">
@@ -1477,11 +1126,11 @@ button, input { font-family: inherit; }
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
         <div class="sc-summary">
-          <p class="sc-summary-text">ACE 4 meets the high-risk threshold (≥4). Three ACE-associated physical conditions show that stress biology is already driving disease, not latent: IBS reflects gut-brain axis disruption, and type 2 diabetes with overweight reflects metabolic dysregulation from chronic cortisol. Insulin resistance and abdominal obesity are hallmark markers of allostatic load. Because the burden spans several body systems, care needs PCP coordination across specialties, with metabolic and gut-focused care alongside stress treatment.</p>
+          <p class="sc-summary-text">ACE 6 meets the high-risk threshold (≥4). Three ACE-associated physical conditions show that stress biology is already driving disease, not latent: IBS reflects gut-brain axis disruption, and type 2 diabetes with overweight reflects metabolic dysregulation from chronic cortisol. Insulin resistance and abdominal obesity are hallmark markers of allostatic load. Because the burden spans several body systems, care needs PCP coordination across specialties, with metabolic and gut-focused care alongside stress treatment.</p>
           <div class="sc-summary-more" hidden>
             <div class="sc-risk-sub">Score context</div>
             <ul>
-              <li>ACE 4/10 (high) — de-identified count; timing: Ages 5–12.</li>
+              <li>ACE 6/10 (high) — de-identified count; timing: Ages 5–12.</li>
               <li>PCE 3/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
             </ul>
           </div>
@@ -2150,18 +1799,6 @@ function show(id, el) {
 // ── Patient plan builder ──────────────────────────────────────────────
 
 const PERSONAS = {
-  maya: {
-    name: 'Maya Chen',
-    doctor: 'Dr. Sarah Okonkwo',
-    age: 34,
-    aceScore: 7,
-    pceScore: 3,
-    plan: 'red',
-    planLabel: 'Red Action Plan',
-    patientPlanLabel: 'Comprehensive Care Plan',
-    conditions: ['depression', 'anxiety/panic', 'sleep disturbance', 'PTSD'],
-    stress: { label: 'Elevated', level: 'yellow' },
-  },
   david: {
     name: 'David Rivera',
     doctor: 'Dr. James Park',
@@ -2190,7 +1827,7 @@ const PERSONAS = {
     name: 'Marcus Webb',
     doctor: 'Dr. Patricia Nguyen',
     age: 52,
-    aceScore: 4,
+    aceScore: 6,
     pceScore: 3,
     plan: 'red',
     planLabel: 'Red Action Plan',
@@ -2249,64 +1886,6 @@ const CONDITION_COPY = [
 ];
 
 const REC_DATA = {
-  'maya-sleep': {
-    stage: 'now',
-    title: 'Better sleep — starting now',
-    why: "Sleep and stress are deeply connected. When you've been through a lot, your body's alert system can stay switched on — and that makes restful sleep harder. Poor sleep in turn keeps your stress response activated. Improving your sleep is one of the fastest, most evidence-backed steps you can take right now.",
-    action: "Your doctor is recommending a structured sleep program that works better than sleep medication for most people and shows results within a few weeks.",
-    resource: 'Sleepio (sleepio.com) — ask your care team which program is right for you',
-  },
-  'maya-hrv': {
-    stage: 'now',
-    title: 'Daily breathing practice',
-    why: "Slow, paced breathing activates your body's recovery system — the part that calms and resets. Practicing this daily actually changes how your body responds to stress over time. It's one of the few things that directly shifts your nervous system toward recovery.",
-    action: "Practice paced breathing for 10 minutes every day: breathe in for 5.5 seconds, out for 5.5 seconds. A free app like Breathe+ can guide you.",
-    resource: 'Breathe+ (free, iOS/Android) or HeartMath Inner Balance',
-  },
-  'maya-nutrition': {
-    stage: 'now',
-    title: 'Eating to reduce inflammation',
-    why: "Ongoing stress can trigger low-level inflammation in the body, which is connected to many of the health conditions associated with difficult early experiences. What you eat has a real, measurable effect on inflammation.",
-    action: "Your doctor is referring you to a registered dietitian. In the meantime: more fish, nuts, olive oil, fruits, and vegetables; less ultra-processed food and added sugar.",
-    isReferral: true,
-    referralText: 'Registered Dietitian — referral from your doctor. Your care team will send details.',
-  },
-  'maya-safety': {
-    stage: 'now',
-    title: 'Support is always available',
-    why: "When life feels overwhelming, it helps to know where to turn.",
-    action: "If you ever feel unsafe or in crisis, please reach out. You don't have to go through this alone.",
-    resource: '988 Suicide & Crisis Lifeline — call or text 988, available 24/7',
-    sensitive: true,
-  },
-  'maya-emdr': {
-    stage: 'next',
-    title: 'Therapy referral — EMDR',
-    why: "EMDR (Eye Movement Desensitization and Reprocessing) is a well-researched therapy that helps the brain process and release difficult past experiences. Unlike traditional talk therapy, it doesn't require you to recount everything in detail. Many people find it gentler than they expected.",
-    action: "Your doctor is referring you to a certified EMDR therapist. Plan for 8–12 sessions. This will begin once you've had time to build some stability first — that's intentional and important.",
-    isReferral: true,
-    referralText: 'EMDR Therapist — your doctor is making this referral. You can also find certified therapists at emdria.org.',
-  },
-  'maya-exercise': {
-    stage: 'ongoing',
-    title: 'Regular movement',
-    why: "Exercise is one of the most powerful tools for reducing the chronic stress load in your body. It lowers stress hormones, supports brain health, and helps reduce inflammation. Even moderate amounts make a meaningful difference.",
-    action: "Aim for 150 minutes of moderate activity per week — about 30 minutes on most days. Yoga, walking, and swimming are all excellent choices. Start where you are and build gradually.",
-  },
-  'maya-social': {
-    stage: 'ongoing',
-    title: 'Strengthening your connections',
-    why: "Close, trusted relationships are one of the most protective factors for long-term health. Being around people who feel safe actually calms your nervous system — it's not just emotional support, it's biological.",
-    action: "Think of 1–2 people you feel most yourself around. Plan to spend in-person time with them regularly. One meaningful connection per week is a genuine health practice.",
-  },
-  'maya-group': {
-    stage: 'ongoing',
-    title: 'Group therapy referral',
-    why: "Being with others who have had similar experiences can be deeply healing. Group therapy offers connection, perspective, and the chance to practice new ways of relating in a safe setting.",
-    action: "Your doctor is referring you to a trauma-informed group program. This will typically start after individual therapy is underway.",
-    isReferral: true,
-    referralText: 'Group Therapy — your care team will share options and timing based on where you are in your plan.',
-  },
 
   'david-exercise': {
     stage: 'now',
