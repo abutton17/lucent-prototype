@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lucent — Stress Resilience Action Plan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F2F1EE; color: #1A1A1A; font-size: 14px; line-height: 1.6; }
@@ -348,17 +348,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 .sc-visit-row { display: flex; align-items: center; gap: 16px; }
 .sc-visit .sc-why { margin-left: 60px; }
 .sc-visit-title { flex: 1; font-size: 17px; font-weight: 700; line-height: 1.4; }
-.sc-done { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #B9C5C0; background: #fff; color: #121A18; font-family: 'IBM Plex Mono', monospace; font-size: 16px; cursor: pointer; }
+.sc-done { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #B9C5C0; background: #fff; color: #121A18; font-size: 16px; cursor: pointer; }
 .sc-done[aria-pressed="true"] { background: #0F6E56; border-color: #0F6E56; color: #fff; }
 .sc-done[aria-pressed="true"] .sc-done-n { font-size: 0; }
 .sc-done[aria-pressed="true"] .sc-done-n::after { content: '✓'; font-size: 18px; }
-.visit-billing, .billing-badge { font-family: 'IBM Plex Mono', monospace; }
+.visit-billing, .billing-badge { }
 
 .sc-plan-intro { font-size: 14px; line-height: 1.6; color: #55645F; margin-bottom: 16px; }
 .ev-key { background: transparent; border: 0; padding: 0; margin-bottom: 20px; gap: 16px; }
 .ev-key-label { font-size: 12px; color: #55645F; }
 .ev-key-item { font-size: 13px; color: #3F4D49; }
-.ev-pill { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; border-radius: 6px; padding: 3px 7px; flex-shrink: 0; }
+.ev-pill { font-size: 12px; font-weight: 500; border-radius: 6px; padding: 3px 7px; flex-shrink: 0; }
 .ev-l3 { background: #EEF1F0; color: #3F4D49; border-color: #CDD6D2; }
 .routing-note { background: #FDF1EF; border: 0; border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; }
 .routing-note-label { font-size: 12px; color: #8A1F17; }
@@ -366,7 +366,7 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
 .stage-block { background: transparent; border: 0; border-radius: 0; margin-bottom: 28px; overflow: visible; }
 .stage-head { padding: 0 0 12px; border: 0; gap: 12px; align-items: flex-start; }
-.stage-num { width: 32px; height: 32px; border-radius: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 500; margin-top: 0; }
+.stage-num { width: 32px; height: 32px; border-radius: 10px; font-size: 14px; font-weight: 500; margin-top: 0; }
 .stage-num.s1 { background: #DDF1E8; color: #0B5A45; }
 .stage-num.s2 { background: #E3EBFA; color: #1E4C93; }
 .stage-num.s3 { background: #EFE9F8; color: #56368F; }
@@ -407,6 +407,75 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
   .sc-caret, .sc-switch, .generate-wrap { display: none; }
 }
 
+
+/* ═══ Stacked layout + typeface options (Oct 2026) ═══ */
+:root { --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); font-variant-numeric: tabular-nums; }
+button, input { font-family: inherit; }
+
+
+.sc-page { display: block; max-width: 1280px; }
+
+/* Overview band */
+.sc-overview { background: #0F1F1B; color: #F2F6F4; border-radius: 24px; padding: 28px 32px 32px; scroll-margin-top: 96px; }
+.sc-ov-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+.sc-ov-head .sc-rail-foot { border: 0; padding: 0; text-align: right; }
+.sc-ov-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr); gap: 20px; align-items: start; }
+.sc-ov-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.sc-ov-inputs { gap: 18px; }
+.sc-ov-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.sc-ov-inputs .sc-pce-detail { border-top: 1px solid #22392F; padding-top: 4px; }
+.sc-risk-detail { height: 100%; }
+
+/* Section slider */
+.sc-jump { position: sticky; top: 0; z-index: 5; padding: 14px 0; margin: 4px 0 8px; background: linear-gradient(#EEF1F0 80%, rgba(238,241,240,0)); }
+.sc-jump-track { position: relative; display: inline-flex; gap: 4px; background: #fff; border: 1px solid #DCE3E0; border-radius: 16px; padding: 5px; box-shadow: 0 2px 8px rgba(15,31,27,0.06); }
+.sc-jump-thumb { position: absolute; top: 5px; bottom: 5px; left: 5px; width: 0; border-radius: 12px; background: #0F1F1B; transition: left 0.25s ease, width 0.25s ease; }
+.sc-jump-link { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; font-size: 15px; font-weight: 600; color: #3F4D49; text-decoration: none; transition: color 0.2s; }
+.sc-jump-link:hover { color: #121A18; }
+.sc-jump-link[aria-current="true"] { color: #fff; }
+.sc-jump-n { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 12px; font-weight: 700; }
+.sc-main { gap: 24px; }
+.sc-card { scroll-margin-top: 96px; padding: 36px 40px; }
+.sc-card-head h2 { font-size: 24px; }
+
+/* Calmer stage sections */
+.stage-block { margin-bottom: 36px; }
+.stage-head { padding: 0 0 14px; }
+.stage-name { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+.stage-note { font-size: 15px; margin-top: 4px; max-width: 75ch; }
+.stage-gate { max-width: 75ch; }
+.ev-pill, .ev-l1, .ev-l2, .ev-l3 { background: #F3F6F5; color: #3F4D49; border: 1px solid #D5DDD9; font-weight: 600; }
+.sc-rec-action, .sc-why, .sc-plan-intro, .routing-note-body, .rec-contra { max-width: 80ch; }
+.sc-rec .rec-name { font-size: 16px; }
+.sc-done { font-weight: 600; }
+
+@media (max-width: 1100px) {
+  .sc-ov-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sc-ov-grid > .sc-ov-col:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .sc-overview { padding: 20px; }
+  .sc-ov-grid, .sc-ov-pair { grid-template-columns: 1fr; }
+  .sc-ov-head .sc-rail-foot { text-align: left; }
+  .sc-jump-track { display: flex; overflow-x: auto; }
+  .sc-jump-link { padding: 0 12px; white-space: nowrap; }
+  .topbar-note { display: none; }
+}
+@media print { .sc-jump { display: none; } }
+
+/* ═══ Overview tidy (Oct 2026) ═══ */
+.sc-score-sub { font-size: 14px; font-weight: 600; color: #CFDDD8; }
+.sc-score-flag { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; font-weight: 600; color: #F2C14E; }
+.sc-summary-text { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.sc-summary.open .sc-summary-text { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.sc-summary-more { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.sc-summary-more[hidden] { display: none; }
+.sc-summary-more ul { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6; }
+.sc-more { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 2px; padding: 0; border: 0; background: transparent; color: inherit; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.sc-more svg { transition: transform 0.15s; }
+.sc-more[aria-expanded="true"] svg { transform: rotate(180deg); }
 </style>
 </head>
 <body>
@@ -420,11 +489,11 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 </div>
 
 <div class="ptabs">
-  <button type="button" class="ptab active" onclick="show('maya',this)">Maya Chen <span class="ptab-sub">ACE 7 · Red Plan · SF</span></button>
-  <button type="button" class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan · Chicago</span></button>
-  <button type="button" class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3 ⚑ · Yellow Plan · Atlanta</span></button>
-  <button type="button" class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 4 · Red Plan · Houston</span></button>
-  <button type="button" class="ptab" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan · Denver</span></button>
+  <button type="button" class="ptab active" onclick="show('maya',this)">Maya Chen <span class="ptab-sub">ACE 7 · Red Plan</span></button>
+  <button type="button" class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan</span></button>
+  <button type="button" class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3 ⚑ · Yellow Plan</span></button>
+  <button type="button" class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 4 · Red Plan</span></button>
+  <button type="button" class="ptab" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan</span></button>
 </div>
 
 
@@ -432,13 +501,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 <div id="maya" class="persona active">
 <div class="sc-page">
 
-  <aside class="sc-rail" aria-label="Patient snapshot">
-    <div class="sc-id">
+  <section class="sc-overview" id="maya-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
       <h1 class="sc-name">Maya Chen</h1>
       <div class="sc-meta">34 · San Francisco, CA · Dr. Sarah Okonkwo · June 2026</div>
     </div>
-
-    <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
       <div class="sc-risk-label">Toxic stress risk</div>
       <div class="sc-risk-head">
         <span class="sc-risk-plan">Red Action Plan</span>
@@ -451,21 +524,22 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
       
     </section>
-
-    <div class="sc-scores">
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
         <span class="sc-score-val">7<small> / 10</small></span>
-        <span class="sc-score-sub">De-identified · Primarily adolescence</span>
+        <span class="sc-score-sub">High</span>
       </div>
       <div class="sc-score">
         <span class="sc-score-label">PCE score</span>
         <span class="sc-score-val sc-pce">3<small> / 7</small></span>
-        <span class="sc-score-sub">Low–moderate · does not lower risk</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
     </div>
-
-    <div class="sc-rail-block">
+        <div class="sc-ov-pair">
+          <div class="sc-rail-block">
       <div class="sc-rail-label">ACE-associated conditions</div>
       <div class="sc-conds"><span class="sc-cond">Depression</span><span class="sc-cond">Anxiety / panic</span><span class="sc-cond">Sleep disturbance</span><span class="sc-cond">PTSD</span></div>
     </div>
@@ -475,31 +549,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       <div class="sc-stress"><span class="sc-dot sc-dot-yellow" aria-hidden="true"></span>Elevated</div>
       <div class="sc-muted">Stress spike; stable enough to engage</div>
     </div>
-
-    <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
-        <p>ACE 7 (≥4 is high risk under ACEs Aware) with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions. Low PCE count (3/7). Elevated current stress means stabilization must precede processing. High ACE load with adolescent timing and high somatic burden indicates body-based therapeutic entry preferred over cognitive-first.</p>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 7 (≥4 is high risk under ACEs Aware) with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions. Low PCE count (3/7). Elevated current stress means stabilization must precede processing. High ACE load with adolescent timing and high somatic burden indicates body-based therapeutic entry preferred over cognitive-first.</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 7/10 (high) — de-identified count; timing: Primarily adolescence.</li>
+              <li>PCE 3/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
       </div>
       <div class="sc-risk-block">
         <div class="sc-risk-sub">Recommended management</div>
         <p>Comprehensive care — PCP actively coordinates across all providers; patient should never feel alone between appointments</p>
-        <div class="sc-chips"><span class="sc-chip">Follow-up within 1–2 weeks</span><span class="sc-chip">Bi-weekly check-ins</span><span class="sc-chip">PCP coordinates all providers</span><span class="sc-chip">Multi-specialist referral this visit</span></div>
       </div>
     </section>
+      </div>
+    </div>
+  </section>
 
-    <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-
-    <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented</div>
-  </aside>
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#maya-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#maya-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#maya-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
 
   <main class="sc-main">
-    <section class="sc-card" aria-labelledby="maya-visit">
+    <section class="sc-card" id="maya-focus" aria-labelledby="maya-visit">
       <div class="sc-card-head">
-        <h2 id="maya-visit">At this visit</h2>
+        <h2 id="maya-visit">Today's Focus</h2>
         <span class="sc-card-sub">Three actions for today's appointment — elevated current stress</span>
       </div>
       <div class="sc-visit">
@@ -537,9 +630,9 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     </section>
 
-    <section class="sc-card" aria-labelledby="maya-plan">
+    <section class="sc-card" id="maya-actions" aria-labelledby="maya-plan">
       <div class="sc-card-head">
-        <h2 id="maya-plan">Patient action plan</h2>
+        <h2 id="maya-plan">Patient Action Plan</h2>
         <span class="sc-card-sub sc-count" data-persona="maya"></span>
       </div>
       <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
@@ -552,7 +645,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s1">1</div>
         <div class="stage-head-text">
           <div class="stage-name">Safety and stabilization</div>
           <div class="stage-note">All patients begin here. Do not advance to Stage 2 until goals are met.</div>
@@ -644,7 +736,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
     <!-- Stage 2 -->
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s2">2</div>
         <div class="stage-head-text">
           <div class="stage-name">Trauma processing</div>
           <div class="stage-note">Begin when Stage 1 stable — typically 4–6 weeks. Do not rush. Premature processing is a common clinical error and can be retraumatizing.</div>
@@ -680,7 +771,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
     <!-- Stage 3 -->
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s3">3</div>
         <div class="stage-head-text">
           <div class="stage-name">Integration and reconnection</div>
           <div class="stage-note">Parallel with late Stage 2. Focus: exercise, social connection, building adult-equivalent protective conditions.</div>
@@ -763,13 +853,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 <div id="david" class="persona">
 <div class="sc-page">
 
-  <aside class="sc-rail" aria-label="Patient snapshot">
-    <div class="sc-id">
+  <section class="sc-overview" id="david-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
       <h1 class="sc-name">David Rivera</h1>
       <div class="sc-meta">46 · Chicago, IL · Dr. James Park · June 2026</div>
     </div>
-
-    <section class="sc-risk sc-risk-green" aria-label="Toxic stress risk">
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-green" aria-label="Toxic stress risk">
       <div class="sc-risk-label">Toxic stress risk</div>
       <div class="sc-risk-head">
         <span class="sc-risk-plan">Green Action Plan</span>
@@ -782,21 +876,22 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
       
     </section>
-
-    <div class="sc-scores">
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
         <span class="sc-score-val">2<small> / 10</small></span>
-        <span class="sc-score-sub">De-identified · Later childhood (after age 5)</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
       <div class="sc-score">
         <span class="sc-score-label">PCE score</span>
         <span class="sc-score-val sc-pce">6<small> / 7</small></span>
-        <span class="sc-score-sub">Strong — a strength to build on · does not lower risk</span>
+        <span class="sc-score-sub">High</span>
       </div>
     </div>
-
-    <div class="sc-rail-block">
+        <div class="sc-ov-pair">
+          <div class="sc-rail-block">
       <div class="sc-rail-label">ACE-associated conditions</div>
       <div class="sc-conds"><span class="sc-muted">None currently presenting</span></div>
     </div>
@@ -806,31 +901,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       <div class="sc-stress"><span class="sc-dot sc-dot-green" aria-hidden="true"></span>Stable</div>
       <div class="sc-muted">Well-regulated; good social support</div>
     </div>
-
-    <section class="sc-risk sc-risk-green sc-risk-detail" aria-label="What the risk level means">
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-green sc-risk-detail" aria-label="What the risk level means">
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
-        <p>ACE 2 with no ACE-associated conditions currently presenting and stable current stress — low risk on ACE score and conditions alone. PCE 6/7 is a real strength to build on, but it is not used to lower the risk tier. No active clinical intervention indicated; preventive wellness plan appropriate.</p>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 2 with no ACE-associated conditions currently presenting and stable current stress — low risk on ACE score and conditions alone. PCE 6/7 is a real strength to build on, but it is not used to lower the risk tier. No active clinical intervention indicated; preventive wellness plan appropriate.</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 2/10 (medium) — de-identified count; timing: Later childhood (after age 5).</li>
+              <li>PCE 6/7 (high) — a strength to build on; PCEs never lower the risk tier.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
       </div>
       <div class="sc-risk-block">
         <div class="sc-risk-sub">Recommended management</div>
         <p>Preventive care — wellness promotion, light clinician oversight, and patient-directed tools between visits</p>
-        <div class="sc-chips"><span class="sc-chip">Annual check-in</span><span class="sc-chip">3-month follow-up after this visit</span><span class="sc-chip">Patient-directed between visits</span><span class="sc-chip">No specialist referral required at this time</span></div>
       </div>
     </section>
+      </div>
+    </div>
+  </section>
 
-    <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-
-    <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented</div>
-  </aside>
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#david-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#david-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#david-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
 
   <main class="sc-main">
-    <section class="sc-card" aria-labelledby="david-visit">
+    <section class="sc-card" id="david-focus" aria-labelledby="david-visit">
       <div class="sc-card-head">
-        <h2 id="david-visit">At this visit</h2>
+        <h2 id="david-visit">Today's Focus</h2>
         <span class="sc-card-sub">Three actions for today's appointment — stable, low-risk presentation</span>
       </div>
       <div class="sc-visit">
@@ -868,9 +982,9 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     </section>
 
-    <section class="sc-card" aria-labelledby="david-plan">
+    <section class="sc-card" id="david-actions" aria-labelledby="david-plan">
       <div class="sc-card-head">
-        <h2 id="david-plan">Patient action plan</h2>
+        <h2 id="david-plan">Patient Action Plan</h2>
         <span class="sc-card-sub sc-count" data-persona="david"></span>
       </div>
       <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
@@ -883,7 +997,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s1">1</div>
         <div class="stage-head-text">
           <div class="stage-name">Physical health foundations</div>
           <div class="stage-note">No urgency — these are preventive investments. Offer at this visit and revisit annually.</div>
@@ -933,7 +1046,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s3">2</div>
         <div class="stage-head-text">
           <div class="stage-name">Protective factor reinforcement</div>
           <div class="stage-note">PCE 6/7 is a major strength. Goal is to maintain and deepen what already exists — not to repair.</div>
@@ -996,13 +1108,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 <div id="aisha" class="persona">
 <div class="sc-page">
 
-  <aside class="sc-rail" aria-label="Patient snapshot">
-    <div class="sc-id">
+  <section class="sc-overview" id="aisha-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
       <h1 class="sc-name">Aisha Thompson</h1>
       <div class="sc-meta">22 · Atlanta, GA · Dr. Keisha Williams · June 2026</div>
     </div>
-
-    <section class="sc-risk sc-risk-yellow" aria-label="Toxic stress risk">
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-yellow" aria-label="Toxic stress risk">
       <div class="sc-risk-label">Toxic stress risk</div>
       <div class="sc-risk-head">
         <span class="sc-risk-plan">Yellow Action Plan</span>
@@ -1015,21 +1131,23 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
       <div class="sc-flag"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg><span><strong>Early-childhood flag.</strong> Early-childhood ACEs (age 0–3) — potentially higher risk</span></div>
     </section>
-
-    <div class="sc-scores">
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
         <span class="sc-score-val">3<small> / 10</small></span>
-        <span class="sc-score-sub">De-identified · All ACEs age 0–3</span>
+        <span class="sc-score-sub">Medium</span>
+        <span class="sc-score-flag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg>Early childhood · age 0–3</span>
       </div>
       <div class="sc-score">
         <span class="sc-score-label">PCE score</span>
         <span class="sc-score-val sc-pce">5<small> / 7</small></span>
-        <span class="sc-score-sub">High — a strength to build on · does not lower risk</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
     </div>
-
-    <div class="sc-rail-block">
+        <div class="sc-ov-pair">
+          <div class="sc-rail-block">
       <div class="sc-rail-label">ACE-associated conditions</div>
       <div class="sc-conds"><span class="sc-cond">Depression</span><span class="sc-cond">Anxiety / panic</span><span class="sc-cond">Sleep disturbance</span><span class="sc-cond">PTSD</span></div>
     </div>
@@ -1039,31 +1157,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       <div class="sc-stress"><span class="sc-dot sc-dot-yellow" aria-hidden="true"></span>Elevated</div>
       <div class="sc-muted">Shutdown/dissociative presentation; limited cortical access</div>
     </div>
-
-    <section class="sc-risk sc-risk-yellow sc-risk-detail" aria-label="What the risk level means">
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-yellow sc-risk-detail" aria-label="What the risk level means">
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
-        <p>ACE 3 with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions — places this patient at intermediate risk. PCE 5/7 is a strength to build on but does not lower the risk tier. Elevated current stress with a shutdown/dissociative presentation means stabilization must precede processing. Flagged: all ACEs occurred at age 0–3, before language — potentially higher risk than the ACE score alone suggests. The flag sits alongside the score rather than changing it; use clinical judgment on intensity. Early timing also shapes which therapeutic entry points are accessible (body-based before cognitive).</p>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 3 with depression, anxiety, PTSD, and sleep disturbance — all documented ACE-associated conditions — places this patient at intermediate risk. PCE 5/7 is a strength to build on but does not lower the risk tier. Elevated current stress with a shutdown/dissociative presentation means stabilization must precede processing. Flagged: all ACEs occurred at age 0–3, before language — potentially higher risk than the ACE score alone suggests. The flag sits alongside the score rather than changing it; use clinical judgment on intensity. Early timing also shapes which therapeutic entry points are accessible (body-based before cognitive).</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 3/10 (medium) — de-identified count; timing: All ACEs age 0–3.</li>
+              <li>PCE 5/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
       </div>
       <div class="sc-risk-block">
         <div class="sc-risk-sub">Recommended management</div>
         <p>Active stress management required — ACE-associated mental health conditions indicate structured intervention, specialist referral, and monthly check-ins</p>
-        <div class="sc-chips"><span class="sc-chip">Follow-up within 2–4 weeks</span><span class="sc-chip">Monthly check-ins until stable</span><span class="sc-chip">Specialist referral this visit</span><span class="sc-chip">Goal: downgrade to Green within 6–12 months</span></div>
       </div>
     </section>
+      </div>
+    </div>
+  </section>
 
-    <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-
-    <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented</div>
-  </aside>
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#aisha-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#aisha-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#aisha-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
 
   <main class="sc-main">
-    <section class="sc-card" aria-labelledby="aisha-visit">
+    <section class="sc-card" id="aisha-focus" aria-labelledby="aisha-visit">
       <div class="sc-card-head">
-        <h2 id="aisha-visit">At this visit</h2>
+        <h2 id="aisha-visit">Today's Focus</h2>
         <span class="sc-card-sub">Three actions for today's appointment — elevated current stress, shutdown/dissociative presentation</span>
       </div>
       <div class="sc-visit">
@@ -1101,9 +1238,9 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     </section>
 
-    <section class="sc-card" aria-labelledby="aisha-plan">
+    <section class="sc-card" id="aisha-actions" aria-labelledby="aisha-plan">
       <div class="sc-card-head">
-        <h2 id="aisha-plan">Patient action plan</h2>
+        <h2 id="aisha-plan">Patient Action Plan</h2>
         <span class="sc-card-sub sc-count" data-persona="aisha"></span>
       </div>
       <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
@@ -1119,7 +1256,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s1">1</div>
         <div class="stage-head-text">
           <div class="stage-name">Safety and stabilization — extended</div>
           <div class="stage-note">Minimum 6–8 weeks. Shutdown/dissociative presentation requires longer Stage 1. Do not advance until somatic regulation is established.</div>
@@ -1194,7 +1330,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s2">2</div>
         <div class="stage-head-text">
           <div class="stage-name">Trauma processing</div>
           <div class="stage-note">Begin when Stage 1 stable — 8–10 weeks minimum. Dissociation must be managed. Requires therapist with pre-verbal trauma experience.</div>
@@ -1229,7 +1364,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s3">3</div>
         <div class="stage-head-text">
           <div class="stage-name">Integration and reconnection</div>
           <div class="stage-note">PCE 5 means the relational foundation is already there. Activate it deliberately.</div>
@@ -1292,13 +1426,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 <div id="marcus" class="persona">
 <div class="sc-page">
 
-  <aside class="sc-rail" aria-label="Patient snapshot">
-    <div class="sc-id">
+  <section class="sc-overview" id="marcus-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
       <h1 class="sc-name">Marcus Webb</h1>
       <div class="sc-meta">52 · Houston, TX · Dr. Patricia Nguyen · June 2026</div>
     </div>
-
-    <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented · ACE ≥4 threshold met</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
       <div class="sc-risk-label">Toxic stress risk</div>
       <div class="sc-risk-head">
         <span class="sc-risk-plan">Red Action Plan</span>
@@ -1311,21 +1449,22 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
       
     </section>
-
-    <div class="sc-scores">
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
         <span class="sc-score-val">4<small> / 10</small></span>
-        <span class="sc-score-sub">De-identified · Ages 5–12</span>
+        <span class="sc-score-sub">High</span>
       </div>
       <div class="sc-score">
         <span class="sc-score-label">PCE score</span>
         <span class="sc-score-val sc-pce">3<small> / 7</small></span>
-        <span class="sc-score-sub">Low · does not lower risk</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
     </div>
-
-    <div class="sc-rail-block">
+        <div class="sc-ov-pair">
+          <div class="sc-rail-block">
       <div class="sc-rail-label">ACE-associated conditions</div>
       <div class="sc-conds"><span class="sc-cond">IBS</span><span class="sc-cond">Type 2 diabetes</span><span class="sc-cond">Overweight (BMI 31)</span></div>
     </div>
@@ -1335,31 +1474,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       <div class="sc-stress"><span class="sc-dot sc-dot-red" aria-hidden="true"></span>High</div>
       <div class="sc-muted">Chronic baseline stress; somatic manifestation active</div>
     </div>
-
-    <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
-        <p>ACE 4 is at the clinical threshold, but three concurrent ACE-associated physical conditions (IBS = gut-brain axis disruption; T2D + overweight = metabolic dysregulation from chronic cortisol) escalate to Red. This is the critical Lucent insight: raw ACE score undersells risk when physical disease burden is high. IBS is a direct gut-brain axis manifestation; insulin resistance and abdominal obesity are hallmark markers of allostatic load. Stress biology is not latent — it is actively driving disease.</p>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 4 is at the clinical threshold, but three concurrent ACE-associated physical conditions (IBS = gut-brain axis disruption; T2D + overweight = metabolic dysregulation from chronic cortisol) escalate to Red. This is the critical Lucent insight: raw ACE score undersells risk when physical disease burden is high. IBS is a direct gut-brain axis manifestation; insulin resistance and abdominal obesity are hallmark markers of allostatic load. Stress biology is not latent — it is actively driving disease.</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 4/10 (high) — de-identified count; timing: Ages 5–12.</li>
+              <li>PCE 3/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
       </div>
       <div class="sc-risk-block">
         <div class="sc-risk-sub">Recommended management</div>
         <p>Comprehensive care — ACE biology actively driving physical disease across multiple systems; PCP holds the thread between all providers</p>
-        <div class="sc-chips"><span class="sc-chip">Follow-up within 1–2 weeks</span><span class="sc-chip">Bi-weekly check-ins</span><span class="sc-chip">PCP coordinates all providers</span><span class="sc-chip">Multi-specialist referral this visit</span></div>
       </div>
     </section>
+      </div>
+    </div>
+  </section>
 
-    <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-
-    <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented · ACE ≥4 threshold met</div>
-  </aside>
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#marcus-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#marcus-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#marcus-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
 
   <main class="sc-main">
-    <section class="sc-card" aria-labelledby="marcus-visit">
+    <section class="sc-card" id="marcus-focus" aria-labelledby="marcus-visit">
       <div class="sc-card-head">
-        <h2 id="marcus-visit">At this visit</h2>
+        <h2 id="marcus-visit">Today's Focus</h2>
         <span class="sc-card-sub">Priority actions — stress biology actively manifesting as physical disease</span>
       </div>
       <div class="sc-visit">
@@ -1397,9 +1555,9 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     </section>
 
-    <section class="sc-card" aria-labelledby="marcus-plan">
+    <section class="sc-card" id="marcus-actions" aria-labelledby="marcus-plan">
       <div class="sc-card-head">
-        <h2 id="marcus-plan">Patient action plan</h2>
+        <h2 id="marcus-plan">Patient Action Plan</h2>
         <span class="sc-card-sub sc-count" data-persona="marcus"></span>
       </div>
       <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
@@ -1412,7 +1570,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s1">1</div>
         <div class="stage-head-text">
           <div class="stage-name">Safety, stabilization and physical foundation</div>
           <div class="stage-note">Begin here. Address physical manifestations of stress biology first — these are both clinical targets and entry points for engagement.</div>
@@ -1483,7 +1640,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s2">2</div>
         <div class="stage-head-text">
           <div class="stage-name">Trauma processing</div>
           <div class="stage-note">Begin when Stage 1 stable — typically 6–8 weeks. Physical symptoms should be reducing before trauma processing begins.</div>
@@ -1518,7 +1674,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s3">3</div>
         <div class="stage-head-text">
           <div class="stage-name">Integration — metabolic and social</div>
           <div class="stage-note">Parallel with late Stage 2. Exercise and MBSR are both stress interventions and direct T2D/IBS clinical interventions.</div>
@@ -1601,13 +1756,17 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 <div id="elena" class="persona">
 <div class="sc-page">
 
-  <aside class="sc-rail" aria-label="Patient snapshot">
-    <div class="sc-id">
+  <section class="sc-overview" id="elena-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
       <h1 class="sc-name">Elena Vasquez</h1>
       <div class="sc-meta">44 · Denver, CO · Dr. Samuel Osei · June 2026</div>
     </div>
-
-    <section class="sc-risk sc-risk-yellow" aria-label="Toxic stress risk">
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented · ACE 1–3 tier</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-yellow" aria-label="Toxic stress risk">
       <div class="sc-risk-label">Toxic stress risk</div>
       <div class="sc-risk-head">
         <span class="sc-risk-plan">Yellow Action Plan</span>
@@ -1620,21 +1779,22 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
       
     </section>
-
-    <div class="sc-scores">
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
       <div class="sc-score">
         <span class="sc-score-label">ACE score</span>
         <span class="sc-score-val">2<small> / 10</small></span>
-        <span class="sc-score-sub">De-identified · Ages 7–11</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
       <div class="sc-score">
         <span class="sc-score-label">PCE score</span>
         <span class="sc-score-val sc-pce">4<small> / 7</small></span>
-        <span class="sc-score-sub">Moderate · does not lower risk</span>
+        <span class="sc-score-sub">Medium</span>
       </div>
     </div>
-
-    <div class="sc-rail-block">
+        <div class="sc-ov-pair">
+          <div class="sc-rail-block">
       <div class="sc-rail-label">ACE-associated conditions</div>
       <div class="sc-conds"><span class="sc-cond">Hashimoto's thyroiditis</span><span class="sc-cond">Alcohol use 14 drinks/wk</span></div>
     </div>
@@ -1644,31 +1804,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       <div class="sc-stress"><span class="sc-dot sc-dot-yellow" aria-hidden="true"></span>Elevated</div>
       <div class="sc-muted">Alcohol use pattern suggests active self-medication of stress</div>
     </div>
-
-    <section class="sc-risk sc-risk-yellow sc-risk-detail" aria-label="What the risk level means">
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-yellow sc-risk-detail" aria-label="What the risk level means">
       <div class="sc-risk-block">
         <div class="sc-risk-sub">What this means</div>
-        <p>ACE 2 is modest, but Hashimoto's thyroiditis is a documented ACE-associated autoimmune condition (stress-immune dysregulation pathway). The key clinical signal here is the alcohol use: 14 drinks/week exceeds NIAAA guidelines and, in the ACE framework, is a textbook stress self-medication pattern (Felitti 1998: 7.4× odds of alcoholism at ACE ≥4; lower ACE still carries elevated risk). Addressing the alcohol without addressing the underlying stress biology is likely to fail. Yellow plan appropriate: active management needed, but not the multi-system crisis of a Red presentation.</p>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 2 is modest, but Hashimoto's thyroiditis is a documented ACE-associated autoimmune condition (stress-immune dysregulation pathway). The key clinical signal here is the alcohol use: 14 drinks/week exceeds NIAAA guidelines and, in the ACE framework, is a textbook stress self-medication pattern (Felitti 1998: 7.4× odds of alcoholism at ACE ≥4; lower ACE still carries elevated risk). Addressing the alcohol without addressing the underlying stress biology is likely to fail. Yellow plan appropriate: active management needed, but not the multi-system crisis of a Red presentation.</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 2/10 (medium) — de-identified count; timing: Ages 7–11.</li>
+              <li>PCE 4/7 (medium) — a strength to build on; PCEs never lower the risk tier.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
       </div>
       <div class="sc-risk-block">
         <div class="sc-risk-sub">Recommended management</div>
         <p>Active stress management required — autoimmune and alcohol patterns indicate structured intervention, specialist referral, and monthly check-ins</p>
-        <div class="sc-chips"><span class="sc-chip">Follow-up within 2–4 weeks</span><span class="sc-chip">Monthly check-ins until stable</span><span class="sc-chip">Specialist referral this visit</span><span class="sc-chip">Goal: downgrade to Green within 6–12 months</span></div>
       </div>
     </section>
+      </div>
+    </div>
+  </section>
 
-    <details class="sc-pce-detail">
-      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <ul><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Sense of belonging at school</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
-    </details>
-
-    <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9920</span> Log today: ACE screening performed and documented · ACE 1–3 tier</div>
-  </aside>
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#elena-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#elena-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#elena-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
 
   <main class="sc-main">
-    <section class="sc-card" aria-labelledby="elena-visit">
+    <section class="sc-card" id="elena-focus" aria-labelledby="elena-visit">
       <div class="sc-card-head">
-        <h2 id="elena-visit">At this visit</h2>
+        <h2 id="elena-visit">Today's Focus</h2>
         <span class="sc-card-sub">Priority actions — address alcohol as stress coping, not substance problem in isolation</span>
       </div>
       <div class="sc-visit">
@@ -1706,9 +1885,9 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     </section>
 
-    <section class="sc-card" aria-labelledby="elena-plan">
+    <section class="sc-card" id="elena-actions" aria-labelledby="elena-plan">
       <div class="sc-card-head">
-        <h2 id="elena-plan">Patient action plan</h2>
+        <h2 id="elena-plan">Patient Action Plan</h2>
         <span class="sc-card-sub sc-count" data-persona="elena"></span>
       </div>
       <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
@@ -1721,7 +1900,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
       </div>
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s1">1</div>
         <div class="stage-head-text">
           <div class="stage-name">Safety and stabilization — address alcohol and autoimmune foundations</div>
           <div class="stage-note">Alcohol reduction is the first clinical priority. Stress management is the mechanism — not willpower. Autoimmune inflammation responds directly to stress reduction.</div>
@@ -1792,7 +1970,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s2">2</div>
         <div class="stage-head-text">
           <div class="stage-name">Trauma processing</div>
           <div class="stage-note">Begin when alcohol is within NIAAA guidelines and alternative stress coping is in place. Flight-primary presentation with cortical window available — cognitive approaches well-matched.</div>
@@ -1823,7 +2000,6 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
     <div class="stage-block">
       <div class="stage-head">
-        <div class="stage-num s3">3</div>
         <div class="stage-head-text">
           <div class="stage-name">Integration — build adult protective conditions</div>
           <div class="stage-note">Parallel with late Stage 2. Exercise and MBSR both support autoimmune management and reduce alcohol cravings.</div>
@@ -1903,6 +2079,50 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 
 
 <script>
+function toggleSummary(btn) {
+  const box = btn.closest('.sc-summary');
+  const open = !box.classList.contains('open');
+  box.classList.toggle('open', open);
+  box.querySelector('.sc-summary-more').hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  btn.querySelector('span').textContent = open ? 'Show less' : 'Read full summary';
+}
+
+// ── Section slider ────────────────────────────────────────────────────
+function moveJumpThumbs() {
+  document.querySelectorAll('.persona.active .sc-jump-track').forEach(track => {
+    const cur = track.querySelector('[aria-current="true"]');
+    const thumb = track.querySelector('.sc-jump-thumb');
+    if (!cur || !thumb) return;
+    thumb.style.left = cur.offsetLeft + 'px';
+    thumb.style.width = cur.offsetWidth + 'px';
+  });
+}
+function setJump(link) {
+  link.closest('.sc-jump-track').querySelectorAll('.sc-jump-link').forEach(l => l.removeAttribute('aria-current'));
+  link.setAttribute('aria-current', 'true');
+  moveJumpThumbs();
+}
+document.addEventListener('click', e => {
+  const link = e.target.closest('.sc-jump-link');
+  if (link) setJump(link);
+  if (e.target.closest('.ptab')) requestAnimationFrame(moveJumpThumbs);
+});
+window.addEventListener('scroll', () => {
+  const persona = document.querySelector('.persona.active');
+  if (!persona) return;
+  const links = [...persona.querySelectorAll('.sc-jump-link')];
+  let current = links[0];
+  links.forEach(l => {
+    const sec = document.querySelector(l.getAttribute('href'));
+    if (sec && sec.getBoundingClientRect().top < 140) current = l;
+  });
+  if (current && current.getAttribute('aria-current') !== 'true') setJump(current);
+}, { passive: true });
+window.addEventListener('resize', moveJumpThumbs);
+document.addEventListener('DOMContentLoaded', moveJumpThumbs);
+document.fonts && document.fonts.ready.then(moveJumpThumbs);
+
 // ── Split Command interactions ────────────────────────────────────────
 function toggleWhy(btn) {
   const box = btn.closest('.sc-rec, .sc-visit').querySelector('.sc-why');
