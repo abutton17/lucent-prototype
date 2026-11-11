@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lucent · Steady Glucose prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: chapter list | phone on a dark stage | caption and talk track. Single dark look to match the ring app. */
+:root {
+  --bg: #0A0C10;
+  --panel: #12151B;
+  --line: #232833;
+  --fg: #EEF0F3;
+  --muted: #9AA2AF;
+  --gold: #C3C8D2;
+  --gold-ink: #0B1622;
+  --gold-soft: #1C2129;
+  --sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.app { min-height: 100%; display: flex; flex-direction: column; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px; gap: 16px; box-sizing: border-box; }
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.brand b { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.brand span { color: var(--muted); font-size: 14px; }
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.kbd { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.kbd kbd { font-family: var(--mono); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; color: var(--fg); background: var(--panel); }
+.toggle { min-height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font-size: 13px; cursor: pointer; }
+.toggle[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+
+.main { flex: 1; display: grid; grid-template-columns: 240px minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+.app.focus .main { grid-template-columns: minmax(0, 1fr) 340px; }
+.app.focus .nav { display: none; }
+
+.nav { display: flex; flex-direction: column; gap: 18px; position: sticky; top: env(safe-area-inset-top, 0px); }
+.nav h2 { margin: 0 0 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+.nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.nav button { width: 100%; text-align: left; display: flex; gap: 10px; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid transparent; background: transparent; color: var(--muted); font-size: 14px; cursor: pointer; }
+.nav button:hover { color: var(--fg); background: var(--panel); }
+.nav button[aria-current="step"] { color: var(--fg); background: var(--panel); border-color: var(--line); }
+.nav .n { font-family: var(--mono); font-size: 12px; width: 18px; color: var(--gold); }
+
+.stage { display: flex; flex-direction: column; align-items: center; gap: 16px; min-width: 0; }
+.phone-box { width: calc(414px * var(--s, 1)); height: calc(868px * var(--s, 1)); }
+.phone { width: 414px; height: 868px; transform: scale(var(--s, 1)); transform-origin: top left; box-sizing: border-box; padding: 12px; border-radius: 56px; background: #05070A; border: 1px solid #2A2F3A; box-shadow: 0 30px 80px rgba(0,0,0,0.55); }
+.viewport { width: 390px; height: 844px; border-radius: 44px; overflow-y: auto; overflow-x: hidden; background: #0F1218; scrollbar-width: none; position: relative; }
+.viewport::-webkit-scrollbar { display: none; }
+.viewport a { color: #E6E8EC; text-decoration: none; }
+.viewport a:hover { color: #FFFFFF; }
+.viewport > div > div { font-family: 'DM Sans', system-ui, sans-serif; }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
+.step-btn { min-height: 40px; min-width: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid var(--line); background: var(--panel); color: var(--fg); font-size: 14px; cursor: pointer; }
+.step-btn:disabled { opacity: 0.4; cursor: default; }
+.count { font-family: var(--mono); font-size: 13px; color: var(--muted); min-width: 64px; text-align: center; font-variant-numeric: tabular-nums; }
+.demo { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.seg button { min-height: 34px; padding: 0 12px; border: none; background: var(--panel); color: var(--muted); font-size: 13px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--gold); color: var(--gold-ink); }
+.ghost { min-height: 34px; padding: 0 12px; border-radius: 17px; border: 1px dashed var(--line); background: transparent; color: var(--muted); font-size: 13px; cursor: pointer; }
+.ghost:hover { color: var(--fg); }
+
+.side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: env(safe-area-inset-top, 0px); min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; color: var(--gold); letter-spacing: 0.04em; }
+.card h1 { margin: 0; font-size: 24px; font-weight: 500; line-height: 1.2; text-wrap: balance; }
+.card p { margin: 0; line-height: 1.55; color: #C9CED6; }
+.try { display: flex; gap: 8px; align-items: baseline; font-size: 14px; color: var(--fg); background: var(--gold-soft); border-radius: 10px; padding: 10px 12px; }
+.try b { color: var(--gold); font-weight: 600; white-space: nowrap; }
+.talk { border-color: #2E3440; }
+.talk p { font-size: 16px; color: var(--fg); }
+.disclaimer { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+@media (max-width: 1180px) {
+  .main, .app.focus .main { grid-template-columns: minmax(0, 1fr); }
+  .nav { position: static; flex-direction: row; overflow-x: auto; gap: 16px; }
+  .nav section { min-width: max-content; }
+  .nav ol { flex-direction: row; }
+  .nav button { width: auto; white-space: nowrap; }
+  .side { position: static; max-width: 560px; margin-inline: auto; width: 100%; }
+}
+@media (max-width: 600px) {
+  .tools { display: none; }
+  .brand span { font-size: 13px; }
+  .nav { gap: 12px; padding-bottom: 4px; }
+  .phone { padding: 8px; border-radius: 48px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .viewport > div { animation: in 180ms ease-out; }
+  @keyframes in { from { opacity: 0.4; } to { opacity: 1; } }
+}
+</style>
+
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand"><b>Stress Roots</b><span>Prototype v3 for Oura · the prediabetes experiment, member view · concept mockup, not affiliated with Oura</span></div>
+    <div class="tools">
+      <span class="kbd"><kbd>←</kbd> <kbd>→</kbd> step · <kbd>F</kbd> focus</span>
+      <button class="toggle" id="focusBtn" aria-pressed="false">Focus mode</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <nav class="nav" id="nav" aria-label="Screens"></nav>
+
+    <div class="stage">
+      <div class="phone-box"><div class="phone"><div class="viewport" id="viewport" aria-live="polite"><div id="root"></div></div></div></div>
+      <div class="controls">
+        <button class="step-btn" id="prev" aria-label="Previous screen">←</button>
+        <span class="count" id="count">1 / 12</span>
+        <button class="step-btn" id="next" aria-label="Next screen">→</button>
+      </div>
+      <div class="demo" id="demo"></div>
+    </div>
+
+    <aside class="side">
+      <div class="card">
+        <span class="eyebrow" id="eyebrow"></span>
+        <h1 id="label"></h1>
+        <p id="caption"></p>
+        <div class="try"><b>Try</b><span id="tryit"></span></div>
+      </div>
+      <p class="disclaimer">All data on these screens is illustrative. Stress Roots offers wellness context, not a diagnosis.</p>
+    </aside>
+  </div>
+</div>
+
+<template id="tpl-Goal">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 24px; gap: 14px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="#" aria-label="Close" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE; letter-spacing: 0.06em">STEADY GLUCOSE</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div style="padding: 0 4px; display: flex; flex-direction: column; gap: 12px; margin-top: 8px">
+    <h1 style="margin: 0; font-size: 28px; font-weight: 400; line-height: 1.2">Treating toxic stress can help you manage prediabetes</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #C3C8D2">Toxic stress can make blood sugar harder to manage. Knowing your stress history can help you find the path most likely to work for you.</p>
+  </div>
+  <ol style="list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column">
+    <li style="display: flex; gap: 12px; align-items: center; padding: 10px 4px; border-bottom: 1px solid #222731"><span style="width: 26px; height: 26px; border-radius: 13px; background: #2A2F3A; display: flex; align-items: center; justify-content: center; font-size: 12px">1</span><span style="flex: 1; font-size: 16px">Your stress history</span><span style="font-size: 13px; color: #8D96A6">2 min</span></li>
+    <li style="display: flex; gap: 12px; align-items: center; padding: 10px 4px; border-bottom: 1px solid #222731"><span style="width: 26px; height: 26px; border-radius: 13px; background: #2A2F3A; display: flex; align-items: center; justify-content: center; font-size: 12px">2</span><span style="flex: 1; font-size: 16px">Stress-related conditions</span><span style="font-size: 13px; color: #8D96A6">1 min</span></li>
+    <li style="display: flex; gap: 12px; align-items: center; padding: 10px 4px; border-bottom: 1px solid #222731"><span style="width: 26px; height: 26px; border-radius: 13px; background: #2A2F3A; display: flex; align-items: center; justify-content: center; font-size: 12px">3</span><span style="flex: 1; font-size: 16px">Your stress buffers</span><span style="font-size: 13px; color: #8D96A6">3 min</span></li>
+  </ol>
+  <div style="flex: 1"></div>
+  <label style="display: flex; gap: 12px; align-items: center; font-size: 14px; line-height: 1.45; color: #D5D9E0; cursor: pointer">
+    <input type="checkbox" checked="{{agreed}}" onChange="{{toggle}}" style="width: 22px; height: 22px; margin: 0; accent-color: #E6E8EC; flex: 0 0 auto">
+    <span>Questions are private, and you can skip any.</span>
+  </label>
+  <sc-if value="{{agreed}}" hint-placeholder-val="{{ true }}"><a href="Roots.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500; border: none; font-family: inherit; cursor: pointer">Get started</a></sc-if>
+  <sc-if value="{{notAgreed}}" hint-placeholder-val="{{ false }}"><span style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500; border: none; font-family: inherit; cursor: pointer; background: #2A2F3A; color: #8D96A6">Get started</span></sc-if>
+</div>
+</template>
+<template id="tpl-Roots">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 24px; gap: 14px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Goal.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 1 of 3 · Stress history</span>
+    <span style="width: 44px"></span>
+  </div>
+
+  <h1 style="margin: 8px 0 0; padding: 0 4px; font-size: 26px; font-weight: 400; line-height: 1.2; white-space: nowrap">Childhood stress can linger</h1>
+  <div style="display: flex; flex-direction: column; gap: 22px; padding: 12px 4px 0">
+    <div style="display: flex; gap: 14px; align-items: flex-start">
+      <span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 18px; background: #232833; color: #C3C8D2; display: flex; align-items: center; justify-content: center; font-size: 18px"><span style="width: 8px; height: 8px; border-radius: 4px; background: #C3C8D2; display: block"></span></span>
+      <div style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 17px; line-height: 1.3">It keeps the body on alert</span><span style="font-size: 14px; line-height: 1.45; color: #A8B0BE">Abuse, neglect, or violence or addiction at home can keep the stress system switched on.</span></div>
+    </div>
+    <div style="display: flex; gap: 14px; align-items: flex-start">
+      <span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 18px; background: #232833; color: #C3C8D2; display: flex; align-items: center; justify-content: center; font-size: 18px">↑</span>
+      <div style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 17px; line-height: 1.3">It raises health risks</span><span style="font-size: 14px; line-height: 1.45; color: #A8B0BE">Like diabetes, heart disease and depression. With 4+ childhood stressors, the odds of diabetes are 44% higher.<br><span style="font-size: 11.5px; color: #6F7787">Source: Zhu et al., 2022</span></span></div>
+    </div>
+    <div style="display: flex; gap: 14px; align-items: flex-start">
+      <span aria-hidden="true" style="width: 36px; height: 36px; flex: 0 0 36px; border-radius: 18px; background: #232833; color: #C3C8D2; display: flex; align-items: center; justify-content: center; font-size: 18px">↓</span>
+      <div style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 17px; line-height: 1.3">It can be treated</span><span style="font-size: 14px; line-height: 1.45; color: #A8B0BE">The right habits calm the stress response over time.</span></div>
+    </div>
+  </div>
+  <div style="margin-top: 10px; background: #181C24; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">NEXT</span>
+    <span style="font-size: 15px; line-height: 1.4">10 yes/no questions about childhood</span>
+    <span style="font-size: 13px; line-height: 1.4; color: #A8B0BE">Many people answer yes to one or more. Skip any.</span>
+  </div>
+  <div style="flex: 1"></div>
+  <a href="History.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500; border: none; font-family: inherit; cursor: pointer">Continue</a>
+  <a href="Health.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; color: #A8B0BE">Skip this step for now</a>
+  <span style="font-size: 12px; color: #8D96A6; text-align: center">Feeling stirred up? Call or text <a href="tel:988">988</a> anytime.</span>
+</div>
+</template>
+<template id="tpl-History">
+
+<div style="width: 390px; height: 1390px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Roots.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 1 of 3 · Stress history</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">Before you turned 18, did you…</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Tap Yes or No. Leave any blank to skip.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+    <section aria-label="{{g.title}}" style="display: flex; flex-direction: column">
+      <span style="padding: 8px 4px 4px; font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">{{g.title}}</span>
+      <sc-for list="{{g.rows}}" as="r" hint-placeholder-count="5">
+        <div style="{{r.wrap}}"><span style="flex: 1; font-size: 14.5px; line-height: 1.35">{{r.text}}</span><div role="radiogroup" aria-label="{{r.text}}" style="display: grid; grid-template-columns: 56px 56px; gap: 6px"><sc-for list="{{r.opts}}" as="o" hint-placeholder-count="2"><button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button></sc-for></div></div>
+      </sc-for>
+    </section>
+  </sc-for>
+  <section aria-label="Your privacy" style="display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 20px; background: #1C2129; border: 1px solid #2E3440">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span style="width: 32px; height: 32px; border-radius: 16px; background: #2A2F3A; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C3C8D2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+      <span style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 16px; font-weight: 500">Your answers stay private</span><span style="font-size: 12.5px; color: #A8B0BE">Used only to tailor your plan.</span></span>
+    </div>
+    <button role="switch" aria-checked="{{countOnly}}" onClick="{{toggle}}" style="all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-top: 14px; border-top: 1px solid #2E3440; font-family: inherit">
+      <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px">Save only my count</span><span style="font-size: 12.5px; color: #A8B0BE">{{countSub}}</span></span>
+      <span style="{{track}}"><span style="{{knob}}"></span></span>
+    </button>
+  </section>
+  <a href="Health.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Continue</a>
+  <span style="font-size: 12px; color: #8D96A6; text-align: center">Feeling stirred up? Take a break, or call or text <a href="tel:988">988</a>.</span>
+</div>
+</template>
+<template id="tpl-Health">
+
+<div style="width: 390px; height: 1556px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 24px; gap: 26px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="History.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 2 of 3 · Stress-related conditions</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">Have you been diagnosed with any of these, now or in the past?</h1>
+    <p style="margin: 0; font-size: 14.5px; line-height: 1.45; color: #A8B0BE">Conditions associated with early stress. Tap any that apply. Private, and optional.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="7">
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 0 4px">
+      <span style="font-size: 12px; letter-spacing: 0.06em; color: #8D96A6">{{g.name}}</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px"><sc-for list="{{g.items}}" as="c" hint-placeholder-count="4"><button aria-pressed="{{c.on}}" onClick="{{c.pick}}" style="{{c.style}}">{{c.name}}</button></sc-for></div>
+    </div>
+  </sc-for>
+  <div style="flex: 1"></div>
+  <a href="Today.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Continue</a>
+  <a href="Today.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 40px; font-size: 14px; color: #A8B0BE">None of these, or prefer not to say</a>
+  <span style="font-size: 12px; color: #8D96A6; text-align: center">From the ACEs Aware list. Need support now? Call or text <a href="tel:988">988</a>.</span>
+</div>
+</template>
+<template id="tpl-Today">
+
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Health.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 3 of 3 · Stress buffers</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div aria-label="Part 1 of 5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 0 4px"><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div></div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">STRESS BUFFERS</span><h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">The habits that protect you</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Now let’s look at the habits you have in place to buffer stress. There are seven. Your ring already tracks three.</p>
+  </div>
+  <section style="background: #181C24; border-radius: 18px; padding: 4px 16px; display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Sleep</span><span style="font-size: 12.5px; color: #8D96A6">5h 40m a night</span></span><span style="font-size: 12px; color: #7DB6D9; background: #1B2A33; padding: 3px 9px; border-radius: 10px; white-space: nowrap">✓ Ring</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Movement</span><span style="font-size: 12.5px; color: #8D96A6">95 of 150 active min a week</span></span><span style="font-size: 12px; color: #7DB6D9; background: #1B2A33; padding: 3px 9px; border-radius: 10px; white-space: nowrap">✓ Ring</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Mindfulness</span><span style="font-size: 12.5px; color: #8D96A6">2 sessions this week</span></span><span style="font-size: 12px; color: #7DB6D9; background: #1B2A33; padding: 3px 9px; border-radius: 10px; white-space: nowrap">✓ Ring</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Food</span><span style="font-size: 12.5px; color: #8D96A6">7 quick questions</span></span><span style="font-size: 12px; color: #8D96A6; white-space: nowrap">To answer</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Nature</span><span style="font-size: 12.5px; color: #8D96A6">2 questions</span></span><span style="font-size: 12px; color: #8D96A6; white-space: nowrap">To answer</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Community</span><span style="font-size: 12.5px; color: #8D96A6">8 questions</span></span><span style="font-size: 12px; color: #8D96A6; white-space: nowrap">To answer</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #232833;"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15.5px">Care</span><span style="font-size: 12.5px; color: #8D96A6">2 questions</span></span><span style="font-size: 12px; color: #8D96A6; white-space: nowrap">To answer</span></div>
+  </section>
+  <div style="flex: 1"></div>
+  <a href="Food.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Answer the other four</a>
+  <span style="font-size: 12px; color: #8D96A6; text-align: center">About 3 minutes</span>
+</div>
+</template>
+<template id="tpl-Food">
+
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Today.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 3 of 3 · Stress buffers</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div aria-label="Part 2 of 5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 0 4px"><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div></div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">FOOD</span><h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">How you eat most weeks</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Seven quick questions, based on the Mediterranean diet. Most weeks, do you…</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="1">
+    <section style="display: flex; flex-direction: column">
+      <span style="{{g.labelStyle}}">{{g.label}}</span>
+      <sc-for list="{{g.qs}}" as="q" hint-placeholder-count="5">
+        <div style="{{q.wrap}}"><span style="flex: 1; font-size: 14.5px; line-height: 1.35">{{q.text}}</span><div role="radiogroup" aria-label="{{q.text}}" style="display: grid; grid-template-columns: 56px 56px; gap: 6px"><sc-for list="{{q.opts}}" as="o" hint-placeholder-count="2"><button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button></sc-for></div></div>
+      </sc-for>
+    </section>
+  </sc-for>
+  <div style="flex: 1"></div>
+  <a href="Nature.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Next</a>
+  <span style="font-size: 12px; line-height: 1.45; color: #8D96A6; text-align: center">Adapted from 7 of the 14 MEDAS Mediterranean diet questions.</span>
+</div>
+</template>
+<template id="tpl-Nature">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Food.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 3 of 3 · Stress buffers</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div aria-label="Part 3 of 5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 0 4px"><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div></div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">NATURE</span><h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">Time outside</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Two quick taps.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <span style="{{g.labelStyle}}">{{g.label}}</span>
+      <div style="background: #181C24; border-radius: 18px; padding: 4px 14px; display: flex; flex-direction: column">
+        <sc-for list="{{g.qs}}" as="q" hint-placeholder-count="3">
+          <div style="{{q.wrap}}">
+            <span style="font-size: 15px; line-height: 1.35">{{q.text}}</span>
+            <div role="radiogroup" aria-label="{{q.text}}" style="{{q.grid}}"><sc-for list="{{q.opts}}" as="o" hint-placeholder-count="3"><button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button></sc-for></div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+  <div style="flex: 1"></div>
+  <a href="Community.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Next</a>
+  <span style="font-size: 12px; line-height: 1.45; color: #8D96A6; text-align: center">Two hours a week in nature is linked to better health.</span>
+</div>
+</template>
+<template id="tpl-Community">
+
+<div style="width: 390px; height: 1480px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Nature.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 3 of 3 · Stress buffers</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div aria-label="Part 4 of 5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 0 4px"><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #2A2F3A"></div></div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">COMMUNITY</span><h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">Your people</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Friends, family and community all buffer stress. Eight quick taps.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <span style="{{g.labelStyle}}">{{g.label}}</span>
+      <div style="background: #181C24; border-radius: 18px; padding: 4px 14px; display: flex; flex-direction: column">
+        <sc-for list="{{g.qs}}" as="q" hint-placeholder-count="3">
+          <div style="{{q.wrap}}">
+            <span style="font-size: 15px; line-height: 1.35">{{q.text}}</span>
+            <div role="radiogroup" aria-label="{{q.text}}" style="{{q.grid}}"><sc-for list="{{q.opts}}" as="o" hint-placeholder-count="3"><button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button></sc-for></div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+  <div style="flex: 1"></div>
+  <a href="Care.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Next</a>
+  <span style="font-size: 12px; line-height: 1.45; color: #8D96A6; text-align: center">Adapted from social network, MOS social support and UCLA loneliness measures.</span>
+</div>
+</template>
+<template id="tpl-Care">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Community.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Step 3 of 3 · Stress buffers</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div aria-label="Part 5 of 5" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 0 4px"><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div><div style="height: 4px; border-radius: 2px; background: #C3C8D2"></div></div>
+  <div style="padding: 4px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; color: #8D96A6">CARE</span><h1 style="margin: 0; font-size: 26px; font-weight: 400; line-height: 1.25">Mental health care</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Two quick taps.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <span style="{{g.labelStyle}}">{{g.label}}</span>
+      <div style="background: #181C24; border-radius: 18px; padding: 4px 14px; display: flex; flex-direction: column">
+        <sc-for list="{{g.qs}}" as="q" hint-placeholder-count="3">
+          <div style="{{q.wrap}}">
+            <span style="font-size: 15px; line-height: 1.35">{{q.text}}</span>
+            <div role="radiogroup" aria-label="{{q.text}}" style="{{q.grid}}"><sc-for list="{{q.opts}}" as="o" hint-placeholder-count="3"><button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button></sc-for></div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+  <div style="flex: 1"></div>
+  <a href="Snapshot.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">See my stress profile</a>
+  <span style="font-size: 12px; line-height: 1.45; color: #8D96A6; text-align: center">Need support now? Call or text <a href="tel:988">988</a>.</span>
+</div>
+</template>
+<template id="tpl-Snapshot">
+
+<div style="width: 390px; height: 1204px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 26px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Care.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE; letter-spacing: 0.06em">STRESS ROOTS</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div style="padding: 8px 4px 4px; display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0; font-size: 27px; font-weight: 400; line-height: 1.22">Your stress profile puts you at higher risk of diabetes</h1>
+    <p style="margin: 0; font-size: 15.5px; line-height: 1.45; color: #C3C8D2">Increasing your stress buffers can improve your overall health. Start with sleep, mental health support and community.</p>
+  </div>
+  <span style="padding: 8px 4px 0; margin-bottom: -14px; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">YOUR STRESS</span>
+  <section style="background: #181C24; border-radius: 18px; padding: 2px 16px; display: flex; flex-direction: column">
+    <a href="AceInfo.dc.html" aria-label="From childhood: high risk, 5 of 10 ACEs. Learn more" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; color: #F2F3F5; text-decoration: none">
+      <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px">From childhood</span><span style="font-size: 12.5px; color: #8D96A6">5 of 10 ACEs</span></span>
+      <span style="display: flex; align-items: center; gap: 8px; font-size: 16px; color: #E2876F"><span style="width: 8px; height: 8px; border-radius: 4px; background: #E2876F"></span>High risk<span style="color: #8D96A6; font-size: 18px">›</span></span>
+    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #232833">
+      <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px">Right now</span><span style="font-size: 12.5px; color: #8D96A6">Past month, from your ring</span></span>
+      <span style="display: flex; align-items: center; gap: 8px; font-size: 16px; color: #E6E8EC"><span style="width: 8px; height: 8px; border-radius: 4px; background: #7E8796"></span>Moderate<span style="width: 10px"></span></span>
+    </div>
+  </section>
+  <div style="padding: 8px 4px 0; margin-bottom: -14px; display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">YOUR STRESS BUFFERS</span><span style="font-size: 12px; color: #8D96A6">0–100, higher is better</span></div>
+  <section style="background: #181C24; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+    <h2 style="margin: 0; font-size: 15px; font-weight: 500">Your top 3 to work on</h2>
+    <sc-for list="{{top}}" as="b" hint-placeholder-count="3">
+      <a href="{{b.href}}" style="{{b.wrap}}">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; color: #F2F3F5"><span>{{b.name}} <span style="{{b.tagStyle}}">{{b.tag}}</span></span><span style="{{b.numStyle}}">{{b.score}}</span></div>
+        <div style="height: 6px; border-radius: 3px; background: #2A2F3A; overflow: hidden"><div style="{{b.fill}}"></div></div>
+        <span style="{{b.noteStyle}}">{{b.note}}</span>
+      </a>
+    </sc-for>
+  </section>
+  <section style="background: #181C24; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px; margin-top: -16px">
+    <h2 style="margin: 0; font-size: 15px; font-weight: 500; color: #C3C8D2">Already helping</h2>
+    <sc-for list="{{rest}}" as="b" hint-placeholder-count="4">
+      <a href="{{b.href}}" style="{{b.wrap}}">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; color: #F2F3F5"><span>{{b.name}} <span style="{{b.tagStyle}}">{{b.tag}}</span></span><span style="{{b.numStyle}}">{{b.score}}</span></div>
+        <div style="height: 6px; border-radius: 3px; background: #2A2F3A; overflow: hidden"><div style="{{b.fill}}"></div></div>
+        <span style="{{b.noteStyle}}">{{b.note}}</span>
+      </a>
+    </sc-for>
+  </section>
+  <div style="flex: 1"></div>
+  <a href="Choose.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Start first experiment</a>
+  <p style="margin: 0; padding: 0 4px; font-size: 12px; line-height: 1.5; color: #8D96A6">Wellness context, not a diagnosis. Scores are estimates from your ring and answers.</p>
+</div>
+</template>
+<template id="tpl-AceInfo">
+
+<div style="width: 390px; height: 960px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 24px; gap: 14px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Snapshot.dc.html" aria-label="Back to your stress profile" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE; letter-spacing: 0.06em">STRESS ROOTS</span>
+    <span style="width: 44px"></span>
+  </div>
+  <div style="padding: 8px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-size: 28px; font-weight: 400; line-height: 1.2">What your score means</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">ACEs are very common. If stressful events happen a lot, or last a long time, stress hormones can become abnormal. This is called toxic stress.</p>
+  </div>
+  <span style="padding: 10px 4px 0; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">RISK OF TOXIC STRESS</span>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: #181C24; border: 1px solid #232833">
+      <span style="width: 10px; height: 10px; flex: 0 0 10px; margin-top: 6px; border-radius: 5px; background: #E6E8EC"></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 3px">
+        <span style="display: flex; justify-content: space-between; align-items: baseline; font-size: 16px">Low risk</span>
+        <span style="font-size: 13.5px; line-height: 1.45; color: #A8B0BE">0–3 ACEs, and no ACE-associated health conditions</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: #181C24; border: 1px solid #232833">
+      <span style="width: 10px; height: 10px; flex: 0 0 10px; margin-top: 6px; border-radius: 5px; background: #7E8796"></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 3px">
+        <span style="display: flex; justify-content: space-between; align-items: baseline; font-size: 16px">Intermediate risk</span>
+        <span style="font-size: 13.5px; line-height: 1.45; color: #A8B0BE">1–3 ACEs, plus a related condition like diabetes, depression or sleep problems</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 16px; background: #1C2129; border: 1px solid #3A404D">
+      <span style="width: 10px; height: 10px; flex: 0 0 10px; margin-top: 6px; border-radius: 5px; background: #E2876F"></span>
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 3px">
+        <span style="display: flex; justify-content: space-between; align-items: baseline; font-size: 16px">High risk<span style="font-size: 11px; color: #0B1622; background: #E2876F; padding: 2px 8px; border-radius: 10px">You</span></span>
+        <span style="font-size: 13.5px; line-height: 1.45; color: #A8B0BE">4 or more ACEs, with or without a related condition</span>
+      </div>
+    </div>
+  </div>
+  <p style="margin: 0; padding: 0 4px; font-size: 13px; line-height: 1.45; color: #8D96A6">Lower risk does not mean no risk.</p>
+  <section style="margin-top: 6px; background: #181C24; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+    <span style="font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">THE GOOD NEWS</span>
+    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.4">
+      <span>ACEs are not destiny.</span>
+      <span>Toxic stress is treatable.</span>
+      <span>You are not your ACE score.</span>
+    </div>
+    <span style="font-size: 13.5px; line-height: 1.45; color: #A8B0BE">Sleep, exercise, nutrition, mindfulness, mental health and healthy relationships help buffer the stress response.</span>
+  </section>
+  <div style="flex: 1"></div>
+  <a href="Snapshot.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500">Back to my profile</a>
+  <span style="font-size: 12px; color: #8D96A6; text-align: center">Based on ACEs Aware guidance. Not a diagnosis.<br>Feeling stirred up? Call or text <a href="tel:988">988</a> anytime.</span>
+</div>
+</template>
+<template id="tpl-Choose">
+
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 24px; gap: 14px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Snapshot.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE">Your first experiment</span>
+    <span style="width: 44px"></span>
+  </div>
+
+  <div style="padding: 8px 4px 0; display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-size: 28px; font-weight: 400; line-height: 1.2">Pick your first experiment</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #A8B0BE">Choose a buffer, then test one habit for 2 weeks and see your results.</p>
+  </div>
+  <div role="radiogroup" aria-label="Stress buffer" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px">
+    <sc-for list="{{bufs}}" as="b" hint-placeholder-count="3">
+      <button role="radio" aria-checked="{{b.on}}" onClick="{{b.pick}}" style="{{b.style}}"><span style="{{b.chipStyle}}">Start here</span><span style="font-size: 16px">{{b.name}}</span><span style="{{b.subStyle}}">{{b.sub}}</span></button>
+    </sc-for>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 16px; background: #181C24; border: 1px solid #2E3440">
+    <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #E1E4EA">Your {{nm}} buffer is currently <span style="color: #E2876F; font-weight: 500">{{score}}</span>. Increase it to {{goal}} and improve your resilience to stress.</p>
+    <div style="position: relative; height: 6px; margin-bottom: 16px; border-radius: 3px; background: #2A2F3A">
+      <div style="{{fillStyle}}"></div>
+      <div style="{{goalStyle}}"></div>
+      <span style="{{goalLblStyle}}">Goal {{goal}}</span>
+    </div>
+  </div>
+  <span style="padding: 4px 4px 0; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">{{label}}</span>
+  <div role="radiogroup" aria-label="Experiments" style="display: flex; flex-direction: column; gap: 10px">
+    <sc-for list="{{opts}}" as="o" hint-placeholder-count="3">
+      <button role="radio" aria-checked="{{o.on}}" onClick="{{o.pick}}" style="{{o.style}}"><span style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px"><span style="font-size: 16px; line-height: 1.35">{{o.title}}</span><span style="{{o.freqStyle}}">{{o.freq}}</span></span><span style="{{o.endRow}}"><span style="{{o.avStyle}}">{{o.av}}</span><span>{{o.endText}}</span></span></button>
+    </sc-for>
+  </div>
+  <div style="flex: 1"></div>
+  <a href="Summary.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500; border: none; font-family: inherit; cursor: pointer">Commit to 2 weeks</a>
+</div>
+</template>
+<template id="tpl-Summary">
+
+<div style="width: 390px; height: 1240px; box-sizing: border-box; background: #0F1218; color: #F2F3F5; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; padding: 28px 16px 28px; gap: 26px">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 4px">
+    <a href="Choose.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 22px; background: #181C24; color: #F2F3F5; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <span style="font-size: 13px; color: #A8B0BE; letter-spacing: 0.06em">YOUR 12 WEEKS</span>
+    <span style="width: 44px"></span>
+  </div>
+
+  <div style="padding: 8px 4px 4px; display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0; font-size: 28px; font-weight: 400; line-height: 1.2">Your glucose is steadier</h1>
+    <p style="margin: 0; font-size: 15.5px; line-height: 1.45; color: #C3C8D2">You built resilience, and your glucose steadied too. 4 of your 5 experiments stuck.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+    <div style="background: #181C24; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 26px; font-weight: 300; color: #F2F3F5">+17%</span><span style="font-size: 13.5px">Stress buffers</span><span style="font-size: 12px; color: #8D96A6">Score 52 → 61</span></div>
+    <div style="background: #181C24; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 26px; font-weight: 300; color: #F2F3F5">86%</span><span style="font-size: 13.5px">Time in range</span><span style="font-size: 12px; color: #8D96A6">Up from 78%</span></div>
+  </div>
+
+  <section aria-label="A typical day of glucose, week 1 and week 12" style="background: #181C24; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 13px; color: #A8B0BE">Week 1</span><span style="font-size: 13px; color: #C3C8D2">78% in range</span></div>
+        <svg width="100%" height="56" viewBox="0 0 320 56" role="img" aria-label="Week 1: glucose spikes above the target range three times in a day">
+          <defs><clipPath id="hia"><rect x="0" y="0" width="320" height="18"></rect></clipPath></defs>
+          <rect x="0" y="18" width="320" height="28" rx="4" fill="#262B35"></rect>
+          <polyline points="0,40 20,38 35,30 48,8 60,14 75,34 95,40 115,36 130,26 142,4 156,12 172,32 195,38 215,34 230,24 242,10 256,20 270,34 290,40 320,38" fill="none" stroke="#C3C8D2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          <polyline points="0,40 20,38 35,30 48,8 60,14 75,34 95,40 115,36 130,26 142,4 156,12 172,32 195,38 215,34 230,24 242,10 256,20 270,34 290,40 320,38" fill="none" stroke="#E2876F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#hia)"></polyline>
+        </svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 13px; color: #A8B0BE">Week 12</span><span style="font-size: 13px; color: #C3C8D2">86% in range</span></div>
+        <svg width="100%" height="56" viewBox="0 0 320 56" role="img" aria-label="Week 12: glucose stays inside the target range all day">
+          <defs><clipPath id="hib"><rect x="0" y="0" width="320" height="18"></rect></clipPath></defs>
+          <rect x="0" y="18" width="320" height="28" rx="4" fill="#262B35"></rect>
+          <polyline points="0,38 20,36 35,32 48,24 60,26 75,34 95,38 115,36 130,30 142,22 156,26 172,32 195,36 215,34 230,30 242,24 256,28 270,34 290,38 320,36" fill="none" stroke="#C3C8D2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          <polyline points="0,38 20,36 35,32 48,24 60,26 75,34 95,38 115,36 130,30 142,22 156,26 172,32 195,36 215,34 230,30 242,24 256,28 270,34 290,38 320,36" fill="none" stroke="#E2876F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#hib)"></polyline>
+        </svg>
+      </div>
+      <div style="display: flex; gap: 14px; font-size: 12px; color: #8D96A6"><span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 8px; border-radius: 2px; background: #262B35; border: 1px solid #3A404D"></span>Target range</span><span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 2px; background: #E2876F"></span>Spike</span></div>
+  </section>
+
+  <span style="padding: 8px 4px 0; margin-bottom: -14px; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">YOUR STRESS BUFFERS</span>
+  <section aria-label="Stress buffers" style="background: #181C24; border-radius: 20px; padding: 6px 16px; display: flex; flex-direction: column">
+    <sc-for list="{{buffers}}" as="b" hint-placeholder-count="3">
+      <div style="{{b.wrap}}"><span style="font-size: 15px">{{b.name}}</span><span style="font-size: 15px"><span style="color: #8D96A6">{{b.before}} →&nbsp;</span>{{b.after}}</span></div>
+    </sc-for>
+  </section>
+
+  <span style="padding: 8px 4px 0; margin-bottom: -14px; font-size: 12px; letter-spacing: 0.08em; font-weight: 600; color: #E6E8EC">YOUR EXPERIMENTS</span>
+  <section aria-label="Your experiments" style="background: #181C24; border-radius: 20px; padding: 6px 16px; display: flex; flex-direction: column">
+    <sc-for list="{{exps}}" as="e" hint-placeholder-count="5">
+      <div style="{{e.wrap}}"><span style="{{e.mark}}">{{e.icon}}</span><span style="flex: 1; font-size: 14.5px; line-height: 1.35">{{e.name}}</span><span style="font-size: 13px; color: #8D96A6; white-space: nowrap">{{e.count}}</span></div>
+    </sc-for>
+  </section>
+
+  <div style="flex: 1"></div>
+  <button onClick="{{share}}" style="display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 26px; background: #86BDF0; color: #0B1622; font-size: 16px; font-weight: 500; border: none; font-family: inherit; cursor: pointer">{{shareLabel}}</button>
+  <p style="margin: -14px 0 0; padding: 0 4px; font-size: 12px; line-height: 1.5; color: #8D96A6; text-align: center">Next up: mindfulness. Not a diagnosis.</p>
+</div>
+</template>
+
+<script>
+class DCLogic {
+  constructor(p) { this.props = p || {}; this.state = {}; }
+  setState(s) { Object.assign(this.state, typeof s === 'function' ? s(this.state, this.props) : s); if (this.__draw) this.__draw(); }
+  forceUpdate() { if (this.__draw) this.__draw(); }
+}
+const SCREENS = {};
+</script>
+<script>
+SCREENS['Goal'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { agreed: true }; }
+  renderVals() { var self = this; return { agreed: this.state.agreed, notAgreed: !this.state.agreed, toggle: function () { self.setState({ agreed: !self.state.agreed }); } }; }
+}
+
+return Component;
+})();
+SCREENS['Roots'] = (function () {
+
+class Component extends DCLogic { renderVals() { return {}; } }
+
+return Component;
+})();
+SCREENS['History'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { a: [0, 1, 0, 1, 1, 0, 1, 0, 0, 1], countOnly: false }; }
+  renderVals() {
+    var self = this, a = this.state.a, co = this.state.countOnly;
+    var Q = ["Get sworn at, insulted or put down by an adult at home", "Get pushed, grabbed, slapped or hit hard enough to leave marks", "Get touched sexually by someone 5+ years older, or have them try", "Feel no one in your family loved or looked out for you", "Go without enough food, clean clothes or protection", "Have parents who separated or divorced", "See or hear a parent or caregiver being hurt or threatened", "Live with someone with a drinking or drug problem", "Live with someone depressed, mentally ill or who attempted suicide", "Have someone in your household go to jail or prison"];
+    function row(i, first) { return { text: Q[i], wrap: 'display: flex; align-items: center; gap: 12px; padding: 16px 4px; ' + (first ? '' : 'border-top: 1px solid #1E222B'),
+      opts: ['Yes', 'No'].map(function (l, j) { var on = a[i] === j; return { label: l, on: on ? 'true' : 'false',
+        pick: function () { var n = self.state.a.slice(); n[i] = on ? -1 : j; self.setState({ a: n }); },
+        style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-family: inherit; font-size: 13px; ' + (on ? 'background: #E6E8EC; color: #0F1218; font-weight: 500; border: 1px solid #E6E8EC' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }
+    var count = a.filter(function (x) { return x === 0; }).length;
+    return {
+      groups: [ { title: 'WHAT HAPPENED TO YOU', rows: [0, 1, 2, 3, 4].map(function (i, k) { return row(i, k === 0); }) },
+                { title: 'WHAT HAPPENED AT HOME', rows: [5, 6, 7, 8, 9].map(function (i, k) { return row(i, k === 0); }) } ],
+      countOnly: co ? 'true' : 'false', toggle: function () { self.setState({ countOnly: !self.state.countOnly }); },
+      countSub: 'We keep your count (' + count + ' of 10), not which experiences.',
+      track: 'flex: 0 0 48px; width: 48px; height: 28px; box-sizing: border-box; border-radius: 14px; padding: 3px; display: flex; ' + (co ? 'background: #86BDF0; justify-content: flex-end' : 'background: #34404D; justify-content: flex-start'),
+      knob: 'width: 22px; height: 22px; border-radius: 11px; background: #F2F3F5; box-shadow: 0 1px 2px rgba(0,0,0,0.35)' };
+  }
+}
+
+return Component;
+})();
+SCREENS['Health'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { c: { 'Prediabetes or diabetes': true, 'Sleep problems': true, 'Anxiety or panic': true } }; }
+  renderVals() {
+    var self = this, G = [["HEART AND LUNGS", ["Heart disease", "Stroke", "Fast heart rate", "COPD", "Asthma"]], ["METABOLISM", ["Prediabetes or diabetes", "Obesity"]], ["LIVER, KIDNEY AND CANCER", ["Hepatitis", "Kidney disease", "Cancer"]], ["PAIN AND BODY", ["Arthritis", "Chronic pain or fibromyalgia", "Back pain", "Headaches", "Broken bones", "Needs a mobility aid", "Unexplained physical symptoms"]], ["MIND AND MEMORY", ["Depression", "Anxiety or panic", "PTSD", "Sleep problems", "Memory problems", "Thoughts of suicide or a past attempt"]], ["SUBSTANCE USE", ["Alcohol", "Smoking or vaping", "Cannabis", "Other drugs"]], ["SEXUAL HEALTH AND SAFETY", ["Teen pregnancy", "Sexually transmitted infection", "Violence, experienced or used"]]];
+    return { groups: G.map(function (g) { return { name: g[0], items: g[1].map(function (n) { var on = !!self.state.c[n]; return { name: (on ? '✓  ' : '') + n, on: on ? 'true' : 'false',
+      pick: function () { var c = Object.assign({}, self.state.c); c[n] = !c[n]; self.setState({ c: c }); },
+      style: 'min-height: 38px; padding: 0 14px; border-radius: 19px; font-family: inherit; font-size: 13.5px; cursor: pointer; ' + (on ? 'background: #E6E8EC; color: #0F1218; border: 1px solid #E6E8EC; font-weight: 500' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Today'] = (function () {
+
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+
+return Component;
+})();
+SCREENS['Food'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { a: {"m1": 0, "m3": 1, "m4": 1, "m9": 1, "m12": 0, "m5": 0, "m7": 1} }; }
+  renderVals() {
+    var self = this, a = this.state.a, G = [["", [["m1", "Cook mainly with olive oil", ["Yes", "No"]], ["m3", "Eat 2+ servings of vegetables a day", ["Yes", "No"]], ["m4", "Eat 3+ pieces of fruit a day", ["Yes", "No"]], ["m9", "Eat beans or lentils 3+ times a week", ["Yes", "No"]], ["m12", "Eat nuts 3+ times a week", ["Yes", "No"]], ["m5", "Skip red or processed meat most days", ["Yes", "No"]], ["m7", "Skip sugary drinks and soda most days", ["Yes", "No"]]]]], C = true;
+    function set(id, v) { var n = Object.assign({}, self.state.a); n[id] = v; self.setState({ a: n }); }
+    return { groups: G.map(function (g) { return { label: g[0], labelStyle: g[0] ? 'padding: 0 4px; font-size: 12px; letter-spacing: 0.06em; color: #8D96A6' : 'display: none',
+      qs: g[1].map(function (q, qi) {
+        if (C) { return { text: q[1],
+          wrap: 'display: flex; align-items: center; gap: 12px; padding: 16px 4px; ' + (qi ? 'border-top: 1px solid #1E222B' : ''),
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-family: inherit; font-size: 13px; ' + (on ? 'background: #E6E8EC; color: #0F1218; font-weight: 500; border: 1px solid #E6E8EC' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }
+        return { text: q[1],
+          wrap: 'display: flex; flex-direction: column; gap: 12px; padding: 20px 0; ' + (qi ? 'border-top: 1px solid #232833' : ''),
+          grid: 'display: grid; grid-template-columns: repeat(' + q[2].length + ', minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 12px; background: #0F1218',
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border-radius: 9px; font-family: inherit; font-size: 13.5px; ' + (on ? 'background: #3A404D; color: #F2F3F5; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.4)' : 'background: transparent; color: #A8B0BE') }; }) }; }) }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Nature'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { a: {"n1": 1, "n2": 1} }; }
+  renderVals() {
+    var self = this, a = this.state.a, G = [["", [["n1", "Time in parks, green space or nature last week", ["None", "Under 2 hrs", "2+ hrs"]], ["n2", "How often you get outside in daylight", ["Rarely", "Some days", "Most days"]]]]], C = false;
+    function set(id, v) { var n = Object.assign({}, self.state.a); n[id] = v; self.setState({ a: n }); }
+    return { groups: G.map(function (g) { return { label: g[0], labelStyle: g[0] ? 'padding: 0 4px; font-size: 12px; letter-spacing: 0.06em; color: #8D96A6' : 'display: none',
+      qs: g[1].map(function (q, qi) {
+        if (C) { return { text: q[1],
+          wrap: 'display: flex; align-items: center; gap: 12px; padding: 16px 4px; ' + (qi ? 'border-top: 1px solid #1E222B' : ''),
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-family: inherit; font-size: 13px; ' + (on ? 'background: #E6E8EC; color: #0F1218; font-weight: 500; border: 1px solid #E6E8EC' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }
+        return { text: q[1],
+          wrap: 'display: flex; flex-direction: column; gap: 12px; padding: 20px 0; ' + (qi ? 'border-top: 1px solid #232833' : ''),
+          grid: 'display: grid; grid-template-columns: repeat(' + q[2].length + ', minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 12px; background: #0F1218',
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border-radius: 9px; font-family: inherit; font-size: 13.5px; ' + (on ? 'background: #3A404D; color: #F2F3F5; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.4)' : 'background: transparent; color: #A8B0BE') }; }) }; }) }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Community'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { a: {"k1": 1, "k2": 1, "k3": 0, "s3": 0, "s1": 1, "l1": 0, "l2": 1, "l3": 0} }; }
+  renderVals() {
+    var self = this, a = this.state.a, G = [["YOUR CIRCLE", [["k1", "Close friends or family you can talk to", ["None", "1–2", "3+"]], ["k2", "How often you talk with friends or family", ["Rarely", "Weekly", "Most days"]], ["k3", "Part of a group, like faith, volunteering, a club or team", ["No", "Sometimes", "Regularly"]]]], ["SUPPORT · HOW OFTEN YOU HAVE SOMEONE TO…", [["s3", "Share your private worries with", ["Rarely", "Sometimes", "Usually"]], ["s1", "Help if you were sick in bed", ["Rarely", "Sometimes", "Usually"]]]], ["CONNECTION · HOW OFTEN YOU FEEL…", [["l1", "That you lack companionship", ["Often", "Sometimes", "Hardly ever"]], ["l2", "Left out", ["Often", "Sometimes", "Hardly ever"]], ["l3", "Isolated from others", ["Often", "Sometimes", "Hardly ever"]]]]], C = false;
+    function set(id, v) { var n = Object.assign({}, self.state.a); n[id] = v; self.setState({ a: n }); }
+    return { groups: G.map(function (g) { return { label: g[0], labelStyle: g[0] ? 'padding: 0 4px; font-size: 12px; letter-spacing: 0.06em; color: #8D96A6' : 'display: none',
+      qs: g[1].map(function (q, qi) {
+        if (C) { return { text: q[1],
+          wrap: 'display: flex; align-items: center; gap: 12px; padding: 16px 4px; ' + (qi ? 'border-top: 1px solid #1E222B' : ''),
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-family: inherit; font-size: 13px; ' + (on ? 'background: #E6E8EC; color: #0F1218; font-weight: 500; border: 1px solid #E6E8EC' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }
+        return { text: q[1],
+          wrap: 'display: flex; flex-direction: column; gap: 12px; padding: 20px 0; ' + (qi ? 'border-top: 1px solid #232833' : ''),
+          grid: 'display: grid; grid-template-columns: repeat(' + q[2].length + ', minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 12px; background: #0F1218',
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border-radius: 9px; font-family: inherit; font-size: 13.5px; ' + (on ? 'background: #3A404D; color: #F2F3F5; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.4)' : 'background: transparent; color: #A8B0BE') }; }) }; }) }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Care'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { a: {"c1": 1, "c2": 2} }; }
+  renderVals() {
+    var self = this, a = this.state.a, G = [["", [["c1", "Saw a therapist, counselor or coach in the last month", ["Yes", "No"]], ["c2", "Have someone you could see for mental health support if you needed it", ["Yes", "No", "Not sure"]]]]], C = false;
+    function set(id, v) { var n = Object.assign({}, self.state.a); n[id] = v; self.setState({ a: n }); }
+    return { groups: G.map(function (g) { return { label: g[0], labelStyle: g[0] ? 'padding: 0 4px; font-size: 12px; letter-spacing: 0.06em; color: #8D96A6' : 'display: none',
+      qs: g[1].map(function (q, qi) {
+        if (C) { return { text: q[1],
+          wrap: 'display: flex; align-items: center; gap: 12px; padding: 16px 4px; ' + (qi ? 'border-top: 1px solid #1E222B' : ''),
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-family: inherit; font-size: 13px; ' + (on ? 'background: #E6E8EC; color: #0F1218; font-weight: 500; border: 1px solid #E6E8EC' : 'background: transparent; color: #C3C8D2; border: 1px solid #3A404D') }; }) }; }
+        return { text: q[1],
+          wrap: 'display: flex; flex-direction: column; gap: 12px; padding: 20px 0; ' + (qi ? 'border-top: 1px solid #232833' : ''),
+          grid: 'display: grid; grid-template-columns: repeat(' + q[2].length + ', minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 12px; background: #0F1218',
+          opts: q[2].map(function (o, i) { var on = a[q[0]] === i; return { label: o, on: on ? 'true' : 'false', pick: function () { set(q[0], on ? -1 : i); },
+            style: 'all: unset; box-sizing: border-box; cursor: pointer; text-align: center; min-height: 36px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border-radius: 9px; font-family: inherit; font-size: 13.5px; ' + (on ? 'background: #3A404D; color: #F2F3F5; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.4)' : 'background: transparent; color: #A8B0BE') }; }) }; }) }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Snapshot'] = (function () {
+
+class Component extends DCLogic {
+  renderVals() {
+    var G = '#E6E8EC', Y = '#7E8796', R = '#E2876F';
+    function col(s) { return s >= 75 ? G : (s >= 50 ? Y : R); }
+    function lab(s) { return s >= 75 ? 'Optimal' : (s >= 50 ? 'Good' : 'Pay attention'); }
+    var data = [ ['Sleep', 34, true], ['Movement', 78], ['Food', 62], ['Nature', 76], ['Mindfulness', 55], ['Community', 38], ['Care', 20] ];
+    var rows = data.slice().sort(function (a, b) { return a[1] - b[1]; }).map(function (d) { var c = col(d[1]), first = !!d[2];
+      return { name: d[0], score: d[1], href: first ? 'Choose.dc.html' : '#', tag: first ? 'Start here' : '',
+        tagStyle: first ? 'font-size: 11px; color: #0F1218; background: #E6E8EC; padding: 2px 8px; border-radius: 10px; margin-left: 6px' : 'display: none',
+        numStyle: 'color: ' + c,
+        wrap: 'display: flex; flex-direction: column; gap: 6px; text-decoration: none; ' + (first ? 'background: #232833; border: 1px solid #3A404D; border-radius: 12px; padding: 10px; margin: 0 -10px' : 'padding: 2px 0'),
+        noteStyle: first ? 'font-size: 12px; color: #A8B0BE' : 'display: none', note: first ? 'Most tied to blood sugar' : '',
+        fill: 'height: 6px; border-radius: 3px; width: ' + Math.max(d[1], 2) + '%; background: ' + c }; });
+    return { top: rows.slice(0, 3), rest: rows.slice(3) };
+  }
+}
+
+return Component;
+})();
+SCREENS['AceInfo'] = (function () {
+
+class Component extends DCLogic { renderVals() { return {}; } }
+
+return Component;
+})();
+SCREENS['Choose'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { pick: 0, buf: 0 }; }
+  renderVals() {
+    var self = this, p = this.state.pick, bi = this.state.buf;
+    function endo(e) {
+      if (!e) return { endRow: 'display: none', avStyle: '', av: '', endText: '' };
+      var ex = e[0] === 'x';
+      return { endRow: 'display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #A8B0BE',
+        avStyle: 'width: 18px; height: 18px; flex: 0 0 18px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 600; letter-spacing: 0.02em; ' + 'background: #2A2F3A; border: 1px solid #3A404D; color: #C3C8D2',
+        av: e[1], endText: e[2] };
+    }
+    var B = [
+      { name: 'Sleep', score: 34, start: true, opts: [
+        { title: 'Wake up at the same time', freq: 'Daily' },
+        { title: 'Dim the lights an hour before bed', freq: 'Nightly' },
+        { title: '10 minutes outside after waking', freq: 'Daily', e: ['x', 'A', 'Recommended by Andrew Huberman'] } ] },
+      { name: 'Community', score: 38, opts: [
+        { title: 'Text someone you’ve lost touch with', freq: '2× a week', e: ['x', 'N', 'Recommended by Dr. Nadine Burke Harris'] },
+        { title: 'A 10-minute call with someone', freq: '3× a week' },
+        { title: '10 minutes of loving-kindness', freq: 'Daily' } ] },
+      { name: 'Care', score: 20, opts: [
+        { title: 'Book one visit with a counselor', freq: 'Once', e: ['x', 'N', 'Recommended by Dr. Nadine Burke Harris'] },
+        { title: 'Tell your doctor how stress affects you', freq: 'Once' },
+        { title: 'A guided CBT program', freq: '15 min, 5× a week' } ] }
+    ];
+    var O = B[bi].opts, G = 50, sc = B[bi].score, nm = B[bi].name.toLowerCase();
+    return { label: B[bi].name.toUpperCase() + ' EXPERIMENTS',
+      nm: nm, score: sc, goal: G,
+      goalLblStyle: 'position: absolute; left: ' + G + '%; top: 12px; transform: translateX(-50%); font-size: 11.5px; color: #A8B0BE; white-space: nowrap',
+      fillStyle: 'position: absolute; left: 0; top: 0; bottom: 0; width: ' + sc + '%; border-radius: 3px; background: #E2876F',
+      goalStyle: 'position: absolute; left: ' + G + '%; top: -4px; width: 2px; height: 14px; border-radius: 1px; background: #E6E8EC', bufs: B.map(function (b, i) { var on = bi === i; return { name: b.name, sub: String(b.score), on: on ? 'true' : 'false', pick: function () { self.setState({ buf: i, pick: 0 }); },
+      subStyle: 'font-size: 12px; color: #E2876F',
+      chipStyle: b.start ? 'position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 10.5px; font-weight: 500; letter-spacing: 0.02em; color: #0F1218; background: #E6E8EC; padding: 2px 8px; border-radius: 10px; white-space: nowrap' : 'display: none',
+      style: 'all: unset; position: relative; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 6px 12px; border-radius: 14px; font-family: inherit; ' + (on ? 'background: #2A2F3A; border: 1px solid #8D96A6' : 'background: #181C24; border: 1px solid #2E3440') }; }), opts: O.map(function (o, i) { var on = p === i; var en = endo(o.e); return { title: o.title, freq: o.freq, freqStyle: 'flex: 0 0 auto; font-size: 12px; color: #C3C8D2; background: #232833; padding: 3px 9px; border-radius: 10px; white-space: nowrap', sub: o.sub, endRow: en.endRow, avStyle: en.avStyle, av: en.av, endText: en.endText, on: on ? 'true' : 'false', pick: function () { self.setState({ pick: i }); },
+      style: 'all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 16px; font-family: inherit; ' + (on ? 'background: #2A2F3A; border: 1px solid #8D96A6' : 'background: #181C24; border: 1px solid #2E3440') }; }) };
+  }
+}
+
+return Component;
+})();
+SCREENS['Summary'] = (function () {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { shared: false }; }
+  renderVals() {
+    var self = this;
+    var B = [ ['Sleep', 34, 68], ['Community', 38, 61], ['Movement', 78, 84] ];
+    var buffers = B.map(function (b, i) { return { name: b[0], before: b[1], after: b[2], wrap: 'display: flex; justify-content: space-between; align-items: baseline; padding: 13px 0; ' + (i ? 'border-top: 1px solid #232833' : '') }; });
+    var E = [ ['Same wake time', '12 of 14', true], ['Reconnect by text', '4 of 4', true], ['A 10-minute call with someone', 'Swapped', false], ['10 minutes of loving-kindness', '11 of 14', true], ['Walk after dinner', '21 of 28', true] ];
+    var exps = E.map(function (e, i) { return { name: e[0], count: e[1], icon: e[2] ? '✓' : '↺',
+      mark: 'width: 22px; height: 22px; flex: 0 0 22px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 12px; ' + (e[2] ? 'background: #232833; color: #C3C8D2' : 'background: #232833; color: #8D96A6'),
+      wrap: 'display: flex; align-items: center; gap: 12px; padding: 12px 0; ' + (i ? 'border-top: 1px solid #232833' : '') }; });
+    return { buffers: buffers, exps: exps, shareLabel: this.state.shared ? 'Summary ready to share' : 'Share with my doctor', share: function () { self.setState({ shared: true }); } };
+  }
+}
+
+return Component;
+})();
+</script>
+<script>
+(function () {
+  const STEPS = [{"id": "goal", "file": "Goal", "group": "Start", "label": "Goal", "caption": "Opens with the promise: treating toxic stress can help manage prediabetes, and knowing your history helps you choose the habits that suit your mind and body.", "tryit": "Untick and re-tick the box to see Get started unlock.", "talk": "", "hidden": false}, {"id": "roots", "file": "Roots", "group": "Start", "label": "Childhood stress", "caption": "Bridges to the ACE questions: early stress can keep the stress system on high alert and raise the odds of conditions like diabetes; if toxic stress is a driver, it can be treated. Members can skip the whole step.", "tryit": "Note the Skip this step option.", "talk": "", "hidden": false}, {"id": "history", "file": "History", "group": "Stress history", "label": "ACE questions", "caption": "All 10 ACE questions on one screen in two short groups, with quick Yes / No answers; leave any blank to skip. A privacy card at the bottom lets members save only their count.", "tryit": "Change a few answers, then switch on Save only my count.", "talk": "", "hidden": false}, {"id": "health", "file": "Health", "group": "Stress history", "label": "Stress-related conditions", "caption": "Right after the ACE questions: the full ACEs Aware list of ACE-associated conditions, grouped in plain language. Optional and private.", "tryit": "Tap any that apply.", "talk": "", "hidden": false}, {"id": "buffers", "file": "Today", "group": "Stress buffers", "label": "The seven buffers", "caption": "Sets up the concept: seven habits buffer stress, and the ring already tracks three (sleep, movement, mindfulness). The other four take about three minutes.", "tryit": "Tap Answer the other four.", "talk": "", "hidden": false}, {"id": "food", "file": "Food", "group": "Stress buffers", "label": "Food", "caption": "Seven core Mediterranean diet habits (adapted from MEDAS), each worded so Yes is the healthy answer.", "tryit": "Change a few answers, then tap Next.", "talk": "", "hidden": true}, {"id": "nature", "file": "Nature", "group": "Stress buffers", "label": "Time outside", "caption": "Two quick taps: time in nature last week (the two-hours-a-week benchmark) and daylight.", "tryit": "Pick an answer for each, then tap Next.", "talk": "", "hidden": true}, {"id": "community", "file": "Community", "group": "Stress buffers", "label": "Community", "caption": "Eight questions in three groups: your circle (close ties, contact, groups), support (adapted MOS) and connection (UCLA-3 loneliness). The healthiest answer is always on the right.", "tryit": "Change a few answers, then tap Next.", "talk": "", "hidden": true}, {"id": "care", "file": "Care", "group": "Stress buffers", "label": "Care", "caption": "Two quick taps on recent mental health care and access to support, with a 988 line.", "tryit": "Pick an answer for each, then tap See my stress profile.", "talk": "", "hidden": true}, {"id": "profile", "file": "Snapshot", "group": "Your plan", "label": "Stress profile", "caption": "Leads with the insight: this stress profile raises diabetes risk, and building stress buffers helps. Then stress from childhood and right now, and the buffers, with the top 3 to work on first.", "tryit": "Tap From childhood to see what the score means, or Start first experiment.", "talk": "", "hidden": false}, {"id": "aceinfo", "file": "AceInfo", "group": "Your plan", "label": "What your score means", "caption": "Opened from the From childhood row on the stress profile. ACEs Aware's three risk bands in plain language, the member's band highlighted, then the good news: ACEs are not destiny, toxic stress is treatable.", "tryit": "Tap Back to my profile.", "talk": "", "hidden": true}, {"id": "choose", "file": "Choose", "group": "Your plan", "label": "Pick your first experiment", "caption": "The member picks one of their three lowest buffers (sleep is suggested), sees its score against a goal, then picks one of three evidence-based habits, some with the expert who recommends it, and commits to two weeks.", "tryit": "Switch between Sleep, Community and Care, then pick a habit.", "talk": "", "hidden": false}, {"id": "summary", "file": "Summary", "group": "Results", "label": "Your 12 weeks", "caption": "Jumps ahead 12 weeks: stress buffers up 17%, a typical day back inside the target range, and each experiment with its consistency.", "tryit": "Tap Share with my doctor.", "talk": "", "hidden": false}];
+  const $ = (id) => document.getElementById(id);
+  const root = $('root'), viewport = $('viewport'), app = $('app');
+  let cur = 0, inst = null, tier = 'higher', outcome = 'stuck';
+
+  function get(scope, p) {
+    p = p.trim();
+    if (p === 'true') return true; if (p === 'false') return false;
+    if (/^-?\d+(\.\d+)?$/.test(p)) return +p;
+    let v = scope; for (const k of p.split('.')) { if (v == null) return undefined; v = v[k]; } return v;
+  }
+  function interp(str, scope) {
+    const w = str.match(/^\s*\{\{([^}]*)\}\}\s*$/); if (w) return get(scope, w[1]);
+    return str.replace(/\{\{([^}]*)\}\}/g, (m, p) => { const v = get(scope, p); return v == null ? '' : String(v); });
+  }
+  function render(node, scope, out) {
+    for (const ch of node.childNodes) {
+      if (ch.nodeType === 3) { const v = interp(ch.textContent, scope); out.appendChild(document.createTextNode(v == null ? '' : String(v))); continue; }
+      if (ch.nodeType !== 1) continue;
+      const tag = ch.localName;
+      if (tag === 'sc-for') {
+        const list = get(scope, ch.getAttribute('list').replace(/[{}]/g, '')) || [];
+        const as = ch.getAttribute('as');
+        list.forEach((it, i) => { const s = Object.create(scope); s[as] = it; s.$index = i; render(ch, s, out); });
+        continue;
+      }
+      if (tag === 'sc-if') { if (get(scope, ch.getAttribute('value').replace(/[{}]/g, ''))) render(ch, scope, out); continue; }
+      const el = document.createElementNS(ch.namespaceURI, ch.localName);
+      for (const a of ch.attributes) {
+        const v = interp(a.value, scope);
+        if (/^on/i.test(a.name)) { if (typeof v === 'function') el.addEventListener(a.name.slice(2).toLowerCase(), (e) => v(e)); continue; }
+        if (a.name === 'checked') { if (v) el.setAttribute('checked', ''); continue; }
+        if (v === false || v == null || typeof v === 'function') continue;
+        el.setAttribute(a.name, String(v));
+      }
+      if (tag === 'a') {
+        const href = el.getAttribute('href') || '';
+        const m = href.match(/([A-Za-z0-9_-]+)\.dc\.html$/);
+        if (m) el.addEventListener('click', (e) => { e.preventDefault(); goFile(m[1]); });
+        else if (href === '#') el.addEventListener('click', (e) => e.preventDefault());
+      }
+      render(ch, scope, el);
+      if (tag === 'input' && ch.getAttribute('type') === 'checkbox') el.checked = el.hasAttribute('checked');
+      out.appendChild(el);
+    }
+  }
+
+  function draw() {
+    const top = viewport.scrollTop;
+    const tpl = document.getElementById('tpl-' + STEPS[cur].file);
+    const frag = document.createDocumentFragment();
+    render(tpl.content, inst.renderVals(), frag);
+    root.replaceChildren(frag);
+    viewport.scrollTop = top;
+  }
+
+  function mount(i) {
+    cur = Math.max(0, Math.min(STEPS.length - 1, i));
+    const st = STEPS[cur];
+    const C = SCREENS[st.file];
+    inst = new C(st.file === 'Profile' ? { tier } : st.file === 'Checkin' ? { outcome } : {});
+    inst.__draw = draw;
+    viewport.scrollTop = 0;
+    draw();
+    chrome();
+    if (location.hash.slice(1) !== st.id) history.replaceState(null, '', '#' + st.id);
+  }
+  function goFile(file) { const i = STEPS.findIndex((s) => s.file === file); if (i >= 0) mount(i); }
+
+  function vis(i) { let j = i; while (j > 0 && STEPS[j].hidden) j--; return j; }
+  function vnum(i) { const j = vis(i); return STEPS.slice(0, j + 1).filter((s) => !s.hidden).length; }
+  const VTOTAL = STEPS.filter((s) => !s.hidden).length;
+  function chrome() {
+    const st = STEPS[cur];
+    $('eyebrow').textContent = st.group.toUpperCase() + ' · ' + vnum(cur) + ' OF ' + VTOTAL;
+    $('label').textContent = st.label;
+    $('caption').textContent = st.caption;
+    $('tryit').textContent = st.tryit;
+    $('count').textContent = vnum(cur) + ' / ' + VTOTAL;
+    $('prev').disabled = cur === 0;
+    $('next').disabled = cur === STEPS.length - 1;
+    document.querySelectorAll('.nav button').forEach((b) => {
+      if (+b.dataset.i === vis(cur)) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    const demo = $('demo'); demo.replaceChildren();
+    if (st.file === 'Profile') {
+      const seg = document.createElement('div'); seg.className = 'seg'; seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Stress roots scenario');
+      [['lower', 'Lower'], ['moderate', 'Moderate'], ['higher', 'Higher']].forEach(([v, l]) => {
+        const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', String(tier === v));
+        b.onclick = () => { tier = v; mount(cur); }; seg.appendChild(b);
+      });
+      const lab = document.createElement('span'); lab.className = 'kbd'; lab.textContent = 'Stress roots scenario';
+      demo.append(lab, seg);
+    }
+    if (st.file === 'Checkin') {
+      const seg = document.createElement('div'); seg.className = 'seg'; seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Experiment outcome');
+      [['stuck', 'It stuck'], ['not', 'It didn’t']].forEach(([v, l]) => {
+        const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', String(outcome === v));
+        b.onclick = () => { outcome = v; mount(cur); }; seg.appendChild(b);
+      });
+      const lab = document.createElement('span'); lab.className = 'kbd'; lab.textContent = 'Outcome';
+      demo.append(lab, seg);
+    }
+    if (st.file === 'Ace') demo.appendChild(ghost('Jump to the end', () => inst.setState({ idx: 10 })));
+    demo.appendChild(ghost('Reset this screen', () => mount(cur)));
+  }
+  function ghost(text, fn) { const b = document.createElement('button'); b.className = 'ghost'; b.textContent = text; b.onclick = fn; return b; }
+
+  function buildNav() {
+    const nav = $('nav'); const groups = {};
+    let k = 0;
+    STEPS.forEach((s, i) => {
+      if (s.hidden) return;
+      k++;
+      if (!groups[s.group]) {
+        const sec = document.createElement('section');
+        const h = document.createElement('h2'); h.textContent = s.group;
+        const ol = document.createElement('ol'); sec.append(h, ol); nav.appendChild(sec); groups[s.group] = ol;
+      }
+      const li = document.createElement('li'); const b = document.createElement('button'); b.dataset.i = i;
+      const n = document.createElement('span'); n.className = 'n'; n.textContent = String(k);
+      const t = document.createElement('span'); t.textContent = s.label;
+      b.append(n, t); b.onclick = () => mount(i); li.appendChild(b); groups[s.group].appendChild(li);
+    });
+  }
+
+  function fit() {
+    const narrow = window.innerWidth < 1180;
+    const availH = window.innerHeight - (narrow ? 140 : 230);
+    const availW = (narrow ? window.innerWidth - 32 : window.innerWidth - 240 - 340 - 80) ;
+    const phone = window.innerWidth <= 600;
+    const s = phone ? Math.min(1, (window.innerWidth - 32) / 414) : Math.max(0.5, Math.min(1, availH / 868, availW / 414));
+    document.documentElement.style.setProperty('--s', s.toFixed(3));
+  }
+
+  function setToggle(btn, on, cls) { btn.setAttribute('aria-pressed', String(on)); if (cls) app.classList.toggle(cls, on); }
+  $('focusBtn').onclick = () => { const on = !app.classList.contains('focus'); setToggle($('focusBtn'), on, 'focus'); fit(); };
+  $('prev').onclick = () => mount(cur - 1);
+  $('next').onclick = () => mount(cur + 1);
+  document.addEventListener('keydown', (e) => {
+    const t = e.target; if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight') { mount(cur + 1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { mount(cur - 1); e.preventDefault(); }
+    else if (e.key === 'f' || e.key === 'F') $('focusBtn').click();
+  });
+  window.addEventListener('hashchange', () => { const i = STEPS.findIndex((s) => s.id === location.hash.slice(1)); if (i >= 0 && i !== cur) mount(i); });
+  window.addEventListener('resize', fit);
+
+  buildNav(); fit();
+  const start = STEPS.findIndex((s) => s.id === location.hash.slice(1));
+  mount(start >= 0 ? start : 0);
+})();
+</script>
+
+</body>
+</html>
