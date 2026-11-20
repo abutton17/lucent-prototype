@@ -312,6 +312,7 @@ body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe U
 .sc-rail-block { display: flex; flex-direction: column; gap: 8px; }
 .sc-rail-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A9BDB6; }
 .sc-conds { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-stack { display: flex; flex-direction: column; gap: 20px; }
 .sc-cond { font-size: 13px; font-weight: 600; border: 1px solid #2E4A42; border-radius: 8px; padding: 6px 10px; }
 .sc-muted { font-size: 13px; line-height: 1.5; color: #A9BDB6; }
 .sc-stress { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
@@ -489,11 +490,349 @@ button, input { font-family: inherit; }
 </div>
 
 <div class="ptabs">
-  <button type="button" class="ptab active" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan</span></button>
+  <button type="button" class="ptab active" onclick="show('denise',this)">Denise Carter <span class="ptab-sub">ACE 4 · Red Plan</span></button>
+  <button type="button" class="ptab" onclick="show('elena',this)">Elena Vasquez <span class="ptab-sub">ACE 2 · Yellow Plan</span></button>
   <button type="button" class="ptab" onclick="show('marcus',this)">Marcus Webb <span class="ptab-sub">ACE 6 · Red Plan</span></button>
   <button type="button" class="ptab" onclick="show('david',this)">David Rivera <span class="ptab-sub">ACE 2 · Green Plan</span></button>
   <button type="button" class="ptab" onclick="show('aisha',this)">Aisha Thompson <span class="ptab-sub">ACE 3 ⚑ · Yellow Plan</span></button>
 </div>
+
+
+<!-- ═══════════════════════════ DENISE ═══════════════════════════ -->
+<div id="denise" class="persona active">
+<div class="sc-page">
+
+  <section class="sc-overview" id="denise-overview" aria-label="Overview">
+    <div class="sc-ov-head">
+      <div class="sc-id">
+      <h1 class="sc-name">Denise Carter</h1>
+      <div class="sc-meta">47 · San Francisco, CA · Dr. Maya Okafor · November 2026</div>
+    </div>
+      <div class="sc-rail-foot">Clinical decision support, not diagnosis · <span class="billing-badge">G9919</span> Log today: ACE screening performed and documented · ACE ≥4 threshold met</div>
+    </div>
+    <div class="sc-ov-grid">
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red" aria-label="Toxic stress risk">
+      <div class="sc-risk-label">Toxic stress risk</div>
+      <div class="sc-risk-head">
+        <span class="sc-risk-plan">Red Action Plan</span>
+      </div>
+      <div class="sc-risk-title">High risk — intensive management required</div>
+      <div class="sc-scale" aria-hidden="true">
+        <div class="sc-scale-bar"><span class="g"></span><span class="y"></span><span class="r"></span></div>
+        <span class="sc-scale-mark" style="left:83.33%"></span>
+        <div class="sc-scale-labels"><span>Green · low</span><span>Yellow · intermediate</span><span>Red · high</span></div>
+      </div>
+      <div class="sc-flag"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg><span><strong>Safety flag.</strong> Nearest risks are overdose, partner violence and dropping out of HIV care. Address these first.</span></div>
+    </section>
+      </div>
+      <div class="sc-ov-col sc-ov-inputs">
+        <div class="sc-scores">
+      <div class="sc-score">
+        <span class="sc-score-label">ACE score</span>
+        <span class="sc-score-val">4<small> / 10</small></span>
+        <span class="sc-score-sub">High</span>
+      </div>
+      <div class="sc-score">
+        <span class="sc-score-label">PCE score</span>
+        <span class="sc-score-val sc-pce">2<small> / 7</small></span>
+        <span class="sc-score-sub">Low</span>
+      </div>
+    </div>
+        <div class="sc-ov-pair">
+          <div class="sc-stack">
+            <div class="sc-rail-block">
+      <div class="sc-rail-label">ACE-associated conditions</div>
+      <div class="sc-conds"><span class="sc-cond">HIV · detectable</span><span class="sc-cond">Opioid use disorder</span><span class="sc-cond">Depression</span><span class="sc-cond">PTSD</span></div>
+    </div>
+            <div class="sc-rail-block">
+      <div class="sc-rail-label">Social determinants of health</div>
+      <div class="sc-conds"><span class="sc-cond">Housing · shelter</span><span class="sc-cond">Partner violence</span><span class="sc-cond">Food insecurity</span><span class="sc-cond">Phone · unreliable</span></div>
+      <div class="sc-muted">Built into the plan: housing and safety steps appear inline below.</div>
+    </div>
+          </div>
+
+    <div class="sc-rail-block">
+      <div class="sc-rail-label">Current stress</div>
+      <div class="sc-stress"><span class="sc-dot sc-dot-red" aria-hidden="true"></span>High</div>
+      <div class="sc-muted">Recent violence and housing loss; missed last 2 HIV visits</div>
+    </div>
+        </div>
+        <details class="sc-pce-detail">
+      <summary>Positive childhood experiences <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <ul><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt able to talk to family about feelings</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Family stood by during hard times</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>2+ supportive non-parent adults</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Felt safe and protected at home</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Sense of belonging at school</li><li class="on"><span aria-hidden="true">✓</span><span class="sc-sr">Present: </span>Had 2+ close friends</li><li class="off"><span aria-hidden="true">○</span><span class="sc-sr">Not present: </span>Engaged in community groups / traditions</li></ul>
+    </details>
+      </div>
+      <div class="sc-ov-col">
+        <section class="sc-risk sc-risk-red sc-risk-detail" aria-label="What the risk level means">
+      <div class="sc-risk-block">
+        <div class="sc-risk-sub">What this means</div>
+        <div class="sc-summary">
+          <p class="sc-summary-text">ACE 4 with HIV, opioid use disorder, depression and PTSD, plus high current stress, places this patient at high risk. Unstable housing and recent partner violence raise the near-term danger and make standard referrals likely to go unfilled. The plan puts survival needs first (overdose, safety, housing, HIV care), then integrated PTSD and substance use treatment once she is stable.</p>
+          <div class="sc-summary-more" hidden>
+            <div class="sc-risk-sub">Score context</div>
+            <ul>
+              <li>ACE 4/10 (high) — de-identified count; meets the ≥4 threshold.</li>
+              <li>PCE 2/7 (low) — few early protective relationships, so the care team and peers become key protective factors.</li>
+              <li>Social needs don't change the risk tier; they change the order and format of the plan.</li>
+            </ul>
+          </div>
+          <button type="button" class="sc-more" aria-expanded="false" onclick="toggleSummary(this)"><span>Read full summary</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+      </div>
+      <div class="sc-risk-block">
+        <div class="sc-risk-sub">Recommended management</div>
+        <p>Comprehensive care — safety and survival needs first; PCP, social work and behavioral health coordinate; check-ins every 1–2 weeks while housing and safety are unstable</p>
+      </div>
+    </section>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sc-jump" aria-label="Jump to section">
+    <div class="sc-jump-track">
+      <span class="sc-jump-thumb" aria-hidden="true"></span>
+      <a href="#denise-overview" class="sc-jump-link" aria-current="true">Overview</a>
+      <a href="#denise-focus" class="sc-jump-link"><span class="sc-jump-n">1</span>Today's Focus</a>
+      <a href="#denise-actions" class="sc-jump-link"><span class="sc-jump-n">2</span>Patient Action Plan</a>
+    </div>
+  </nav>
+
+  <main class="sc-main">
+    <section class="sc-card" id="denise-focus" aria-labelledby="denise-visit">
+      <div class="sc-card-head">
+        <h2 id="denise-visit">Today's Focus</h2>
+        <span class="sc-card-sub">Three actions for today's appointment — high stress, unstable housing, recent violence</span>
+      </div>
+      <div class="sc-visit">
+        <div class="sc-visit-row">
+          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">1</span><span class="sc-sr">Mark step 1 done</span></button>
+          <h3 class="sc-visit-title">Safety check — overdose, suicide, partner violence</h3>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div>Ask about recent overdoses and using alone; hand her naloxone today. Run the C-SSRS. Ask privately whether she is safe tonight; if not, warm handoff to an IPV advocate before she leaves. These are the risks most likely to cause harm in the near term.</div>
+          <div class="sc-why-src">Evidence: Naloxone distribution — L2 (Walley 2013 BMJ, interrupted time series); IPV screening + referral to support services — USPSTF grade B (2018, reaffirmed 2025); C-SSRS — validated screening tool</div>
+        </div>
+      </div>
+      <div class="sc-visit">
+        <div class="sc-visit-row">
+          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">2</span><span class="sc-sr">Mark step 2 done</span></button>
+          <h3 class="sc-visit-title">Offer buprenorphine today</h3>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div>Starting today removes a step where patients are often lost. Buprenorphine keeps people in treatment better than placebo (RCTs), and cohort data show overdose and all-cause death rates are several times lower while in treatment than after leaving it. Don't require counseling or abstinence first. Methadone referral if she prefers.</div>
+          <div class="sc-why-src">Evidence: Mattick 2014 Cochrane (retention, RCTs) — L1; Sordo 2017 BMJ (mortality, meta-analysis of cohort studies) — L2</div>
+        </div>
+      </div>
+      <div class="sc-visit">
+        <div class="sc-visit-row">
+          <button type="button" class="sc-done" aria-pressed="false" onclick="toggleDone(this)"><span class="sc-done-n">3</span><span class="sc-sr">Mark step 3 done</span></button>
+          <h3 class="sc-visit-title">Warm handoff to social work for housing — before she leaves</h3>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div>Housing loss is driving both her stress and her missed HIV visits. Connect her with a San Francisco Coordinated Entry access point through social work today. Confirm a working phone number or a backup contact so the team can reach her.</div>
+          <div class="sc-why-src">Evidence: Housing First — L1 (Stergiopoulos 2015 JAMA, At Home/Chez Soi RCT); housing + case management for homeless people with HIV — L1 (Buchanan 2009 AJPH, RCT, n=105)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sc-card" id="denise-actions" aria-labelledby="denise-plan">
+      <div class="sc-card-head">
+        <h2 id="denise-plan">Patient Action Plan</h2>
+        <span class="sc-card-sub sc-count" data-persona="denise"></span>
+      </div>
+      <p class="sc-plan-intro">Suggested draft — switch off anything that doesn't fit, then generate the take-home. Open a caret to see why each item is recommended.</p>
+      <div class="routing-note">
+      <div class="routing-note-label">Why this case matters — survival first</div>
+      <div class="routing-note-body">Standard algorithm: ACE ≥4 with ACE-associated conditions = high risk, G9919, behavioral health referral. A referral alone would likely go unfilled: she has no stable address or phone, and her nearest risks are overdose and violence. Lucent reads her social needs alongside the ACE profile and orders the plan by what is most likely to harm her first. Each step shows its evidence grade.</div>
+    </div>
+      <div class="ev-key">
+        <span class="ev-key-label">Evidence</span>
+        <div class="ev-key-item"><span class="ev-pill ev-l1">L1</span> RCT / meta-analysis</div>
+        <div class="ev-key-item"><span class="ev-pill ev-l2">L2</span> Cohort / systematic review</div>
+        <div class="ev-key-item"><span class="ev-pill ev-l3">L3</span> Expert consensus</div>
+      </div>
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-head-text">
+          <div class="stage-name">Safety and survival</div>
+          <div class="stage-note">Weeks 0–4. Address overdose, violence, housing and HIV care before trauma-focused therapy.</div>
+          <div class="stage-gate">Goals: naloxone in hand · on buprenorphine or methadone · IPV safety plan · housing application in progress · reachable by phone or backup contact</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-moud">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l1">L1</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Opioid agonist treatment — buprenorphine or methadone</div>
+            <div class="sc-rec-action">Offer same-day buprenorphine (methadone referral if preferred). Low-threshold: no counseling or abstinence requirement to start. Co-prescribe naloxone.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-moud" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Trial evidence (L1) shows buprenorphine keeps people in treatment better than placebo. Lower death rates come from cohort studies (L2): overdose and all-cause mortality are several times lower while people stay in treatment. Staying in treatment is what drives the benefit, so remove barriers to starting.</div>
+          <div class="sc-why-src">Source: Mattick 2014 Cochrane (retention, RCTs) — L1; Sordo 2017 BMJ (mortality, cohort meta-analysis) — L2</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-housing">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l1">L1</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Housing navigation — Housing First</div>
+            <div class="sc-rec-action">Social work warm handoff today to a San Francisco Coordinated Entry access point. Housing should not depend on sobriety or treatment. Add CalFresh enrollment for food.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-housing" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> In a large trial of homeless adults with mental illness, Housing First increased housing stability over 24 months (it did not improve generic quality of life). In a smaller trial of homeless people with HIV, housing plus case management lowered viral loads. Without housing, the rest of this plan is hard to sustain.</div>
+          <div class="sc-why-src">Source: Stergiopoulos 2015 JAMA (At Home/Chez Soi RCT) — L1; Buchanan 2009 AJPH (RCT, n=105) — L1</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-ipv">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l2">L2</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Partner violence — safety planning with an advocate</div>
+            <div class="sc-rec-action">Private inquiry, then warm handoff to an on-site or community IPV advocate to build a safety plan. If none available: National DV Hotline, 1-800-799-7233.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-ipv" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Ongoing violence is both a direct danger and a constant stress trigger. USPSTF recommends screening and referral to ongoing support services. Evidence on advocacy itself is limited: intensive advocacy reduced severe physical abuse in women leaving shelters at 2 years, while brief advocacy showed little effect on physical abuse.</div>
+          <div class="sc-why-src">Source: USPSTF grade B (2018, reaffirmed 2025); Rivas 2015 Cochrane (RCTs, low to very low quality evidence) — L2</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-hiv">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l2">L2</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Re-engage in HIV care — same team, same visit</div>
+            <div class="sc-rec-action">Recheck viral load today. Pair ART refills with buprenorphine visits so she has one place to go. Care navigator calls or texts before each visit.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-hiv" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Buprenorphine can be delivered inside HIV clinics. In a multisite study, patients reduced opioid use and HIV outcomes held steady or improved, though about half had left buprenorphine treatment by one year. Fewer appointments in fewer places matters most when housing is unstable.</div>
+          <div class="sc-why-src">Source: BHIVES Collaborative, JAIDS 2011 (multisite, non-randomized cohort) — L2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-head-text">
+          <div class="stage-name">Trauma and mental health</div>
+          <div class="stage-note">Begin once housing and safety steps are moving and she is stable on agonist treatment — typically 4–8 weeks. Don't wait for full abstinence.</div>
+          <div class="stage-gate">Confirm: reachable for weekly visits · no imminent safety threat · on agonist treatment</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-cope">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l1">L1</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Integrated PTSD + substance use therapy</div>
+            <div class="sc-rec-action">Refer to trauma-focused therapy that treats PTSD and substance use together (e.g., COPE: prolonged exposure plus relapse prevention). Sobriety is not a prerequisite.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-cope" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Adding integrated exposure-based therapy to usual substance use treatment reduced PTSD severity without increasing substance use severity. Waiting for sobriety first often means PTSD is never treated.</div>
+          <div class="sc-why-src">Source: Mills 2012 JAMA (COPE RCT, n=103) — L1</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-depression">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l1">L1</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Collaborative care for depression</div>
+            <div class="sc-rec-action">Enroll in collaborative care: care manager, PHQ-9 tracking, psychiatric consultation. Check antidepressant choice against her ART regimen for interactions.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-depression" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Collaborative care improves depression outcomes in primary care compared with usual care, and keeps treatment inside the clinic she already visits.</div>
+          <div class="sc-why-src">Source: Archer 2012 Cochrane (meta-analysis of RCTs) — L1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <div class="stage-head">
+        <div class="stage-head-text">
+          <div class="stage-name">Connection and ongoing support</div>
+          <div class="stage-note">PCE 2/7 means few early protective relationships. The care team and peers become the protective network.</div>
+        </div>
+      </div>
+
+      <div class="sc-rec" data-rec-id="denise-peer">
+        <div class="sc-rec-row">
+          <span class="ev-pill ev-l2">L2</span>
+          <div class="sc-rec-main">
+            <div class="rec-name">Peer navigator or women's support group</div>
+            <div class="sc-rec-action">Connect with an HIV peer navigator or a trauma-informed women's group. Weekly, in person where possible.</div>
+          </div>
+          <label class="sc-switch" title="Include in patient plan">
+            <input type="checkbox" class="rec-check" data-rec-id="denise-peer" checked>
+            <span class="sc-switch-track" aria-hidden="true"></span>
+            <span class="sc-sr">Include in patient plan</span>
+          </label>
+          <button type="button" class="sc-caret" aria-expanded="false" onclick="toggleWhy(this)"><span class="sc-sr">Show why</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+        </div>
+        <div class="sc-why" hidden>
+          <div><strong>Why:</strong> Isolation compounds risk. Evidence is mixed: a meta-analysis found peer support may improve retention in HIV care and viral suppression, but results vary across studies.</div>
+          <div class="sc-why-src">Source: Berg 2021 PLoS ONE (systematic review, mixed findings) — L2</div>
+        </div>
+      </div>
+    </div>
+      <div class="generate-wrap">
+        <button class="generate-btn" onclick="generatePatientPlan('denise')">Approve plan &amp; generate patient take-home</button>
+      </div>
+    </section>
+
+    <div class="footer">Lucent Stress Resilience Framework v0.3 · Prototype · Evidence-graded CDS · Not a diagnostic device · For use with clinical oversight<br>
+    Framework: Amy Button, Michelle Stephens · June 2026 · Billing: G9919</div>
+  </main>
+</div>
+</div><!-- end denise -->
 
 
 <!-- ═══════════════════════════ DAVID ═══════════════════════════ -->
@@ -1391,7 +1730,7 @@ button, input { font-family: inherit; }
 
 
 <!-- ═══════════════════════════ ELENA ═══════════════════════════ -->
-<div id="elena" class="persona active">
+<div id="elena" class="persona">
 <div class="sc-page">
 
   <section class="sc-overview" id="elena-overview" aria-label="Overview">
@@ -1799,6 +2138,19 @@ function show(id, el) {
 // ── Patient plan builder ──────────────────────────────────────────────
 
 const PERSONAS = {
+  denise: {
+    name: 'Denise Carter',
+    doctor: 'Dr. Maya Okafor',
+    age: 47,
+    aceScore: 4,
+    pceScore: 2,
+    plan: 'red',
+    planLabel: 'Red Action Plan',
+    patientPlanLabel: 'Comprehensive Care Plan',
+    conditions: ['HIV', 'opioid use disorder', 'depression', 'PTSD'],
+    social: ['A safe, stable place to live', 'Safety in your relationship', 'Reliable food', 'A way for your care team to reach you'],
+    stress: { label: 'High', level: 'red' },
+  },
   david: {
     name: 'David Rivera',
     doctor: 'Dr. James Park',
@@ -1878,6 +2230,8 @@ const CONDITION_COPY = [
   ['anxiety', 'An alarm system that stays on can feel like constant worry.'],
   ['sleep', 'A body on guard can find it harder to rest and recover.'],
   ['ptsd', "The body can keep reacting to the past as if it's happening now."],
+  ['hiv', 'Long-term stress can make it harder to stay in care and keep the immune system strong.'],
+  ['opioid', 'Opioids can numb pain and stress at first, but over time they make both harder to manage.'],
   ['ibs', 'Stress and the gut are closely linked, so ongoing stress can upset digestion.'],
   ['type 2 diabetes', 'Stress hormones like cortisol can raise blood sugar over time.'],
   ['overweight', 'Long-term stress can change how the body stores fat, especially around the middle.'],
@@ -1886,6 +2240,55 @@ const CONDITION_COPY = [
 ];
 
 const REC_DATA = {
+
+  'denise-moud': {
+    stage: 'now',
+    title: 'Medicine for opioid use — starting today',
+    why: "Buprenorphine or methadone calms cravings and withdrawal so your body isn't in crisis mode. It is strongly linked to staying alive and well.",
+    action: "Take your buprenorphine as prescribed. Keep the naloxone (Narcan) your doctor gave you with you, and show someone close to you how to use it.",
+  },
+  'denise-housing': {
+    stage: 'now',
+    title: 'Getting you safe, stable housing',
+    why: "It's very hard for your body to settle when you don't have a stable place to sleep. Housing is part of your health care, not separate from it.",
+    action: "Your social worker is connecting you with San Francisco's Coordinated Entry housing program today. You don't need to be sober or in treatment to qualify. Ask about CalFresh for food help too.",
+    isReferral: true,
+    referralText: 'Social work — housing navigation through San Francisco Coordinated Entry',
+  },
+  'denise-ipv': {
+    stage: 'now',
+    sensitive: true,
+    title: 'Your safety',
+    why: "You deserve to feel safe. An advocate can help you make a plan that fits your situation, at your pace.",
+    action: "Meet with the advocate your care team connected you with. If you need help at any time, call or text the hotline below. It's free and confidential.",
+    resource: 'National Domestic Violence Hotline — call 1-800-799-7233 or text START to 88788',
+  },
+  'denise-hiv': {
+    stage: 'now',
+    title: 'Your HIV care, in one place',
+    why: "Fewer appointments in fewer places makes it easier to stay on track. Your HIV medicine and your other care can happen at the same visit.",
+    action: "Pick up your HIV medicine at the same visit as your buprenorphine. Your care navigator will call or text before each visit — tell us the best way to reach you.",
+  },
+  'denise-cope': {
+    stage: 'next',
+    title: 'Therapy for trauma and substance use, together',
+    why: "Trauma and substance use often feed each other. Treating them at the same time works better than waiting to treat one first.",
+    action: "Once things feel more stable, your doctor will refer you to a therapist who treats both together. You don't need to be fully sober to start.",
+    isReferral: true,
+    referralText: 'Trauma-focused therapist — integrated PTSD and substance use treatment',
+  },
+  'denise-depression': {
+    stage: 'next',
+    title: 'Support for low mood',
+    why: "Depression is common after a lot of stress, and it's treatable. A care manager will check in with you and adjust your care as you go.",
+    action: "Your care manager will check in regularly and ask a few questions about your mood. Tell them honestly how you're doing — that's how we get it right.",
+  },
+  'denise-peer': {
+    stage: 'ongoing',
+    title: 'People who get it',
+    why: "Spending time with people who've been through similar things can help your body feel safer and make it easier to stay in care.",
+    action: "Your care team will introduce you to a peer navigator or a women's support group. Try going once a week.",
+  },
 
   'david-exercise': {
     stage: 'now',
@@ -2317,6 +2720,10 @@ function generatePatientPlan(persona) {
     <h3>How this may connect to your health today</h3>
     <div class="conds">${p.conditions.map(conditionLine).join('')}</div>
   </div>` : ''}
+  ${p.social && p.social.length ? `<div style="display:flex;flex-direction:column;gap:12px">
+    <h3>Everyday needs your care team is helping with</h3>
+    <div class="chips">${p.social.map(x => `<span class="cond-chip">${x}</span>`).join('')}</div>
+  </div>` : ''}
 </section>
 
 <section class="sheet">
@@ -2342,9 +2749,31 @@ function generatePatientPlan(persona) {
 </body>
 </html>`;
 
-  const win = window.open('', '_blank');
-  win.document.write(html);
-  win.document.close();
+  let win = null;
+  try { win = window.open('', '_blank'); } catch (e) { win = null; }
+  if (win && win.document) {
+    win.document.write(html);
+    win.document.close();
+    return;
+  }
+  // Fallback for sandboxed viewers: show the take-home in an overlay.
+  const old = document.getElementById('takehome-overlay');
+  if (old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'takehome-overlay';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(10,20,18,.55);display:flex;flex-direction:column;padding:16px;gap:8px';
+  const bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;justify-content:flex-end';
+  const btn = document.createElement('button');
+  btn.textContent = 'Close take-home';
+  btn.style.cssText = 'font:600 14px Inter,sans-serif;color:#fff;background:#0F6E56;border:0;border-radius:10px;padding:10px 16px;cursor:pointer;min-height:44px';
+  btn.onclick = () => ov.remove();
+  bar.appendChild(btn);
+  const fr = document.createElement('iframe');
+  fr.style.cssText = 'flex:1;width:100%;border:0;border-radius:12px;background:#E9E4DA';
+  fr.srcdoc = html;
+  ov.appendChild(bar); ov.appendChild(fr);
+  document.body.appendChild(ov);
 }
 </script>
 </body>
